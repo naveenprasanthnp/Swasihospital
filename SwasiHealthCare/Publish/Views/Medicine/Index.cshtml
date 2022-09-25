@@ -1,0 +1,148 @@
+﻿@model List<SwasiHealthCare.Model.MedicineModel>
+@{
+    ViewBag.Title = "Medicine List";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    List<SwasiHealthCare.Data.Entities.AccessRights> rights =
+     (List<SwasiHealthCare.Data.Entities.AccessRights>)Session["AccessRights"];
+    var roleid = Convert.ToInt64(Session["RoleId"]);
+}
+<div class="row clearfix">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="body">
+                <form>
+                    <div class="input-group" style="width:900px">
+                        <input type="text" class="form-control borderclr" id="searchmedicine" placeholder="Search here...">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="search-mail"><i class="icon-magnifier"></i></span>
+                        </div>
+                        @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 7 && x.IsCreate).Any())
+                        {
+                            <div id="z_button" tabindex="0">
+                                <div id="z_plus"><a href="@Url.Action("NewMedicine", "Medicine")"><span style="color:#ffffff">+</span></a></div>
+                            </div>
+                        }
+                        else if(roleid == 2 || roleid == 1)
+                        {
+                            <div id="z_button" tabindex="0">
+                                <div id="z_plus"><a href="@Url.Action("NewMedicine", "Medicine")"><span style="color:#ffffff">+</span></a></div>
+                            </div>
+                        }
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="table-responsive" id="medicine_list">
+            <table class="table table-hover table-custom spacing5">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Durg Name</th>
+                        <th>Description</th>
+                        <th>Purchase Rate</th>
+                        <th>Sales Rate</th>
+                        @*<th>Expiry Date</th>*@
+                        <th>Current Stack</th>
+                        <th>Last Purchase Stack</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @{
+                        var index = 1;
+                        foreach (var item in Model)
+                        {
+                    <tr>
+                        <td>@index</td>
+                        <td>@item.MedicineName</td>
+                        <td>@item.MedicineDescription</td>
+                        <td>@item.MedicinePurchaseRate</td>
+                        <td>@item.MedicineSalesRate</td>
+                        @*<td>@item.MedicineExpiryDate.ToString("MM/dd/yyyy")</td>*@
+                        <td>@item.MedicineCurrentStack</td>
+                        <td>@item.MedicinePurchaseStack</td>
+                        @*<td>@item.MedicineCreatedDate.ToString("MM/dd/yyyy")</td>*@
+                        <td>
+                            @if (item.MedicineStatus)
+                            {
+                                <button type="button" class="btn btn-default btn-sm" onclick="ChangeMedicineStatus(@item.MedicineId,false)" style="color:#82b440; cursor:pointer" ; data-toggle="modal" data-target="#exampleModalCenter" title="Change User Status"><i class="fa fa-check-circle"></i></button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-default btn-sm" onclick="ChangeMedicineStatus(@item.MedicineId,true)" style="color:#FF2A2A;cursor:pointer" ; data-toggle="modal" data-target="#exampleModalCenter" title="Change User Status"><i class="fa fa-times-circle"></i></button>
+                            }
+                            @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 7 && x.IsEdit).Any())
+                            {
+                                <button onclick="location.href='@Url.Action("EditMedicine", "Medicine", new { medicineid = item.MedicineId })'" ; type="button" style="color:#0094ff; cursor:pointer" class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i></button>
+                            }
+                            else if (roleid == 2 || roleid == 1)
+                            {
+                                <button onclick="location.href='@Url.Action("EditMedicine", "Medicine", new { medicineid = item.MedicineId })'" ; type="button" style="color:#0094ff; cursor:pointer" class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i></button>
+                            }
+                            @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 7 && x.IsDelete).Any())
+                            {
+                                <button type="button" style="color: #3e062d; cursor:pointer" ; class="btn btn-default btn-sm" title="Delete" onclick="RemoveMedicine(@item.MedicineId)" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-trash-o"></i></button>
+                            }
+                            else if (roleid == 2 || roleid == 1)
+                            {
+                                <button type="button" style="color: #3e062d; cursor:pointer" ; class="btn btn-default btn-sm" title="Delete" onclick="RemoveMedicine(@item.MedicineId)" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-trash-o"></i></button>
+                            }
+                        </td>
+                    </tr>
+                            index++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius: 9px;">
+            <div class="modal-header">
+                <div><h6 class="modal-title" id="exampleModalCenterTitle"></h6></div>
+            </div>
+            <div class="modal-body">
+                <div id="confirmmsg"></div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-outline-primary borderradius" id="ActionStatus" onclick="MedicineStatus()">Save changes</a>
+                <a href="#" class="btn btn-outline-primary borderradius" id="ActionDelete" onclick="DeleteMedicine()">Save changes</a>
+                <a href="@Url.Action("Index", "Medicine")" class="btn btn-outline-secondary borderradius">Close</a>
+                <input type="hidden" id="hiddenmedicineid" />
+                <input type="hidden" id="hiddenstatus" />
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/Medicine/Medicine.js"></script>
+    <script>
+         $(document).ready(function () {
+             $("#page_name").text("Medicine Details,");
+
+             $("#searchmedicine").on("keyup", function () {
+                 var value = $(this).val();
+
+                 $("table tr").each(function (index) {
+                     debugger;
+                     if (index != 0) {
+
+                         $row = $(this);
+                         var id = $row.find("td:eq(1)").text();
+
+                         if (id.indexOf(value) != 0) {
+                             $(this).hide();
+                         }
+                         else {
+                             $(this).show();
+                         }
+                     }
+                 });
+             });
+        });
+    </script>
+}
+

@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5A54EF4F-74E9-400D-96C4-EE8D74FD8365}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SwasiHealthCare.BusinessManager</RootNamespace>
+    <AssemblyName>SwasiHealthCare.BusinessManager</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccessRightManager.cs" />
+    <Compile Include="DesignationManager.cs.cs" />
+    <Compile Include="HospitalManager.cs" />
+    <Compile Include="MedicineManager.cs" />
+    <Compile Include="PatientManager.cs" />
+    <Compile Include="ReportManager.cs" />
+    <Compile Include="RoleManager.cs" />
+    <Compile Include="SystemManager.cs" />
+    <Compile Include="TreatmentManager.cs" />
+    <Compile Include="UserManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SwasiHealthCare.Data\SwasiHealthCare.Data.csproj">
+      <Project>{5148C94A-91F4-4DA4-91DF-1C28F85FBF58}</Project>
+      <Name>SwasiHealthCare.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SwasiHealthCare.Helper\SwasiHealthCare.Helper.csproj">
+      <Project>{22BDB257-6366-4781-A4D0-E1C4C67C7557}</Project>
+      <Name>SwasiHealthCare.Helper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SwasiHealthCare.IBusinessManager\SwasiHealthCare.IBusinessManager.csproj">
+      <Project>{B7DE2633-0DDF-45D9-8CA2-50B3BA283D1B}</Project>
+      <Name>SwasiHealthCare.IBusinessManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SwasiHealthCare.IRepository\SwasiHealthCare.IRepository.csproj">
+      <Project>{A60147CE-7BAD-420C-B06E-F507C1F4EA31}</Project>
+      <Name>SwasiHealthCare.IRepository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SwasiHealthCare.Model\SwasiHealthCare.Model.csproj">
+      <Project>{47B11A91-B593-431A-94E0-05233B1E83B9}</Project>
+      <Name>SwasiHealthCare.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SwasiHealthCare.Repository\SwasiHealthCare.Repository.csproj">
+      <Project>{224B0411-CFA7-48A3-8259-DAA12D1700DE}</Project>
+      <Name>SwasiHealthCare.Repository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

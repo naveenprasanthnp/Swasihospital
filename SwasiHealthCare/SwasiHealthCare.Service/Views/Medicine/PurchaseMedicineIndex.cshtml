@@ -1,0 +1,141 @@
+﻿@model List<SwasiHealthCare.Model.PurchaseMedicineModel>
+@{
+    ViewBag.Title = "Purchase Medicine List";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    List<SwasiHealthCare.Data.Entities.AccessRights> rights =
+    (List<SwasiHealthCare.Data.Entities.AccessRights>)Session["AccessRights"];
+    var roleid = Convert.ToInt64(Session["RoleId"]);
+}
+<div class="row clearfix">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="body">
+                <form>
+                    <div class="input-group" style="width:900px">
+                        <input type="text" class="form-control borderclr" id="searchmedicine" placeholder="Search here...">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="search-mail"><i class="icon-magnifier"></i></span>
+                        </div>
+                        @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 5 && x.IsCreate).Any())
+                        {
+                            <div id="z_button" tabindex="0">
+                                <div id="z_plus"><a href="@Url.Action("PurchaseNewMedicine", "Medicine")"><span style="color:#ffffff">+</span></a></div>
+                            </div>
+                        }
+                        else if(roleid == 2)
+                        {
+                            <div id="z_button" tabindex="0">
+                                <div id="z_plus"><a href="@Url.Action("PurchaseNewMedicine", "Medicine")"><span style="color:#ffffff">+</span></a></div>
+                            </div>
+                        }
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="table-responsive" id="medicine_list">
+            <table class="table table-hover table-custom spacing5">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Date</th>
+                        <th>Medicine Name</th>
+                        <th>Medicine Rate</th>
+                        <th>Quantity</th>
+                        <th>Bill Amount</th>
+                        @if ((roleid == 4 || roleid == 3) && (rights.Where(x => x.MenuId == 5 && x.IsDelete).Any()
+                            || rights.Where(x => x.MenuId == 5 && x.IsEdit).Any()))
+                        {
+                            <th>Action</th>
+                        }
+                        else if (roleid == 2)
+                        {
+                            <th>Action</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @{
+                        var index = 1;
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@index</td>
+                                <td>@item.PurchaseDate.ToString("dd/MM/yyyy")</td>
+                                <td>@item.MedicineName</td>
+                                <td>@item.MedicineRate</td>
+                                <td>@item.MedicinePurchaseQuanity</td>
+                                <td>@item.PurchaseCost</td>
+                                <td>
+                                    @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 5 && x.IsEdit).Any())
+                                    {
+                                        <button onclick="location.href='@Url.Action("PurchaseEditMedicine", "Medicine", new { purchasemedicineid = item.PurchaseMedicineId })'" ; type="button" style="color:#0094ff; cursor:pointer" class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i></button>
+                                    }
+                                    else if (roleid == 2)
+                                    {
+                                        <button onclick="location.href='@Url.Action("PurchaseEditMedicine", "Medicine", new { purchasemedicineid = item.PurchaseMedicineId })'" ; type="button" style="color:#0094ff; cursor:pointer" class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i></button>
+                                    }
+                                    @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 5 && x.IsDelete).Any())
+                                    {
+                                        <button type="button" style="color: #3e062d; cursor:pointer" ; class="btn btn-default btn-sm" title="Delete" onclick="RemovePurchaseMedicine(@item.PurchaseMedicineId)" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-trash-o"></i></button>
+                                    }
+                                    else if (roleid == 2)
+                                    {
+                                        <button type="button" style="color: #3e062d; cursor:pointer" ; class="btn btn-default btn-sm" title="Delete" onclick="RemovePurchaseMedicine(@item.PurchaseMedicineId)" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-trash-o"></i></button>
+                                    }
+                                </td>
+                            </tr>
+                            index++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius: 9px;">
+            <div class="modal-header">
+                <div><h6 class="modal-title" id="exampleModalCenterTitle"></h6></div>
+            </div>
+            <div class="modal-body">
+                <div id="confirmmsg"></div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-outline-primary borderradius" id="ActionDelete" onclick="DeletePurchaseMedicine()">Save changes</a>
+                <a href="@Url.Action("PurchaseMedicineIndex", "Medicine")" class="btn btn-outline-secondary borderradius">Close</a>
+                <input type="hidden" id="hiddenpurchasemedicineid" />
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/Medicine/PurchaseMedicine.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#page_name").text("Purchase Medicine Details,");
+
+            $("#searchmedicine").on("keyup", function () {
+                var value = $(this).val();
+
+                $("table tr").each(function (index) {
+                    debugger;
+                    if (index != 0) {
+
+                        $row = $(this);
+                        var id = $row.find("td:eq(2)").text();
+
+                        if (id.indexOf(value) != 0) {
+                            $(this).hide();
+                        }
+                        else {
+                            $(this).show();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+

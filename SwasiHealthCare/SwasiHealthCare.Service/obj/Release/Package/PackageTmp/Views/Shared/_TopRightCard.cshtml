@@ -1,0 +1,25 @@
+﻿@model SwasiHealthCare.Model.TopRightCardModel
+<div class="block-header" id="blockheader">
+    <div class="row clearfix">
+        <div class="col-lg-4 col-md-12 col-sm-12">
+            <h1>Hi, Welcome back!</h1>
+            <span id="page_name" style="color:black; background: linear-gradient(45deg, #69cc31, transparent);">Dashboard,</span>
+        </div>
+        <div class="col-lg-8 col-md-12 col-sm-12 text-lg-right">
+            <div class="d-flex align-items-center justify-content-lg-end mt-4 mt-lg-0 flex-wrap vivify pullUp delay-550">
+                <div class="border-right pr-4 mr-4 mb-2 mb-xl-0 hidden-xs">
+                    <p class="text-muted mb-1">No of Patients <span id="mini-bar-chart3" class="mini-bar-chart"></span></p>
+                    <h5 class="mb-0">@Model.patientcount</h5>
+                </div>
+                <div class="border-right pr-4 mr-4 mb-2 mb-xl-0">
+                    <p class="text-muted mb-1">No of OPD <span id="mini-bar-chart2" class="mini-bar-chart"></span></p>
+                    <h5 class="mb-0">@Model.opdmonthcount</h5>
+                </div>
+                @*<div class="mb-3 mb-xl-0">
+                    <p class="text-muted mb-1">Revenue <span id="mini-bar-chart1" class="mini-bar-chart"></span></p>
+                    <h5 class="mb-0">@Model.revenuecurrentmonth</h5>
+                </div>*@
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,264 @@
+﻿@model SwasiHealthCare.Model.UserModel
+@{
+    ViewBag.Title = "My Profile";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<style> 
+    .file-input__input {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+    }
+
+    .file-input__label {
+        height: 35px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #fff;
+        font-size: 14px;
+        padding: 10px 12px;
+        background-color: #4245a8;
+        box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
+    }
+
+    .file-input__label svg {
+        height: 16px;
+        margin-right: 4px;
+    }
+
+</style>
+<body>
+    <div class="block-header">
+        <div class="row clearfix">
+            <div class="col-lg-4 col-md-12 col-sm-12">
+                <h1>Hi, Welcomeback!</h1>
+                <span style="color:black; background: linear-gradient(45deg, #69cc31, transparent);">MyProfile,</span>
+            </div>
+            <div class="col-lg-8 col-md-12 col-sm-12 text-lg-right">
+                <div class="d-flex align-items-center justify-content-lg-end mt-4 mt-lg-0 flex-wrap vivify pullUp delay-550">
+                    <div class="mb-3 mb-xl-0">
+                        <a href="#" class="btn btn-dark borderradius" id="isedit">Edit Profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @using (Html.BeginForm("MyProfile", "Settings", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <form id="profileModalForm" name="profileModalForm" onsubmit="return false;" autocomplete="off">
+            <div class="row clearfix">
+                <div class="col-lg-4 col-md-12">
+                    <div class="card profile-header">
+                        <div class="body text-center">
+                            @if (Model.ProfilePath != null)
+                            {
+                                <img style="height: 150px;width: 150px;" src="~/Content/Files/ProfilePicture/@Model.ProfilePath" id="blah" class="rounded-circle" alt="">
+                            }
+                            else
+                            {
+                                <img style="height: 150px;width: 150px;" src="~/Theme/Html/assets/images/user.png" id="blah" class="rounded-circle" alt="">
+                            }
+                            @*<img id="blah" src="#" alt="your image" class="rounded-circle"/>*@
+                            @Html.HiddenFor(x => x.UserId)
+                            @Html.HiddenFor(x => x.RoleId, new { id = "RoleId" })
+                            @Html.HiddenFor(x => x.FirstName)
+                            <div class="mt-3">
+                                <h5 class="mb-0"><strong>@Model.FullName</strong></h5>
+                                <span>@Model.UserAddress</span>
+                            </div>
+                            <div class="m-t-15">
+                                @*<input type="button" class="btn btn-primary" value="Change Photo" />*@
+                                @*<button class="btn btn-outline-secondary">Message</button>*@
+
+                                <div class="file-input">
+                                    <input accept="image/*" type="file" name="file-input" id="file-input" class="file-input__input" />
+                                    <label class="file-input__label" for="file-input">
+                                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="upload" class="svg-inline--fa fa-upload fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                            <path fill="currentColor" d="M296 384h-80c-13.3 0-24-10.7-24-24V192h-87.7c-17.8 0-26.7-21.5-14.1-34.1L242.3 5.7c7.5-7.5 19.8-7.5 27.3 0l152.2 152.2c12.6 12.6 3.7 34.1-14.1 34.1H320v168c0 13.3-10.7 24-24 24zm216-8v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h136v8c0 30.9 25.1 56 56 56h80c30.9 0 56-25.1 56-56v-8h136c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"></path>
+                                        </svg>
+                                        <span>Upload file</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="header">
+                            <h2>About Me</h2>
+                        </div>
+                        <div class="body">
+                            <small class="text-muted">Designation: </small>
+                            @if (Model.RoleId == 1)
+                            {
+                                <p id="superadmindesign">Super Admin</p>
+                                @Html.TextBoxFor(model => model.DesignationName, new { @class = "form-control input-default", id = "txtdesignationname" })
+                            }
+                            else if (Model.RoleId == 2)
+                            {
+                                <p>Admin</p>
+                            }
+                            else
+                            {
+                                <p>@Model.DesignationName</p>
+                            }
+                            <small class="text-muted">Email address: </small>
+                            <p>@Model.UserEmail</p>
+                            <small class="text-muted">Mobile: </small>
+                            <p>+ 91 @Model.UserMobile</p>
+                            <small class="text-muted">Address: </small>
+                            <p>@Model.UserAddress</p>
+                            <hr>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-12">
+                    <div class="card">
+                        <ul class="nav nav-tabs3">
+                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#Account">Account</a></li>
+                            @*<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#General">General</a></li>*@
+                        </ul>
+                    </div>
+
+                    <div class="tab-content padding-0">
+                        <div class="tab-pane active" id="Account">
+                            <div class="card">
+                                <div class="header">
+                                    <h2>Account Data</h2>
+                                    <ul class="header-dropdown dropdown">
+                                        <li><a href="javascript:void(0);" class="full-screen"><i class="fa fa-expand"></i></a></li>
+                                        <li class="dropdown">
+                                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                                            <ul class="dropdown-menu theme-bg gradient">
+                                                <li><a href="javascript:void(0);"><i class="dropdown-icon fa fa-eye"></i> View Details</a></li>
+                                                <li><a href="javascript:void(0);"><i class="dropdown-icon fa fa-share-alt"></i> Share</a></li>
+                                                <li><a href="javascript:void(0);"><i class="dropdown-icon fa fa-copy"></i> Copy to</a></li>
+                                                <li><a href="javascript:void(0);"><i class="dropdown-icon fa fa-folder"></i> Move to</a></li>
+                                                <li><a href="javascript:void(0);"><i class="dropdown-icon fa fa-edit"></i> Rename</a></li>
+                                                <li><a href="javascript:void(0);"><i class="dropdown-icon fa fa-trash"></i> Delete</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="body">
+                                    <div class="row clearfix">
+                                        <div class="col-lg-12 col-md-12">
+                                            <div class="form-group">
+                                                @Html.TextBoxFor(model => model.UserEmail, new { @class = "form-control input-default", id = "UserEmail", @readonly = "readonly" })
+                                            </div>
+                                            <div class="form-group c_form_group">
+                                                <label>Email</label>
+                                                @Html.TextBoxFor(model => model.UserEmail, new { @class = "form-control input-default", id = "UserEmail", @readonly = "readonly" })
+                                            </div>
+                                            <div class="form-group c_form_group">
+                                                <label>Phone Number</label><span style="padding-left:2px;color:red">*</span>
+                                                @Html.TextBoxFor(model => model.UserMobile, new { @class = "form-control input-default", id = "txtxeditmobile", Maxlength = 10, @readonly = "readonly" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12">
+                                            <h6>Change Password</h6>
+                                            <div class="form-group c_form_group">
+                                                <label>Current Password</label>
+                                                @Html.TextBoxFor(model => model.UserPassword, new { @class = "form-control input-default", id = "txtUserPassword", @readonly = "readonly" })
+                                            </div>
+                                            <div class="form-group c_form_group">
+                                                <label>New Password</label><span style="padding-left:2px;color:red">*</span>
+                                                @Html.PasswordFor(model => model.NewPassword, new { @class = "form-control input-default", id = "txtNewPassword", @placeholder = "Enter here", @readonly = "readonly" })
+                                                @*<input type="password" class="form-control" placeholder="Enter here">*@
+                                            </div>
+                                            <div class="form-group c_form_group">
+                                                <label>Confirm New Password</label><span style="padding-left:2px;color:red">*</span>
+                                                <input type="password" class="form-control" placeholder="Enter here" readonly id="txtConfirmNewpassword">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" id="btnuserprofilesave" class="btn btn-sm btn-outline-primary borderradius">Submit</button>
+                                    <a href="@Url.Action("Index","Home")" class="btn btn-sm btn-outline-danger borderradius">Cancel</a>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="tab-pane" id="General">
+                                <div class="card">
+
+                                </div>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+            <div id="main-content">
+                <div class="container-fluid">
+                </div>
+            </div>
+            </form>
+            }
+    </body>
+@section scripts {
+    <script src="~/Scripts/User/User.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#txtdesignationname").hide();
+            $("#btnuserprofilesave").attr("disabled", true);
+        $("#blockheader").css({ display: "none" });
+        $('#txtxeditmobile').keypress(function (e) {
+            var verified = (e.which == 8 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[^0-9]/);
+            if (verified) { e.preventDefault(); }
+        });
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    var reader1 = new FileReader();
+                    reader.onload = function (e) {
+                        $('#blah').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                    reader1.onload = function (e) {
+                        $('#blash1').attr('src', e.target.result);
+                    }
+                    reader1.readAsDataURL(input.files[0]);
+                }
+            }
+            function PostURL() {
+                var formData = new FormData();
+                var totalFiles = document.getElementById('file-input').files.length;
+                for (var i = 0; i < totalFiles; i++) {
+                    var file = document.getElementById('file-input').files[i];
+                    formData.append("httpPostedFileBase", file);
+                }
+                $.ajax({
+                    type: "POST",
+                    url: '/Settings/SendConfirmCode?userid='+@Model.UserId,
+                    data: formData,
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        if (response != null) {
+                            ShowSuccessMessage("Profile picture update sucessfully.");
+                        }
+                        else {
+                            alert('No Response...!');
+                        }
+                    },
+                    error: function (error) {
+                        alert("error");
+                    }
+                });
+            }
+
+        $("#file-input").change(function () {
+            readURL(this);
+            PostURL(this);
+        });
+    });
+    </script >
+}
+     

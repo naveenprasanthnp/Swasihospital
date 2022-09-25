@@ -1,0 +1,108 @@
+﻿@model SwasiHealthCare.Model.LoginModel
+@{
+    ViewBag.Title = "Home";
+    ViewBag.LoginMessage = "Loginmessage";
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Swasi Nutro Cure | Login</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="description" content="Mooli Bootstrap 4x admin is super flexible, powerful, clean &amp; modern responsive admin dashboard with unlimited possibilities.">
+    <meta name="author" content="GetBootstrap, design by: puffintheme.com">
+    <link rel="icon" href="~/Content/Logo/Asset 2 (1).svg" type="image/x-icon">
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="~/Theme/Html/assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Theme/Html/assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Theme/Html/assets/vendor/animate-css/vivify.min.css">
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="~/Theme/Html/assets/css/mooli.min.css">
+    <link href="~/Theme/Html/assets/css/demo.css" rel="stylesheet" />
+    <link href="~/LobiBox/css/lobibox.min.css" rel="stylesheet" />
+    <link href="~/LobiBox/demo/demo.css" rel="stylesheet" />
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Theme/Html/assets/bundles/libscripts.bundle.js"></script>
+    <script src="~/Theme/Html/assets/bundles/vendorscripts.bundle.js"></script>
+    <script src="~/Scripts/User/User.js"></script>
+    <script src="~/Scripts/Custom/Custom.js"></script>
+    <script src="~/LobiBox/js/lobibox.js"></script>
+    <script src="~/LobiBox/demo/demo.js"></script>
+</head>
+<body>
+    <div id="body" class="theme-green">
+        <div class="auth-main">
+            <div class="auth_div vivify fadeIn">
+                <div class="card">
+                    <a class="" href="#"><img src="~/Content/Logo/Swasi Logo-01-01.svg" style="width:170px" class="d-inline-block align-top mr-2" alt=""></a>
+                    <div class="header">
+                        <p class="lead">Login to your account</p>
+                    </div>
+                    <div class="body">
+                        @using (Html.BeginForm("Login", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-auth-small", role = "form", id = "loginform" }))
+                        {
+                            <div class="form-group c_form_group borderclr">
+                                @Html.Label("UserName", "Username")<span style="padding-left:2px;color:red">*</span>
+                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control form-control-sm form_box UserName", id = "txtemail", MaxLength = 50, placeholder = "Enter your email address" })
+                                @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group c_form_group borderclr">
+                                @Html.Label("Password", "Password")<span style="padding-left:2px;color:red">*</span>
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-sm form_box Password1", id = "txtuserpassword", MaxLength = 20, placeholder = "Enter your password" })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group clearfix">
+                                <label class="fancy-checkbox element-left">
+                                    <input type="checkbox" id='check'>
+                                    <span> Show password</span>
+                                </label>
+                            </div>
+                            <button type="submit" id="btnLogin" style="background: linear-gradient(45deg, #1b1a1a, #9ad64a);" class="btn btn-dark btn-lg btn-block borderradius">LOGIN</button>
+                            <div class="bottom">
+                                <span class="helper-text m-b-10"><i class="fa fa-lock"></i> <a href="page-forgot-password.html">Forgot password?</a></span>
+                                @*<span>Don't have an account? <a href="page-register.html">Register</a></span>*@
+                            </div>
+                            if (ViewBag.ErrorMsg != null)
+                            {
+                                <script>
+                                    var t = '@ViewBag.ErrorMsg';
+                                    ShowErrorMessage(t);
+                                </script>
+                                @*<span style="color:red" class="helper-text m-b-10" id="errorsms">@ViewBag.ErrorMsg</span>*@
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="animate_lines">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Theme/Html/assets/bundles/libscripts.bundle.js"></script>
+    <script src="~/Theme/Html/assets/bundles/vendorscripts.bundle.js"></script>
+    <script src="~/Scripts/User/User.js"></script>
+    <script src="~/Scripts/Custom/Custom.js"></script>
+    <script src="~/LobiBox/js/lobibox.js"></script>
+    <script src="~/LobiBox/demo/demo.js"></script>
+</body>
+</html>
+@section scripts {
+    <script>
+        $(document).ready(function () {
+        
+    });
+    </script>
+}

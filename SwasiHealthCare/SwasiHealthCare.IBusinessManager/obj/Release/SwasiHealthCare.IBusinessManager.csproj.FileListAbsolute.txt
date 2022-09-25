@@ -1,0 +1,15 @@
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.IBusinessManager\bin\Release\SwasiHealthCare.IBusinessManager.dll
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.IBusinessManager\bin\Release\SwasiHealthCare.IBusinessManager.pdb
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.IBusinessManager\bin\Release\SwasiHealthCare.Data.dll
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.IBusinessManager\bin\Release\SwasiHealthCare.Model.dll
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.IBusinessManager\bin\Release\Data.EF.Core.dll
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.IBusinessManager\bin\Release\EntityFramework.dll
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.IBusinessManager\bin\Release\SwasiHealthCare.Data.pdb
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.IBusinessManager\bin\Release\SwasiHealthCare.Data.dll.config
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.IBusinessManager\bin\Release\SwasiHealthCare.Model.pdb
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.IBusinessManager\bin\Release\EntityFramework.xml
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.IBusinessManager\obj\Release\SwasiHealthCare.IBusinessManager.csprojAssemblyReference.cache
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.IBusinessManager\obj\Release\SwasiHealthCare.IBusinessManager.csproj.CoreCompileInputs.cache
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.IBusinessManager\obj\Release\SwasiHealthCare.IBusinessManager.csproj.CopyComplete
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.IBusinessManager\obj\Release\SwasiHealthCare.IBusinessManager.dll
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.IBusinessManager\obj\Release\SwasiHealthCare.IBusinessManager.pdb

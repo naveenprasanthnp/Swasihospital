@@ -1,0 +1,471 @@
+﻿@model SwasiHealthCare.Model.PatientModel
+@{
+    ViewBag.Title = "New Patient";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    var planlist = new SelectList(ViewBag.planlist, "PlanId", "PackageCode");
+    var hospitallist = new SelectList(ViewBag.hospitallist, "HospitalId", "HospitalName");
+    var doctorlist = new SelectList(ViewBag.doctorlist, "UserId", "FullName");
+}
+<html>
+<head>
+</head>
+<body>
+    <div class="row clearfix">
+        @using (Html.BeginForm("EditPatient", "Patient", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="col-12">
+                <ul class="nav nav-tabs3 page-header-tab">
+                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" id="t_1111" href="#Company_Settings">Basic Details</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Diagnosis" id="t_555">Diagnosis</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" id="t_2222" href="#Localization">Personal History</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Roles_Permissions">Physical Examination</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Email_Settings">Investigation</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="form-row mt-1" style="padding-left: 1.25rem;">
+                        <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                            <a href="@Url.Action("Index", "Patient")" class="btn btn-sm btn-outline-danger borderradius">Back</a>
+                            <button type="submit" id="btnUserSave" class="btn btn-sm btn-outline-primary borderradius">Submit</button>
+                        </div>
+                    </div>
+                    @Html.AntiForgeryToken()
+                    <div class="tab-pane active show" id="Company_Settings">
+                        <div class="card">
+                            <div class="body">
+                                <div>
+                                    <div class="tab-content" id="nav-tabContent">
+                                        <div class="" id="nav-newuser" role="tabpanel" aria-labelledby="nav-orginal-tab" style="overflow-y: auto;">
+                                            @if (ViewBag.PatientIdStartWith != null)
+                                            {
+                                                <label style="color:red;">@ViewBag.PatientIdStartWith</label>
+                                            }
+                                            <label id="hiddenpatientid" hidden></label>
+                                            <div class="card-body">
+
+                                                <div class="form-row">
+                                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sort-numeric-asc" aria-hidden="true"></i>
+                                                        @Html.Label("PatientIdNumber", "Patient ID Number")<span style="padding-left:2px;color:red">*</span>
+                                                        @Html.TextBoxFor(model => model.PatientIdNumber, new { @class = "form-control input-default borderclr", Maxlength = 30, id = "txtpatientid", @readonly = "readonly" })
+                                                        @Html.ValidationMessageFor(model => model.PatientIdNumber, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                                        @Html.Label("HospitalId", "Hospital")<span style="padding-left:2px;color:red">*</span>
+                                                        @Html.DropDownListFor(model => model.PatientHospitalId, hospitallist, "Select Hospital", new { @class = "form-control input-default borderclr", id = "txthospitalid" })
+                                                        @Html.ValidationMessageFor(model => model.PatientHospitalId, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                                        @Html.Label("PatientDate", "Patient Date")<span style="padding-left:2px;color:red">*</span>
+                                                        @Html.TextBoxFor(model => model.PatientDate, new { @class = "form-control input-default borderclr", data_provide = "datepicker", data_date_autoclose = "true", id = "txtpatientdate" })
+                                                        @Html.ValidationMessageFor(model => model.PatientDate, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                                        @Html.Label("DoctorName", "Doctor Name")<span style="padding-left:2px;color:red">*</span>
+                                                        @Html.DropDownListFor(model => model.PatientDoctorId, doctorlist, "--Select Doctor--", new { @class = "form-control input-default borderclr", Maxlength = 30, id = "txtdoctorname" })
+                                                        @Html.ValidationMessageFor(model => model.PatientDoctorId, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                                        @Html.Label("Name", "Client Name")<span style="padding-left:2px;color:red">*</span>
+                                                        @Html.TextBoxFor(model => model.PatientName, new { @class = "form-control input-default borderclr", Maxlength = 30, id = "txtpatientname" })
+                                                        @Html.ValidationMessageFor(model => model.PatientName, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-transgender" aria-hidden="true"></i>
+                                                        @Html.Label("Gender", "Gender")<span style="padding-left:2px;color:red">*</span>
+                                                        @Html.DropDownListFor(model => model.PatientGender, new SelectListItem[]
+                                                        {
+                                                        new SelectListItem() {Text = "--Select Gender--"},
+                                                        new SelectListItem() {Text = "Male",Value="M"},
+                                                        new SelectListItem() {Text = "Female",Value="F"},
+                                                        new SelectListItem() {Text = "Others",Value="O"}
+                                                        }, new { @class = "form-control input-default dropdown-toggle borderclr", id= "txtpatientgender" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sort-numeric-asc" aria-hidden="true"></i>
+                                                        @Html.Label("Age", "Age")<span style="padding-left:2px;color:red">*</span>
+                                                        @Html.TextBoxFor(model => model.PatientAge, new { @class = "form-control input-default borderclr", Maxlength = 3, id = "txtpatientage" })
+                                                        @Html.ValidationMessageFor(model => model.PatientAge, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12 file-uploadImg ">
+                                                        <i class="fa fa-mobile" aria-hidden="true"></i>
+                                                        @Html.Label("MobileNumber", "Mobile Number")<span style="padding-left:2px;color:red">*</span>
+                                                        @Html.TextBoxFor(model => model.PatientMobileNumber, new { @class = "form-control input-default borderclr", Maxlength = 10, id = "txtpatientmobilenumber", autocomplete = "off" })
+                                                        @Html.ValidationMessageFor(model => model.PatientMobileNumber, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                                                        @Html.Label("WhatsappNumber", "Whatsapp Number")
+                                                        @Html.TextBoxFor(model => model.PatientWhatsappNumber, new { @class = "form-control input-default borderclr", Maxlength = 10, id = "txtpatientwhatsappnumber" })
+                                                        @Html.ValidationMessageFor(model => model.PatientWhatsappNumber, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-book" aria-hidden="true"></i>
+                                                        @Html.Label("Education", "Education")
+                                                        @Html.TextBoxFor(model => model.PatientEducation, new { @class = "form-control input-default borderclr", Maxlength = 30, id = "txtpatienteducation", autocomplete = "off", @placeholder = "" })
+                                                        @Html.ValidationMessageFor(model => model.PatientEducation, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-won" aria-hidden="true"></i>
+                                                        @Html.Label("Occupation", "Occupation")
+                                                        @Html.TextBoxFor(model => model.PatientOccupation, new { @class = "form-control input-default borderclr", Maxlength = 30, id = "txtpatientoccupation" })
+                                                        @Html.ValidationMessageFor(model => model.PatientOccupation, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-transgender" aria-hidden="true"></i>
+                                                        @Html.Label("Marital Status", "Marital Status")<span style="padding-left:2px;color:red">*</span>
+                                                        @Html.DropDownListFor(model => model.PatientMaritalStatus, new SelectListItem[]
+                                                        {
+                                                        new SelectListItem() {Text = "--Select--"},
+                                                        new SelectListItem() {Text = "Single",Value="S"},
+                                                        new SelectListItem() {Text = "Married",Value="M"},
+                                                        new SelectListItem() {Text = "Others",Value="O"}
+                                                        }, new { @class = "form-control input-default dropdown-toggle borderclr", id= "txtpatientmaritalstatus" })
+                                                    </div>
+                                                    @*<div class="form-group col-lg-3 col-md-6 col-sm-12">
+            <i class="fa fa-user" aria-hidden="true"></i>
+            @Html.Label("Plan", "Membership Plan")<span style="padding-left:2px;color:red">*</span>
+            @Html.DropDownListFor(model => model.PlanId, planlist, "--Select Plan--", new { @class = "form-control input-default borderclr", Maxlength = 30, id = "txtplanid" })
+            @Html.ValidationMessageFor(model => model.PlanId, "", new { @class = "text-danger" })
+        </div>*@
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Primary Complaints", "Primary Complaints")<span style="padding-left:2px;color:red">*</span>
+                                                        @Html.TextAreaFor(model => model.PatientPrimaryComplaints, new { @class = "form-control input-default borderclr", Maxlength = 255, id = "txtpatientprimarycomplaints", autocomplete = "off" })
+                                                        @Html.ValidationMessageFor(model => model.PatientPrimaryComplaints, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Associate Complaints", "Associate Complaints")<span style="padding-left:2px;color:red">*</span>
+                                                        @Html.TextAreaFor(model => model.PatientAssociateComplaints, new { @class = "form-control input-default borderclr", Maxlength = 255, id = "txtpatientassociatecomplaints", autocomplete = "off" })
+                                                        @Html.ValidationMessageFor(model => model.PatientAssociateComplaints, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("History of Present Illness", "History of Present Illness")<span style="padding-left:2px;color:red">*</span>
+                                                        @Html.TextAreaFor(model => model.PatientHistoryOfPresentIllness, new { @class = "form-control input-default borderclr", Maxlength = 255, id = "txtpatienthistoryofpresentillness", autocomplete = "off" })
+                                                        @Html.ValidationMessageFor(model => model.PatientHistoryOfPresentIllness, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("History of Surgery", "History of Surgery")<span style="padding-left:2px;color:red">*</span>
+                                                        @Html.TextAreaFor(model => model.PatientHistoryOfSurgery, new { @class = "form-control input-default borderclr", Maxlength = 255, id = "txtpatienthistoryofsurgery", autocomplete = "off" })
+                                                        @Html.ValidationMessageFor(model => model.PatientHistoryOfSurgery, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("HistoryOfTreatment", "History of Treatment")
+                                                        @Html.TextAreaFor(model => model.HistoryOfTreatment, new { @class = "form-control input-default borderclr", Maxlength = 255, id = "txthistoryoftreatment", autocomplete = "off" })
+                                                        @Html.ValidationMessageFor(model => model.HistoryOfTreatment, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("OBGHistory", "OBG History")
+                                                        @Html.TextAreaFor(model => model.OBGHistory, new { @class = "form-control input-default borderclr", Maxlength = 255, id = "txtobghistory", autocomplete = "off" })
+                                                        @Html.ValidationMessageFor(model => model.OBGHistory, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Family History", "Family History")
+                                                        @Html.TextAreaFor(model => model.PatientFamilyHistory, new { @class = "form-control input-default borderclr", Maxlength = 255, id = "txtpatientfamilyhistory", autocomplete = "off" })
+                                                        @Html.ValidationMessageFor(model => model.PatientFamilyHistory, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Address", "Address")<span style="padding-left:2px;color:red">*</span>
+                                                        @Html.TextAreaFor(model => model.PatientAddress, new { @class = "form-control input-default borderclr", Maxlength = 255, id = "txtpatientaddress" })
+                                                        @Html.ValidationMessageFor(model => model.PatientAddress, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="Diagnosis">
+                        <div class="card">
+                            <div class="body">
+                                <div>
+                                    <div class="tab-content" id="nav-tabContent">
+                                        <div class="" id="nav-newuser" role="tabpanel" aria-labelledby="nav-orginal-tab" style="overflow-y: auto;">
+                                            <div class="card-body">
+                                                <div class="form-row">
+                                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                                    <div class="form-group col-lg-3 col-md-9 col-sm-9">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("VatajaDisorder", "Vataja Disorder")
+                                                        @Html.TextAreaFor(model => model.VatajaDisorder, new { @class = "form-control input-default borderclr", Maxlength = 500, id = "txtVatajaDisorder" })
+                                                        @Html.ValidationMessageFor(model => model.VatajaDisorder, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-9 col-sm-9">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("PittajaDisorder", "Pittaja Disorder")
+                                                        @Html.TextAreaFor(model => model.PittajaDisorder, new { @class = "form-control input-default borderclr", Maxlength = 500, id = "txtPittajaDisorder" })
+                                                        @Html.ValidationMessageFor(model => model.PittajaDisorder, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-9 col-sm-9">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("KaphajaDisorder", "Kaphaja Disorder")
+                                                        @Html.TextAreaFor(model => model.KaphajaDisorder, new { @class = "form-control input-default borderclr", Maxlength = 500, id = "txtKaphajaDisorder" })
+                                                        @Html.ValidationMessageFor(model => model.KaphajaDisorder, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-9 col-sm-9">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Notes", "Notes")
+                                                        @Html.TextAreaFor(model => model.Notes, new { @class = "form-control input-default borderclr", Maxlength = 500, id = "txtNotes" })
+                                                        @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="Localization">
+                        <div class="card">
+                            <div class="body">
+                                <div>
+                                    <div class="tab-content" id="nav-tabContent">
+                                        <div class="" id="nav-newuser" role="tabpanel" aria-labelledby="nav-orginal-tab" style="overflow-y: auto;">
+                                            <div class="card-body">
+                                                <div class="form-row">
+                                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Color", "Color")@*<span style="padding-left:2px;color:red">*</span>*@
+                                                        @Html.TextBoxFor(model => model.PatientColor, new { @class = "form-control input-default borderclr", Maxlength = 255, id = "txtpatientcolor" })
+                                                        @Html.ValidationMessageFor(model => model.PatientColor, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Hunger", "Hunger")@*<span style="padding-left:2px;color:red">*</span>*@
+                                                        @Html.TextBoxFor(model => model.PatientHunger, new { @class = "form-control input-default borderclr", id = "txtpatienthunger" })
+                                                        @Html.ValidationMessageFor(model => model.PatientHunger, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Height", "Height")@*<span style="padding-left:2px;color:red">*</span>*@
+                                                        @Html.TextBoxFor(model => model.PatientHeight, new { @class = "form-control input-default borderclr", id = "txtpatientheight" })
+                                                        @Html.ValidationMessageFor(model => model.PatientHeight, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Weight", "Weight")@*<span style="padding-left:2px;color:red">*</span>*@
+                                                        @Html.TextBoxFor(model => model.PatientWeight, new { @class = "form-control input-default borderclr", id = "txtpatientweight" })
+                                                        @Html.ValidationMessageFor(model => model.PatientWeight, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12 file-uploadImg ">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Taste", "Taste")@*<span style="padding-left:2px;color:red">*</span>*@
+                                                        @Html.TextBoxFor(model => model.PatientTaste, new { @class = "form-control input-default borderclr", id = "txtpatienttaste", autocomplete = "off" })
+                                                        @Html.ValidationMessageFor(model => model.PatientTaste, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Emotion", "Emotion")@*<span style="padding-left:2px;color:red">*</span>*@
+                                                        @Html.TextBoxFor(model => model.PatientEmotion, new { @class = "form-control input-default borderclr", Maxlength = 255, id = "txtpatientemotion" })
+                                                        @Html.ValidationMessageFor(model => model.PatientEmotion, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Motion", "Motion")@*<span style="padding-left:2px;color:red">*</span>*@
+                                                        @Html.TextBoxFor(model => model.PatientMotion, new { @class = "form-control input-default borderclr", id = "txtpatientmotion", autocomplete = "off", @placeholder = "" })
+                                                        @Html.ValidationMessageFor(model => model.PatientMotion, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Urine", "Urine")@*<span style="padding-left:2px;color:red">*</span>*@
+                                                        @Html.TextBoxFor(model => model.PatientUrine, new { @class = "form-control input-default borderclr", id = "txtpatienturine" })
+                                                        @Html.ValidationMessageFor(model => model.PatientUrine, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("BP", "BP")@*<span style="padding-left:2px;color:red">*</span>*@
+                                                        @Html.TextBoxFor(model => model.PatientBP, new { @class = "form-control input-default borderclr", id = "txtpatientbp", autocomplete = "off" })
+                                                        @Html.ValidationMessageFor(model => model.PatientBP, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Sugar", "Sugar")@*<span style="padding-left:2px;color:red">*</span>*@
+                                                        @Html.TextBoxFor(model => model.PatientSugar, new { @class = "form-control input-default borderclr", id = "txtpatientsugar", autocomplete = "off" })
+                                                        @Html.ValidationMessageFor(model => model.PatientSugar, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Temperature", "Temperature")
+                                                        @Html.TextBoxFor(model => model.PatientTemperature, new { @class = "form-control input-default borderclr", id = "txtpatienttemperature", autocomplete = "off" })
+                                                        @Html.ValidationMessageFor(model => model.PatientTemperature, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="Roles_Permissions">
+                        <div class="card">
+                            <div class="body">
+                                <div>
+                                    <div class="tab-content" id="nav-tabContent">
+                                        <div class="" id="nav-newuser" role="tabpanel" aria-labelledby="nav-orginal-tab" style="overflow-y: auto;">
+                                            <div class="card-body">
+                                                <div class="form-row">
+                                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Pulse", "Pulse")
+                                                        @Html.TextBoxFor(model => model.PatientPulse, new { @class = "form-control input-default borderclr", Maxlength = 255, id = "txtpatientpulse" })
+                                                        @Html.ValidationMessageFor(model => model.PatientPulse, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Palpitation", "Palpitation")
+                                                        @Html.TextBoxFor(model => model.PatientPalpitation, new { @class = "form-control input-default borderclr", id = "txtpatientpalpitation" })
+                                                        @Html.ValidationMessageFor(model => model.PatientPalpitation, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Tongue", "Tongue")
+                                                        @Html.TextBoxFor(model => model.PatientTongue, new { @class = "form-control input-default borderclr", id = "txtpatienttongue" })
+                                                        @Html.ValidationMessageFor(model => model.PatientTongue, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Foot", "Foot")
+                                                        @Html.TextBoxFor(model => model.PatientFoot, new { @class = "form-control input-default borderclr", id = "txtpatientfoot" })
+                                                        @Html.ValidationMessageFor(model => model.PatientFoot, "", new { @class = "text-danger" })
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Eye", "Eye")
+                                                        @Html.TextBoxFor(model => model.PatientEye, new { @class = "form-control input-default borderclr", id = "txtpatienteye" })
+                                                        @Html.ValidationMessageFor(model => model.PatientEye, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="Email_Settings">
+                        @Html.AntiForgeryToken()
+                        <div class="card">
+                            <div class="body">
+                                <div>
+                                    <div class="tab-content" id="nav-tabContent">
+                                        <div class="" id="nav-newuser" role="tabpanel" aria-labelledby="nav-orginal-tab" style="overflow-y: auto;">
+                                            <div class="card-body">
+                                                @Html.HiddenFor(x => x.PatientId)
+                                                @Html.HiddenFor(x => x.Flag, new { @value = "3" })
+                                                <div class="form-row">
+                                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Blood Report", "Blood Report")
+                                                        @Html.TextAreaFor(model => model.PatientBloodReport, new { @class = "form-control input-default borderclr", Maxlength = 12, id = "txtcolor" })
+                                                        @Html.ValidationMessageFor(model => model.PatientBloodReport, "", new { @class = "text-danger" })
+                                                        <br />
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Urine", "Urine")
+                                                        @Html.TextAreaFor(model => model.PatientUrineReport, new { @class = "form-control input-default borderclr", Maxlength = 12, id = "txtcolor" })
+                                                        @Html.ValidationMessageFor(model => model.PatientUrineReport, "", new { @class = "text-danger" })
+                                                        <br />
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Sputum", "Sputum")
+                                                        @Html.TextAreaFor(model => model.PatientSputum, new { @class = "form-control input-default borderclr", Maxlength = 12, id = "txtcolor" })
+                                                        @Html.ValidationMessageFor(model => model.PatientSputum, "", new { @class = "text-danger" })
+                                                        <br />
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("CSF", "CSF")
+                                                        @Html.TextAreaFor(model => model.PatientCSF, new { @class = "form-control input-default borderclr", Maxlength = 12, id = "txtcolor" })
+                                                        @Html.ValidationMessageFor(model => model.PatientCSF, "", new { @class = "text-danger" })
+                                                        <br />
+                                                    </div> <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("X-Ray", "X-Ray")
+                                                        @Html.TextAreaFor(model => model.PatientXRay, new { @class = "form-control input-default borderclr", Maxlength = 12, id = "txtcolor" })
+                                                        @Html.ValidationMessageFor(model => model.PatientXRay, "", new { @class = "text-danger" })
+                                                        <br />
+                                                    </div> <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("CT", "CT")
+                                                        @Html.TextAreaFor(model => model.PatientCT, new { @class = "form-control input-default borderclr", Maxlength = 12, id = "txtcolor" })
+                                                        @Html.ValidationMessageFor(model => model.PatientCT, "", new { @class = "text-danger" })
+                                                        <br />
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("MRI", "MRI")
+                                                        @Html.TextAreaFor(model => model.PatientMRI, new { @class = "form-control input-default borderclr", Maxlength = 12, id = "txtcolor" })
+                                                        @Html.ValidationMessageFor(model => model.PatientMRI, "", new { @class = "text-danger" })
+                                                        <br />
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Others", "Others")
+                                                        @Html.TextAreaFor(model => model.PatientOthers, new { @class = "form-control input-default borderclr", Maxlength = 12, id = "txtcolor" })
+                                                        @Html.ValidationMessageFor(model => model.PatientOthers, "", new { @class = "text-danger" })
+                                                        <br />
+                                                    </div>
+                                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                                        @Html.Label("Documents", "Documents")
+                                                        <input name="File" type="file" multiple="multiple" id="File8" accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onChange="validate(this.value)" class="profile-img">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</body>
+</html>
+@section scripts {
+    <script src="~/Scripts/Patient/Patient.js"></script>
+    <script>
+        $(document).ready(function () {
+            var txthospitalid = @Html.Raw(Json.Encode(Model.PatientHospitalId));
+            //alert(txthospitalid);
+            $('#txtpatientage').keypress(function (e) {
+                var verified = (e.which == 8 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[^0-9]/);
+                if (verified) { e.preventDefault(); }
+            });
+            $('#txtpatientmobilenumber').keypress(function (e) {
+                var verified = (e.which == 8 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[^0-9]/);
+                if (verified) { e.preventDefault(); }
+            });
+            $('#txtpatientwhatsappnumber').keypress(function (e) {
+                var verified = (e.which == 8 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[^0-9]/);
+                if (verified) { e.preventDefault(); }
+            });
+            $("#page_name").text("Edit Patient,");
+            
+        });
+    </script>
+}
+
+

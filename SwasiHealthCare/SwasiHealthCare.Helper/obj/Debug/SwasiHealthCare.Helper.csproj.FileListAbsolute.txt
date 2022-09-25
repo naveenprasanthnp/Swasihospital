@@ -1,0 +1,5 @@
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.Helper\bin\Debug\SwasiHealthCare.Helper.dll
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.Helper\bin\Debug\SwasiHealthCare.Helper.pdb
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.Helper\obj\Debug\SwasiHealthCare.Helper.csproj.CoreCompileInputs.cache
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.Helper\obj\Debug\SwasiHealthCare.Helper.dll
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.Helper\obj\Debug\SwasiHealthCare.Helper.pdb

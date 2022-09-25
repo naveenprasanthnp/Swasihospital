@@ -1,0 +1,115 @@
+﻿@model SwasiHealthCare.Model.MedicineModel
+@{
+    ViewBag.Title = "New Medicine";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<html>
+<head>
+</head>
+<body>
+    <div class="card w-100 shadow-sm border-0">
+        <div class="card-body p-3">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="" id="nav-newmedicine" role="tabpanel" aria-labelledby="nav-orginal-tab" style="overflow-y: auto;">
+                            <div class="card-body">
+                                 <div class="form-row">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-medkit " aria-hidden="true"></i>
+                                        @Html.Label("MedicineName", "Drug Name")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.MedicineName, new { @class = "form-control input-default borderclr", Maxlength = 30, id = "txtmedicinename" })
+                                        @Html.ValidationMessageFor(model => model.MedicineName, "", new { @class = "text-danger" })
+                                    </div>
+                                    @*<div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        @Html.Label("Date", "Date")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.Date, new { @class = "form-control input-default borderclr", data_provide = "datepicker", data_date_autoclose = "true", id = "txtdate" })
+                                        @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                                    </div>*@
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-address-book" aria-hidden="true"></i>
+                                        @Html.Label("Description", "Description")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.MedicineDescription, new { @class = "form-control input-default borderclr", Maxlength = 155, id = "txtmedicinedescription" })
+                                        @Html.ValidationMessageFor(model => model.MedicineDescription, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-rupee" aria-hidden="true"></i>
+                                        @Html.Label("MedicinePurchaseRate", "Purchase Rate")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.MedicinePurchaseRate, new { @class = "form-control input-default borderclr", Maxlength = 5, id = "txtmedicinepurchaserate" })
+                                        @Html.ValidationMessageFor(model => model.MedicinePurchaseRate, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-rupee" aria-hidden="true"></i>
+                                        @Html.Label("MedicineSalesRate", "Sales Rate")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.MedicineSalesRate, new { @class = "form-control input-default borderclr", Maxlength = 5, id = "txtmedicinesalesrate" })
+                                        @Html.ValidationMessageFor(model => model.MedicineSalesRate, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-laptop" aria-hidden="true"></i>
+                                        @Html.Label("MedicineManufacturer", "Manufacturer")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.MedicineManufacturer, new { @class = "form-control input-default borderclr", Maxlength = 255, id = "txtmedicinemanufacturer" })
+                                        @Html.ValidationMessageFor(model => model.MedicineManufacturer, "", new { @class = "text-danger" })
+                                    </div>
+                                    @*<div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        @Html.Label("MedicineExpiryDate", "Expiry Date")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.MedicineExpiryDate, new { @class = "form-control input-default borderclr", data_provide = "datepicker", data_date_autoclose = "true", id = "txtmedicineexpirydate" })
+                                        @Html.ValidationMessageFor(model => model.MedicineExpiryDate, "", new { @class = "text-danger" })
+                                    </div>*@
+                                    @*<div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-laptop" aria-hidden="true"></i>
+                                        @Html.Label("MedicineCurrentStack", "MedicineCurrentStack")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.MedicineCurrentStack, new { @class = "form-control input-default borderclr", Maxlength = 255, id = "txtmedicinecurrentstack" })
+                                        @Html.ValidationMessageFor(model => model.MedicineCurrentStack, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-laptop" aria-hidden="true"></i>
+                                        @Html.Label("MedicinePurchaseStack", "New Stack")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.MedicinePurchaseStack, new { @class = "form-control input-default borderclr", Maxlength = 255, id = "txtmedicinepurchasestack" })
+                                        @Html.ValidationMessageFor(model => model.MedicinePurchaseStack, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-laptop" aria-hidden="true"></i>
+                                        @Html.Label("MedicineBalanceStack", "MedicineBalanceStack")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.MedicineBalanceStack, new { @class = "form-control input-default borderclr", Maxlength = 255, id = "txtmedicinebalancestack" })
+                                        @Html.ValidationMessageFor(model => model.MedicineBalanceStack, "", new { @class = "text-danger" })
+                                    </div>*@
+                                    @*<div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                    <i class="fa fa-archive" aria-hidden="true"></i>
+                                    @Html.Label("MedicineStack", "Stack")<span style="padding-left:2px;color:red">*</span>
+                                    @Html.TextBoxFor(model => model.MedicineStack, new { @class = "form-control input-default borderclr", Maxlength = 5, id = "txtmedicinestack" })
+                                    @Html.ValidationMessageFor(model => model.MedicineStack, "", new { @class = "text-danger" })
+                                </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row mt-1" style="padding-left: 1.25rem;">
+                        <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                            <a href="@Url.Action("Index","Medicine")" class="btn btn-outline-danger borderradius">Back</a>
+                            <button type="submit" id="btnMedicineSave" class="btn btn-outline-primary borderradius">Submit</button>
+                            <button type="reset" class="btn btn-outline-secondary borderradius">Clear</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>
+@section scripts {
+    <script src="~/Scripts/Medicine/Medicine.js"></script>
+    <script src="~/Theme/Html/assets/vendor/dropify/js/dropify.min.js"></script>
+    <script src="~/Theme/Html/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#txtmedicineexpirydate").val('');
+            $("#page_name").text("Edit Medicine,");
+        });
+    </script>
+}
+

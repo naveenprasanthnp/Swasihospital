@@ -1,0 +1,238 @@
+﻿@model SwasiHealthCare.Model.SideMenuModel
+@{ 
+    List<SwasiHealthCare.Data.Entities.AccessRights> rights =
+        (List<SwasiHealthCare.Data.Entities.AccessRights>)Session["AccessRights"];
+}
+<div class="sidebar-scroll">
+    <div class="user-account">
+        <div class="user_div">
+            @if (Model.ProfilePath != null)
+            {
+                <img src="~/Content/Files/ProfilePicture/@Model.ProfilePath" id="blash1" class="user-photo" alt="User Profile Picture">
+            }
+            else
+            {
+                <img src="~/Theme/Html/assets/images/user.png" class="user-photo" alt="User Profile Picture">
+            }
+        </div>
+        <div class="dropdown">
+            <span>Welcome</span>
+            <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>@Model.LoginUserName</strong></a>
+            @if (Model.RoleId == 1)
+            {
+                <span style="font-size:x-small; color: #0c0c0c;background: linear-gradient(45deg, #16efa9, #e1e7e5);">Super Admin</span>
+            }
+            else if (Model.RoleId == 2)
+            {
+                <span style="font-size:x-small;color: #0c0c0c;background: linear-gradient(45deg, #16efa9, #e1e7e5);">Admin</span>
+            }
+            else if (Model.RoleId == 4)
+            {
+                <span style="font-size:x-small;color: #0c0c0c;background: linear-gradient(45deg, #16efa9, #e1e7e5);">Staff</span>
+            }
+            else
+            {
+                <span style="font-size:x-small;color: #0c0c0c;background: linear-gradient(45deg, #16efa9, #e1e7e5);">Doctor</span>
+            }
+            <ul class="dropdown-menu dropdown-menu-right account vivify flipInY">
+                <li><a href="@Url.Action("MyProfile","Settings")"><i class="fa fa-user"></i>My Profile</a></li>
+                @*<li><a href="app-inbox.html"><i class="fa fa-envelope"></i>Messages</a></li>
+                  <li><a href="#"><i class="fa fa-gear"></i>Settings</a></li>*@
+                <li class="divider"></li>
+                @using (Html.BeginForm("LogOff", "Home", FormMethod.Post, new { id = "logoutForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-power-off"></i>Logout</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+    <nav id="left-sidebar-nav" class="sidebar-nav">
+        <ul id="main-menu" class="metismenu animation-li-delay">
+            @*<li class="header">Hospital</li>*@
+            <li class="active">
+                <a href="@Url.Action("Index","Home")"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+            </li>
+            @*<li>
+            <a href="#Doctors"  class="has-arrow"><i class="fa fa-user-md"></i><span>Doctors</span></a>
+            <ul>
+                <li ><a href="@Url.Action("DoctorIndex","User")">All Doctors</a></li>
+                <li ><a href="@Url.Action("NewDoctor","User")">Add Doctors</a></li>
+            </ul>
+            </li>*@
+            @if (Model.RoleId != 1)
+            {
+
+                if (Model.RoleId != 2)
+                {
+                    if (rights.Where(x => x.MenuId == 1 && x.IsView).Any())
+                    {
+                        <li id="1">
+                            <a href="#" id="patient" class="has-arrow"><i class="fa fa-user-circle-o"></i> <span>Patients</span></a>
+                            <ul>
+                                @if (rights.Where(x => x.MenuId == 1 && x.IsView).Any())
+                                {
+                                    <li id="allpatient"><a href="@Url.Action("Index", "Patient")">All Patients</a></li>
+                                }
+                                @if (rights.Where(x => x.MenuId == 1 && x.IsCreate).Any())
+                                {
+                                    <li id="newpatient"><a href="@Url.Action("NewPatient", "Patient")">Add Patients</a></li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li>
+                        <a href="#" id="patient" class="has-arrow"><i class="fa fa-user-circle-o"></i> <span>Patients</span></a>
+                        <ul>
+                            <li id="allpatient"><a href="@Url.Action("Index", "Patient")">All Patients</a></li>
+                            <li id="newpatient"><a href="@Url.Action("NewPatient", "Patient")">Add Patients</a></li>
+                        </ul>
+                    </li>
+                }
+
+                if (Model.RoleId != 2)
+                {
+                    if (rights.Where(x => x.MenuId == 2 && x.IsView).Any())
+                    {
+                        <li>
+                            <a href="#" id="opd" class="has-arrow"><i class="fa fa-history"></i> <span>OPD</span></a>
+                            <ul>
+                                @if (rights.Where(x => x.MenuId == 2 && x.IsView).Any())
+                                {
+                                    <li id="allopd"><a href="@Url.Action("OPDIndex", "Patient")">All OPD's</a></li>
+                                }
+                                @if (rights.Where(x => x.MenuId == 2 && x.IsCreate).Any())
+                                {
+                                    <li id="addopd"><a href="@Url.Action("NewOPD", "Patient")">Add OPD's</a></li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li>
+                        <a href="#" id="opd" class="has-arrow"><i class="fa fa-history"></i> <span>OPD</span></a>
+                        <ul>
+                            <li id="allopd"><a href="@Url.Action("OPDIndex", "Patient")">All OPD's</a></li>
+                            <li id="addopd"><a href="@Url.Action("NewOPD", "Patient")">Add OPD's</a></li>
+                        </ul>
+                    </li>
+                }
+
+                if (Model.RoleId != 2)
+                {
+                    if (rights.Where(x => x.MenuId == 3 && x.IsView).Any())
+                    {
+                        <li>
+                            <a href="#" id="expense" class="has-arrow"><i class="fa fa-rupee"></i> <span>Expense</span></a>
+                            <ul>
+                                @if (rights.Where(x => x.MenuId == 3 && x.IsView).Any())
+                                {
+                                    <li id="allexpense"><a href="@Url.Action("AllExpense", "Medicine")">All Expense</a></li>
+                                }
+                                @if (rights.Where(x => x.MenuId == 3 && x.IsCreate).Any())
+                                {
+                                    <li id="addexpense"><a href="@Url.Action("NewExpense", "Medicine")">Add Expense</a></li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li>
+                        <a href="#" id="expense" class="has-arrow"><i class="fa fa-rupee"></i> <span>Expense</span></a>
+                        <ul>
+                            <li id="allexpense"><a href="@Url.Action("AllExpense", "Medicine")">All Expense</a></li>
+                            <li id="addexpense"><a href="@Url.Action("NewExpense", "Medicine")">Add Expense</a></li>
+                        </ul>
+                    </li>
+                }
+            }
+
+            @if (Model.RoleId == 4 && Model.RoleId == 3)
+            {
+                if (rights.Where(x => x.MenuId == 4 && x.IsView).Any())
+                {
+                    <li>
+                        <a href="#" id="allreport" class="has-arrow"><i class="fa fa-file"></i><span>Reports</span></a>
+                        <ul>
+                            <li id="patientreport"><a href="@Url.Action("PatientReport", "Report")">Patient Report</a></li>
+                            <li id="opdreport"><a href="@Url.Action("OPDReport", "Report")">OPD Report</a></li>
+                            <li id="medicinereport"><a href="@Url.Action("MedicineReport", "Report")">Medicine Report</a></li>
+                            <li id="revenuetreport"><a href="@Url.Action("ShortRevenueReport", "Report")">Revenue Report</a></li>
+                        </ul>
+                    </li>
+                }
+            }
+            else if (Model.RoleId == 1 || Model.RoleId == 2)
+            {
+                <li>
+                    <a href="#" id="allreport" class="has-arrow"><i class="fa fa-file"></i><span>Reports</span></a>
+                    <ul>
+                        <li id="patientreport"><a href="@Url.Action("PatientReport", "Report")">Patient Report</a></li>
+                        <li id="opdreport"><a href="@Url.Action("OPDReport", "Report")">OPD Report</a></li>
+                        <li id="medicinereport"><a href="@Url.Action("MedicineReport", "Report")">Medicine Report</a></li>
+                        <li id="revenuetreport"><a href="@Url.Action("ShortRevenueReport", "Report")">Revenue Report</a></li>
+                    </ul>
+                </li>
+            }
+
+            @if (Model.RoleId != 2 && Model.RoleId != 1)
+            {
+                if (rights.Where(x => x.MenuId == 5 && x.IsView).Any())
+                {
+                    <li>
+                        <a href="#" id="patient" class="has-arrow"><i class="fa fa-fw fa-medkit"></i> <span>Purchase Medicine</span></a>
+                        <ul>
+                            @if (rights.Where(x => x.MenuId == 5 && x.IsView).Any())
+                            {
+                                <li id="listpurchasemedicine"><a href="@Url.Action("PurchaseMedicineIndex", "Medicine")">All Purchase Medicine</a></li>
+                            }
+                            @if (rights.Where(x => x.MenuId == 5 && x.IsCreate).Any())
+                            {
+                                <li id="newpurchasemedicine"><a href="@Url.Action("PurchaseNewMedicine", "Medicine")">Add Purchase Medicine</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+            }
+            else if (Model.RoleId == 2 && Model.RoleId != 1)
+            {
+                <li>
+                    <a href="#" id="patient" class="has-arrow"><i class="fa fa-fw fa-medkit"></i> <span>Purchase Medicine</span></a>
+                    <ul>
+                        <li id="listpurchasemedicine"><a href="@Url.Action("PurchaseMedicineIndex", "Medicine")">All Purchase Medicine</a></li>
+                        <li id="newpurchasemedicine"><a href="@Url.Action("PurchaseNewMedicine", "Medicine")">Add Purchase Medicine</a></li>
+                    </ul>
+                </li>
+            
+            }
+            @if (Model.RoleId == 1 || Model.RoleId == 2)
+            {
+                <li>
+                    <a href="@Url.Action("Tile", "Settings")"><i class="fa fa-gears"></i> <span>Settings</span></a>
+                </li>
+            }
+            else if ((Model.RoleId != 1 && Model.RoleId != 2)
+                && rights.Where(x => x.MenuId == 6 && x.IsView).Any()
+                || rights.Where(x => x.MenuId == 7 && x.IsView).Any()
+                || rights.Where(x => x.MenuId == 8 && x.IsView).Any()
+                || rights.Where(x => x.MenuId == 9 && x.IsView).Any()
+                || rights.Where(x => x.MenuId == 10 && x.IsView).Any()
+                || rights.Where(x => x.MenuId == 11 && x.IsView).Any()
+                || rights.Where(x => x.MenuId == 12 && x.IsView).Any())
+            {
+                <li>
+                    <a href="@Url.Action("Tile", "Settings")"><i class="fa fa-gears"></i> <span>Settings</span></a>
+                </li>
+            }
+
+        </ul>
+    </nav>
+</div>
+

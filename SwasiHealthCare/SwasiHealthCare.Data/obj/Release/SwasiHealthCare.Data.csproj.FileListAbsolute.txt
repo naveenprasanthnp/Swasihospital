@@ -1,0 +1,13 @@
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.Data\bin\Release\SwasiHealthCare.Data.dll.config
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.Data\bin\Release\SwasiHealthCare.Data.dll
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.Data\bin\Release\SwasiHealthCare.Data.pdb
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.Data\bin\Release\Data.EF.Core.dll
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.Data\bin\Release\EntityFramework.dll
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.Data\bin\Release\EntityFramework.SqlServer.dll
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.Data\bin\Release\EntityFramework.xml
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.Data\bin\Release\EntityFramework.SqlServer.xml
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.Data\obj\Release\SwasiHealthCare.Data.csprojAssemblyReference.cache
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.Data\obj\Release\SwasiHealthCare.Data.csproj.CoreCompileInputs.cache
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.Data\obj\Release\SwasiHealthCare.Data.csproj.CopyComplete
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.Data\obj\Release\SwasiHealthCare.Data.dll
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.Data\obj\Release\SwasiHealthCare.Data.pdb

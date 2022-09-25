@@ -1,0 +1,98 @@
+﻿@model SwasiHealthCare.Model.PurchaseMedicineModel
+@{
+    ViewBag.Title = "New Medicine";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    var medicinelist = new SelectList(ViewBag.medicinelist, "MedicineId", "MedicineName");
+}
+<html>
+<head>
+</head>
+<body>
+    <div class="card w-100 shadow-sm border-0">
+        <div class="card-body p-3">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="" id="nav-newmedicine" role="tabpanel" aria-labelledby="nav-orginal-tab" style="overflow-y: auto;">
+                            <div class="card-body">
+                                <div class="form-row">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        @Html.Label("PurchaseDate", "Purchase Date")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.PurchaseDate, new { @class = "form-control input-default borderclr", data_provide = "datepicker", data_date_autoclose = "true", id = "txtpurchsedate" })
+                                        @Html.ValidationMessageFor(model => model.PurchaseDate, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        @Html.Label("Medicine", "Medicine Name")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.DropDownListFor(model => model.MedicineId, medicinelist, "--Select Medicine--", new { @class = "form-control input-default borderclr", id = "txtmedicine" })
+                                        @Html.ValidationMessageFor(model => model.MedicineId, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        @Html.Label("MedicineExpiryDate", "Expiry Date")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.MedicineExpiryDate, new { @class = "form-control input-default borderclr", data_provide = "datepicker", data_date_autoclose = "true", id = "txtmedicineexpirydate" })
+                                        @Html.ValidationMessageFor(model => model.MedicineExpiryDate, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-rupee" aria-hidden="true"></i>
+                                        @Html.Label("MedicineCurrentStock", "Medicine Current Stack")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.MedicineCurrentStock, new { @class = "form-control input-default borderclr", Maxlength = 15, id = "txtmedicinecurrentstock", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(model => model.MedicineCurrentStock, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-rupee" aria-hidden="true"></i>
+                                        @Html.Label("MedicinePurchaseQuanity", "Medicine Purchase Quanity")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.MedicinePurchaseQuanity, new { @class = "form-control input-default borderclr", Maxlength = 7, id = "txtmedicinepurchasequanity", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(model => model.MedicinePurchaseQuanity, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-rupee" aria-hidden="true"></i>
+                                        @Html.Label("MedicineManufacturer", "Medicine Manufacturer")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.MedicineManufacturer, new { @class = "form-control input-default borderclr", Maxlength = 15, id = "txtmedicinemanufacturer", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(model => model.MedicineManufacturer, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-laptop" aria-hidden="true"></i>
+                                        @Html.Label("PurchaseCost", "Purchase Cost")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.PurchaseCost, new { @class = "form-control input-default borderclr", Maxlength = 10, id = "txtpurchasecost", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(model => model.PurchaseCost, "", new { @class = "text-danger" })
+                                    </div>
+                                    <input hidden type="text" class="form-control input-default borderclr" id="hiddencostamt" />
+                                    <input hidden type="text" class="form-control input-default borderclr" id="hiddencurrentstock" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row mt-1" style="padding-left: 1.25rem;">
+                        <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                            <a href="@Url.Action("PurchaseMedicineIndex","Medicine")" class="btn btn-sm btn-outline-danger borderradius">Back</a>
+                            <button type="submit" id="btnPurchaseMedicineSave" class="btn btn-sm btn-outline-primary borderradius">Submit</button>
+                            <button type="reset" class="btn btn-sm btn-outline-secondary borderradius">Clear</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>
+@section scripts {
+    <script src="~/Scripts/Medicine/PurchaseMedicine.js"></script>
+    <script src="~/Theme/Html/assets/vendor/dropify/js/dropify.min.js"></script>
+    <script src="~/Theme/Html/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#txtmedicinepurchasequanity').keypress(function (e) {
+                var verified = (e.which == 8 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[^0-9]/);
+                if (verified) { e.preventDefault(); }
+            });
+            $("#txtmedicineexpirydate").val('');
+            $("#page_name").text("New Purchase Medicine,");
+        });
+    </script>
+}
+

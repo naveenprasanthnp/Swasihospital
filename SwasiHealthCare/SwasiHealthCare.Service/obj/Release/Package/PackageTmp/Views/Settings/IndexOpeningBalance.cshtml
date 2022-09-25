@@ -1,0 +1,334 @@
+﻿@model SwasiHealthCare.Model.TmtMedOBModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    List<SwasiHealthCare.Data.Entities.AccessRights> rights =
+  (List<SwasiHealthCare.Data.Entities.AccessRights>)Session["AccessRights"];
+    var roleid = Convert.ToInt64(Session["RoleId"]);
+}
+<div class="row clearfix">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="body">
+                <form>
+                    <div class="input-group" style="width:860px">
+                        <input type="text" class="form-control" id="searchplan" placeholder="Search here...">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="search-mail"><i class="icon-magnifier"></i></span>
+                        </div>
+                        @*@if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 12 && x.IsCreate).Any())
+                        {*@
+                        <div id="z_button" tabindex="0">
+                            <div id="z_plus11"><a href="@Url.Action("Receipt", "Settings")"><span style="color:#ffffff" title="Receipt">+</span></a></div>
+                        </div>
+                        @*}
+                        else if (roleid == 2 || roleid == 1)
+                        {
+                            <div id="z_button" tabindex="0">
+                                <div id="z_plus"><a href="@Url.Action("OpeningBalance", "Settings")"><span style="color:#ffffff">+</span></a></div>
+                            </div>
+                        }*@
+                        <div id="z_button11" tabindex="0">
+                            <div id="z_plus"><a href="@Url.Action("OpeningBalance", "Settings")"><span style="color:#ffffff" title="Opening Balance">+</span></a></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Service Opening Balance</a>
+                <a class="nav-item nav-link" id="nav-home1-tab" data-toggle="tab" href="#nav-home1" role="tab" aria-controls="nav-home1" aria-selected="false">Service Receipt</a>
+                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Medicine Opening Balance</a>
+                <a class="nav-item nav-link" id="nav-profile1-tab" data-toggle="tab" href="#nav-profile1" role="tab" aria-controls="nav-profile1" aria-selected="false">Medicine Receipt</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="table-responsive" id="tmtob_list">
+                    <table class="table table-hover table-custom spacing5">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                @if (roleid == 1)
+                                {
+                                    <th>Hospital</th>
+                                }
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                var index = 1;
+                                foreach (var item in Model.TreatmentOpeningBalanceModels)
+                                {
+                            <tr>
+                                <td>@index</td>
+                                @if (roleid == 1)
+                                {
+                                    <td>@item.HospitalId</td>
+                                }
+                                <td>@item.Date.ToString("MM/dd/yyyy")</td>
+                                <td>@item.Amount</td>
+                                <td>
+                                @*@if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 12 && x.IsEdit).Any())
+                                {*@
+                                    <button onclick="location.href='@Url.Action("EditOpeningBalance", "Settings",new {OpeningBalanceId=item.OpeningBalanceId })'" ; type="button" style="color:#0094ff; cursor:pointer" ; class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i></button>
+                                @*}
+                                else if (roleid == 2 || roleid == 1)
+                                {
+                                    <button onclick="location.href='@Url.Action("EditPlan", "Settings",new {PlanId=item.PlanId })'" ; type="button" style="color:#0094ff; cursor:pointer" ; class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i></button>
+                                }*@
+                                     @*@if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 12 && x.IsDelete).Any())
+                                {*@
+                                 <button type="button" style="color: #3e062d; cursor:pointer" ; class="btn btn-default btn-sm" title="Delete" onclick="RemoveOpeningBalance(@item.OpeningBalanceId)" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-trash-o"></i></button>
+                                 @*}
+                                else if (roleid == 2 || roleid == 1)
+                                {
+                                    <button type="button" style="color: #3e062d; cursor:pointer" ; class="btn btn-default btn-sm" title="Delete" onclick="RemovePlan(@item.PlanId)" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-trash-o"></i></button>
+                                }*@
+                                    </td>
+                                </tr>
+                                    index++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <div class="table-responsive" id="medob_list">
+                    <table class="table table-hover table-custom spacing5">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                @if (roleid == 1)
+                                {
+                                    <th>Hospital</th>
+                                }
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @{
+                                var index1 = 1;
+                                foreach (var item in Model.MedicineOpeningBalanceModels)
+                                {
+                            <tr>
+                                <td>@index1</td>
+                                @if (roleid == 1)
+                                {
+                                    <td>@item.HospitalId</td>
+                                }
+                                    <td>@item.Date.ToString("MM/dd/yyyy")</td>
+                                    <td>@item.Amount</td>
+                                    <td>
+                                        @*@if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 12 && x.IsEdit).Any())
+                                        {*@
+                                        <button onclick="location.href='@Url.Action("EditOpeningBalance", "Settings",new {OpeningBalanceId=item.OpeningBalanceId })'" ; type="button" style="color:#0094ff; cursor:pointer" ; class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i></button>
+                                        @*}
+                                        else if (roleid == 2 || roleid == 1)
+                                        {
+                                            <button onclick="location.href='@Url.Action("EditPlan", "Settings",new {PlanId=item.PlanId })'" ; type="button" style="color:#0094ff; cursor:pointer" ; class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i></button>
+                                        }*@
+                                        @*@if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 12 && x.IsDelete).Any())
+                                        {*@
+                                        <button type="button" style="color: #3e062d; cursor:pointer" ; class="btn btn-default btn-sm" title="Delete" onclick="RemoveOpeningBalance1(@item.OpeningBalanceId)" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-trash-o"></i></button>
+                                        @*}
+                                        else if (roleid == 2 || roleid == 1)
+                                        {
+                                            <button type="button" style="color: #3e062d; cursor:pointer" ; class="btn btn-default btn-sm" title="Delete" onclick="RemovePlan(@item.PlanId)" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-trash-o"></i></button>
+                                        }*@
+                                    </td>
+                                </tr>
+                                    index1++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-home1" role="tabpanel" aria-labelledby="nav-home1-tab">
+                <div class="table-responsive" id="tmtob_list">
+                    <table class="table table-hover table-custom spacing5">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                @if (roleid == 1)
+                                {
+                                 <th>Hospital</th>
+                                }
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @{
+                                var index2 = 1;
+                                foreach (var item in Model.TreatmentReceiptModels)
+                                {
+                            <tr>
+                                <td>@index2</td>
+                                @if (roleid == 1)
+                                {
+                                    <td>@item.ReceiptHospitalId</td>
+                                }
+                                    <td>@item.ReceiptDate.ToString("MM/dd/yyyy")</td>
+                                    <td>@item.ReceiptAmount</td>
+                                    <td>
+                                        @*@if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 12 && x.IsEdit).Any())
+                                         {*@
+                                        <button onclick="location.href='@Url.Action("EditOpeningBalance", "Settings",new {TreatmentReceiptId=item.TreatmentReceiptId })'" ; type="button" style="color:#0094ff; cursor:pointer" ; class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i></button>
+                                        @*}
+                                        else if (roleid == 2 || roleid == 1)
+                                        {
+                                            <button onclick="location.href='@Url.Action("EditPlan", "Settings",new {PlanId=item.PlanId })'" ; type="button" style="color:#0094ff; cursor:pointer" ; class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i></button>
+                                        }*@
+                                        @*@if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 12 && x.IsDelete).Any())
+                                        {*@
+                                        <button type="button" style="color: #3e062d; cursor:pointer" ; class="btn btn-default btn-sm" title="Delete" onclick="RemoveReceipt(@item.TreatmentReceiptId)" data-toggle="modal" data-target="#exampleModalCenter1"><i class="fa fa-trash-o"></i></button>
+                                        @*}
+                                        else if (roleid == 2 || roleid == 1)
+                                        {
+                                            <button type="button" style="color: #3e062d; cursor:pointer" ; class="btn btn-default btn-sm" title="Delete" onclick="RemovePlan(@item.PlanId)" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-trash-o"></i></button>
+                                        }*@
+                                    </td>
+                                </tr>
+                                    index2++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-profile1" role="tabpanel" aria-labelledby="nav-profile1-tab">
+                <div class="table-responsive" id="medob_list">
+                    <table class="table table-hover table-custom spacing5">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                @if (roleid == 1)
+                                {
+                                    <th>Hospital</th>
+                                }
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @{
+                                var index3 = 1;
+                                foreach (var item in Model.MedicineReceiptModels)
+                                {
+                            <tr>
+                                <td>@index3</td>
+                                @if (roleid == 1)
+                                {
+                                    <td>@item.ReceiptHospitalId</td>
+                                }
+                                    <td>@item.ReceiptDate.ToString("MM/dd/yyyy")</td>
+                                    <td>@item.ReceiptAmount</td>
+                                    <td>
+                                        @*@if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 12 && x.IsEdit).Any())
+                                        {*@
+                                        <button onclick="location.href='@Url.Action("EditOpeningBalance", "Settings",new {OpeningBalanceId=item.MedicineReceiptId })'" ; type="button" style="color:#0094ff; cursor:pointer" ; class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i></button>
+                                        @*}
+                                        else if (roleid == 2 || roleid == 1)
+                                        {
+                                            <button onclick="location.href='@Url.Action("EditPlan", "Settings",new {PlanId=item.PlanId })'" ; type="button" style="color:#0094ff; cursor:pointer" ; class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i></button>
+                                        }*@
+                                        @*@if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 12 && x.IsDelete).Any())
+                                        {*@
+                                        <button type="button" style="color: #3e062d; cursor:pointer" ; class="btn btn-default btn-sm" title="Delete" onclick="RemoveReceipt1(@item.MedicineReceiptId)" data-toggle="modal" data-target="#exampleModalCenter1"><i class="fa fa-trash-o"></i></button>
+                                        @*}
+                                        else if (roleid == 2 || roleid == 1)
+                                        {
+                                            <button type="button" style="color: #3e062d; cursor:pointer" ; class="btn btn-default btn-sm" title="Delete" onclick="RemovePlan(@item.PlanId)" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-trash-o"></i></button>
+                                        }*@
+                                    </td>
+                                </tr>
+                                    index3++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius: 9px;">
+            <div class="modal-header">
+                <div><h6 class="modal-title" id="exampleModalCenterob"></h6>Remove Opening Balance</div>
+            </div>
+            <div class="modal-body">
+                <div id="confirmmsg">Are you sure want to delete this OB?</div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-outline-primary borderradius" id="ActionDelete" onclick="DeleteOpeningBalance()">Save changes</a>
+                <a href="@Url.Action("IndexOpeningBalance", "Settings")" class="btn btn-outline-secondary borderradius">Close</a>
+                <input type="hidden" id="hiddenobid" />
+                <input type="hidden" id="ismed" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius: 9px;">
+            <div class="modal-header">
+                <div><h6 class="modal-title" id="exampleModalCenterob"></h6>Remove Receipt</div>
+            </div>
+            <div class="modal-body">
+                <div id="confirmmsg">Are you sure want to delete this Receipt?</div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-outline-primary borderradius" id="ActionDelete" onclick="DeleteReceipt()">Save changes</a>
+                <a href="@Url.Action("IndexOpeningBalance", "Settings")" class="btn btn-outline-secondary borderradius">Close</a>
+                <input type="hidden" id="hiddenreceiptid" />
+                <input type="hidden" id="ismed1" />
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/Medicine/Expense.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#page_name").text("Opening Balance Details,");
+
+            $("#searchplan").on("keyup", function () {
+                var value = $(this).val();
+                $("table tr").each(function (index) {
+                    debugger;
+                    if (index != 0) {
+
+                        $row = $(this);
+                        var id = $row.find("td:eq(1)").text();
+
+                        if (id.indexOf(value) != 0) {
+                            $(this).hide();
+                        }
+                        else {
+                            $(this).show();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+

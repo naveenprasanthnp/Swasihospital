@@ -1,0 +1,64 @@
+﻿@model List<SwasiHealthCare.Model.OPDConsoltationModel>
+@{
+    List<SwasiHealthCare.Data.Entities.AccessRights> rights =
+        (List<SwasiHealthCare.Data.Entities.AccessRights>)Session["AccessRights"];
+}
+@*<div class="body">
+    <ul class="list-group list-group-flush" id="myMenu">
+        @foreach (var item in Model)
+        {
+            <li class="list-group-item p-l-0 p-r-0">
+                <h6><a href="#">Patient Name : @item.PatientName</a><a style="color:darkmagenta" href="#"> Patient ID : @item.PatientIDNumber</a></h6>
+                <p class="text-muted">Patient Mobile : @item.MobileNo  Doctor Name : @item.DoctorName</p>
+                <div class="text-muted font-13">
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><span class="badge badge-success margin-0">Consultation Date</span></li>
+                        <li class="list-inline-item">@item.ConsultationDate.ToString("dd/MM/yyyy")</li>
+                    </ul>
+                </div>
+            </li>
+        }
+    </ul>
+</div>*@  
+
+    <table class="body table">
+        <thread>
+            <tr>
+                <th>
+                    Patient Name
+                </th>
+                <th>
+                    Patient ID Number
+                </th>
+                <th>
+                    Mobile No
+                </th>
+                <th>
+                    Doctor Name
+                </th>
+                <th>
+                    Consultation Date
+                </th>
+            </tr>
+        </thread>
+        <tbody id="table">
+           
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.PatientName</td>
+                <td>@item.PatientIDNumber</td>
+                <td>@item.MobileNo</td>
+                <td>@item.DoctorName</td>
+                <td>@item.ConsultationDate.ToString("dd/MM/yyyy")</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+   
+    @section scripts {
+        <script>
+
+        </script>
+    }
+

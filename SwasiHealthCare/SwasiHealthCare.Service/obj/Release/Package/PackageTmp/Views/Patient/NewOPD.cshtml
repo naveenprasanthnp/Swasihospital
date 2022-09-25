@@ -1,0 +1,812 @@
+﻿
+@model SwasiHealthCare.Model.OPDConsoltationModel
+@{
+    ViewBag.Title = "New OPD";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    var doctorlist = new SelectList(ViewBag.doctorlist, "UserId", "FullName");
+    var therapistlist = new SelectList(ViewBag.therapistlist, "UserId", "FullName");
+    var patientlist = new SelectList(ViewBag.patientlist, "PatientIdNumber", "PatientIdNumber");
+    var treatmentlist = new SelectList(ViewBag.treatmentlist, "TreatmentId", "TreatmentName");
+    var druglist = new SelectList(ViewBag.druglist, "MedicineId", "MedicineName");
+    List<SwasiHealthCare.Data.Entities.AccessRights> rights =
+    (List<SwasiHealthCare.Data.Entities.AccessRights>)Session["AccessRights"];
+    var roleid = Convert.ToInt64(Session["RoleId"]);
+    var patientpackagelist = new SelectList(ViewBag.patientpackagelist, "PatientPlanSubscriptionId", "PlanName");
+}
+<html>
+<head>
+    <link rel="stylesheet" href="~/Theme/Html/assets/vendor/dropify/css/dropify.min.css">
+    <link rel="stylesheet" href="~/Theme/Html/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+</head>
+<body>
+    <div class="row clearfix">
+        <div class="col-12">
+            <ul class="nav nav-tabs3 page-header-tab">
+                <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#Consultation" id="t_11">OPD Consultation</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Services" id="t_22">OPD Services</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Prescription" id="t_33">OPD Prescription</a></li>
+            </ul>
+             <div id="z_button1">
+                <div id="z_plusdownload"><a href="@Url.Action("PrintOPD", "Patient", new { opdconsutationid = Model.OPDConsultationId})"><span style="color:#ffffff"><i class="fa fa-download" onclick="totalpatientamount();"></i></span></a></div>
+            </div>
+             <div class="tab-content">
+                 <div class="form-row mt-1" style="padding-left: 1.25rem;">
+                     <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                         <button type="submit" id="btnUpdateAmt" class="btn btn-sm btn-outline-primary borderradius">Update Amount</button>
+                     </div>
+                 </div>
+                 @Html.AntiForgeryToken()
+                 <div class="tab-pane active show" id="Consultation">
+                     <div class="card">
+                         <div class="body">
+                             <div>
+                                 <div class="tab-content" id="nav-tabContent">
+                                     <div class="" id="nav-newuser" role="tabpanel" aria-labelledby="nav-orginal-tab" style="overflow-y: auto;">
+                                         <div class="card-body">
+                                             <div class="form-row">
+                                                 @Html.HiddenFor(model => model.IDNumber)
+                                                 @Html.HiddenFor(model => model.PatientId)
+                                                 @Html.HiddenFor(model => model.OPDConsultationId)
+                                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12 patname">
+                                                     <i class="fa fa-user" aria-hidden="true"></i>
+                                                     @Html.Label("PatientIDNumber", "MR No")<span style="padding-left:2px;color:red">*</span>
+                                                     @Html.DropDownListFor(model => model.PatientIDNumber, patientlist, "--Select ID--", new { @class = "form-control input-default borderclr", Maxlength = 30, id = "txtpatientidnumber" })
+                                                     @Html.ValidationMessageFor(model => model.PatientIDNumber, "", new { @class = "text-danger" })
+                                                 </div>
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12 patpack">
+                                                     <i class="fa fa-transgender" aria-hidden="true"></i>
+                                                     @Html.Label("Package", "Package")<span style="padding-left:2px;color:red">*</span>
+                                                     @Html.DropDownListFor(model => model.TreatmentPaymentMode, new SelectListItem[]
+                                                     {
+                                                    new SelectListItem() {Text = "--Select Package Type--"},
+                                                     new SelectListItem() {Text = "Yes",Value="1"},
+                                                     new SelectListItem() {Text = "No ",Value="2"}
+                                                     }, new { @class = "form-control input-default dropdown-toggle borderclr", id = "txtpackagetype" })
+                                                 </div>
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                     <i class="fa fa-user" aria-hidden="true"></i>
+                                                     @Html.Label("ConsultationIDNumber", "Consultation ID Number")<span style="padding-left:2px;color:red">*</span>
+                                                     @Html.TextBoxFor(model => model.ConsultationIDNumber, new { @class = "form-control input-default borderclr", id = "txtconsultationidnumber", @readonly = "readonly" })
+                                                     @Html.ValidationMessageFor(model => model.ConsultationIDNumber, "", new { @class = "text-danger" })
+                                                 </div>
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                     <i class="fa fa-user" aria-hidden="true"></i>
+                                                     @Html.Label("ConsultationDate", "Consultation Date")<span style="padding-left:2px;color:red">*</span>
+                                                     @Html.TextBoxFor(model => model.ConsultationDate, new { @class = "form-control input-default borderclr", data_provide = "datepicker", data_date_autoclose = "true", id = "txtconsoltationdate" })
+                                                     @Html.ValidationMessageFor(model => model.ConsultationDate, "", new { @class = "text-danger" })
+                                                 </div>
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12 docname">
+                                                     <i class="fa fa-user" aria-hidden="true"></i>
+                                                     @Html.Label("DoctorName", "Doctor Name")<span style="padding-left:2px;color:red">*</span>
+                                                     @Html.DropDownListFor(model => model.DoctorName, doctorlist, "--Select Doctor--", new { @class = "form-control input-default borderclr", Maxlength = 30, id = "txtdoctorname" })
+                                                     @Html.ValidationMessageFor(model => model.DoctorName, "", new { @class = "text-danger" })
+                                                 </div>
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                     <i class="fa fa-user" aria-hidden="true"></i>
+                                                     @Html.Label("PatientName", "Patient Name")<span style="padding-left:2px;color:red">*</span>
+                                                     @Html.TextBoxFor(model => model.PatientName, new { @class = "form-control input-default borderclr", id = "txtpatientname", @readonly = "readonly" })
+                                                     @Html.ValidationMessageFor(model => model.PatientName, "", new { @class = "text-danger" })
+                                                 </div>
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                     <i class="fa fa-transgender" aria-hidden="true"></i>
+                                                     @Html.Label("Gender", "Gender")<span style="padding-left:2px;color:red">*</span>
+                                                     @Html.DropDownListFor(model => model.PatientGender, new SelectListItem[]
+                                                     {
+                                                     new SelectListItem() {Text = "--Select Gender--"},
+                                                     new SelectListItem() {Text = "Male",Value="M"},
+                                                     new SelectListItem() {Text = "Female",Value="F"},
+                                                     new SelectListItem() {Text = "Others",Value="O"}
+                                                      }, new { @class = "form-control input-default dropdown-toggle borderclr", id = "txtpatientgender", @readonly = "readonly" })
+                                                 </div>
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                     <i class="fa fa-sort-numeric-asc" aria-hidden="true"></i>
+                                                     @Html.Label("Age", "Age")
+                                                     @Html.TextBoxFor(model => model.PatientAge, new { @class = "form-control input-default borderclr", Maxlength = 3, id = "txtpatientage", @readonly = "readonly" })
+                                                     @Html.ValidationMessageFor(model => model.PatientAge, "", new { @class = "text-danger" })
+                                                 </div>
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12 file-uploadImg ">
+                                                     <i class="fa fa-mobile" aria-hidden="true"></i>
+                                                     @Html.Label("MobileNumber", "Mobile Number")<span style="padding-left:2px;color:red">*</span>
+                                                     @Html.TextBoxFor(model => model.MobileNo, new { @class = "form-control input-default borderclr", Maxlength = 10, id = "txtpatientmobilenumber", autocomplete = "off", @readonly = "readonly" })
+                                                     @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })
+                                                 </div>
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12 file-uploadImg ">
+                                                     <i class="fa fa-mobile" aria-hidden="true"></i>
+                                                     @Html.Label("PatientHeight", "Height")
+                                                     @Html.TextBoxFor(model => model.PatientHeight, new { @class = "form-control input-default borderclr", Maxlength = 6, id = "txtpatientheight", autocomplete = "off" })
+                                                     @Html.ValidationMessageFor(model => model.PatientHeight, "", new { @class = "text-danger" })
+                                                 </div>
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12 file-uploadImg ">
+                                                     <i class="fa fa-mobile" aria-hidden="true"></i>
+                                                     @Html.Label("PatientWeight", "Weight")
+                                                     @Html.TextBoxFor(model => model.PatientWeight, new { @class = "form-control input-default borderclr", Maxlength = 6, id = "txtpatientweight", autocomplete = "off" })
+                                                     @Html.ValidationMessageFor(model => model.PatientWeight, "", new { @class = "text-danger" })
+                                                 </div>
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12 file-uploadImg ">
+                                                     <i class="fa fa-mobile" aria-hidden="true"></i>
+                                                     @Html.Label("PatientTemp", "Temp")
+                                                     @Html.TextBoxFor(model => model.PatientTemp, new { @class = "form-control input-default borderclr", Maxlength = 5, id = "txtpatienttemp", autocomplete = "off" })
+                                                     @Html.ValidationMessageFor(model => model.PatientTemp, "", new { @class = "text-danger" })
+                                                 </div>
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12 file-uploadImg ">
+                                                     <i class="fa fa-mobile" aria-hidden="true"></i>
+                                                     @Html.Label("PatientBP", "BP")
+                                                     @Html.TextBoxFor(model => model.PatientBP, new { @class = "form-control input-default borderclr", Maxlength = 5, id = "txtpatientbp", autocomplete = "off" })
+                                                     @Html.ValidationMessageFor(model => model.PatientBP, "", new { @class = "text-danger" })
+                                                 </div>
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12 file-uploadImg ">
+                                                     <i class="fa fa-mobile" aria-hidden="true"></i>
+                                                     @Html.Label("PatientPulse", "Pulse")
+                                                     @Html.TextBoxFor(model => model.PatientPulse, new { @class = "form-control input-default borderclr", Maxlength = 5, id = "txtpatientpulse", autocomplete = "off" })
+                                                     @Html.ValidationMessageFor(model => model.PatientPulse, "", new { @class = "text-danger" })
+                                                 </div>
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12 file-uploadImg ">
+                                                     <i class="fa fa-mobile" aria-hidden="true"></i>
+                                                     @Html.Label("PatientSpO2", "SpO2")
+                                                     @Html.TextBoxFor(model => model.PatientSpO2, new { @class = "form-control input-default borderclr", Maxlength = 5, id = "txtpatientspo2", autocomplete = "off" })
+                                                     @Html.ValidationMessageFor(model => model.PatientSpO2, "", new { @class = "text-danger" })
+                                                 </div>
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12 file-uploadImg ">
+                                                     <i class="fa fa-mobile" aria-hidden="true"></i>
+                                                     @Html.Label("PatientLMP", "LMP")
+                                                     @Html.TextBoxFor(model => model.PatientLMP, new { @class = "form-control input-default borderclr", Maxlength = 5, id = "txtpatientlmp", autocomplete = "off" })
+                                                     @Html.ValidationMessageFor(model => model.PatientLMP, "", new { @class = "text-danger" })
+                                                 </div>
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                     <i class="fa fa-transgender" aria-hidden="true"></i>
+                                                     @Html.Label("VisitType", "Visit Type")<span style="padding-left:2px;color:red">*</span>
+                                                     @Html.DropDownListFor(model => model.PatientVisitType, new SelectListItem[]
+                                                       {
+                                                     new SelectListItem() {Text = "--Select Visit Type--"},
+                                                     new SelectListItem() {Text = "Daily",Value="Daily"},
+                                                     new SelectListItem() {Text = "Weekly",Value="Weekly"},
+                                                      new SelectListItem() {Text = "Weekly twice",Value="Weekly twice"},
+                                                     new SelectListItem() {Text = "Monthly",Value="Monthly"},
+                                                     new SelectListItem() {Text = "Monthly twice",Value="Monthly twice"},
+                                                     new SelectListItem() {Text = "Once in a 3 month",Value="Once in a 3 month"},
+                                                     new SelectListItem() {Text = "Once in a 6 months",Value="Once in a 6 months"},
+                                                      new SelectListItem() {Text = "Once in a year",Value="Once in a year"}
+                                                     }, new { @class = "form-control input-default dropdown-toggle borderclr", id = "txtvisittype" })
+                                                 </div>
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12 file-uploadImg ">
+                                                     <i class="fa fa-mobile" aria-hidden="true"></i>
+                                                     @Html.Label("TreatmentTotalServicesCharges", "Total Services Charges")<span style="padding-left:2px;color:red">*</span>
+                                                     @Html.TextBoxFor(model => model.TreatmentTotalServicesCharges, new { @class = "form-control input-default borderclr", Maxlength = 5, id = "txttreatmenttotalservicescharges", autocomplete = "off", @readonly = "readonly" })
+                                                     @Html.ValidationMessageFor(model => model.TreatmentTotalServicesCharges, "", new { @class = "text-danger" })
+                                                 </div>
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12 file-uploadImg ">
+                                                     <i class="fa fa-mobile" aria-hidden="true"></i>
+                                                     @Html.Label("TreatmentSplDiscount", "Special Discount")
+                                                     @Html.TextBoxFor(model => model.TreatmentSplDiscount, new { @class = "form-control input-default borderclr", Maxlength = 5, id = "txtspldiscount", autocomplete = "off" })
+                                                     @Html.ValidationMessageFor(model => model.TreatmentSplDiscount, "", new { @class = "text-danger" })
+                                                 </div>
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12 file-uploadImg ">
+                                                     <i class="fa fa-mobile" aria-hidden="true"></i>
+                                                     @Html.Label("TreatmentNetCharges", "Net Charges")
+                                                     @Html.TextBoxFor(model => model.NetCharges, new { @class = "form-control input-default borderclr", Maxlength = 5, id = "txtnetcharges", autocomplete = "off" })
+                                                     @Html.ValidationMessageFor(model => model.NetCharges, "", new { @class = "text-danger" })
+                                                 </div>
+                                                 @*<div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                            <i class="fa fa-user" aria-hidden="true"></i>
+                                            @Html.Label("Plan", "Package")
+                                            @Html.DropDownListFor(model => model.PlanId, planlist, "--Select Package--", new { @class = "form-control input-default borderclr", Maxlength = 30, id = "txtplanid" })
+                                            @Html.ValidationMessageFor(model => model.PlanId, "", new { @class = "text-danger" })
+                                        </div>*@
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                                     <i class="fa fa-transgender" aria-hidden="true"></i>
+                                                     @Html.Label("TreatmentPaymentMode", "Payment Mode")<span style="padding-left:2px;color:red">*</span>
+                                                     @Html.DropDownListFor(model => model.TreatmentPaymentMode, new SelectListItem[]
+                                                     {
+                                                        new SelectListItem() {Text = "--Select Payment Mode--"},
+                                                         new SelectListItem() {Text = "Cash",Value="Cash"},
+                                                         new SelectListItem() {Text = "Cheque ",Value="cheque "},
+                                                         new SelectListItem() {Text = "UPI",Value="UPI"}
+                                                         }, new { @class = "form-control input-default dropdown-toggle borderclr", id = "txttreatmentpaymentmode" })
+                                                 </div>
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12 file-uploadImg ">
+                                                     <i class="fa fa-mobile" aria-hidden="true"></i>
+                                                     @Html.Label("DoctorsNote", "Doctors Note")<span style="padding-left:2px;color:red">*</span>
+                                                     @Html.TextAreaFor(model => model.DoctorsNote, new { @class = "form-control input-default borderclr", Maxlength = 255, id = "txtdoctornotes", autocomplete = "off" })
+                                                     @Html.ValidationMessageFor(model => model.DoctorsNote, "", new { @class = "text-danger" })
+                                                 </div>
+                                                 <div class="form-group col-lg-3 col-md-6 col-sm-12 file-uploadImg ">
+                                                     <i class="fa fa-mobile" aria-hidden="true"></i>
+                                                     @Html.Label("PatientNatureOfIllness", "Nature of Illness")<span style="padding-left:2px;color:red">*</span>
+                                                     @Html.TextAreaFor(model => model.NatureOfIllness, new { @class = "form-control input-default borderclr", Maxlength = 255, id = "txtpatientnatureofillness", autocomplete = "off" })
+                                                     @Html.ValidationMessageFor(model => model.NatureOfIllness, "", new { @class = "text-danger" })
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="form-row mt-1" style="padding-left: 1.25rem;">
+                                     <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                         <a href="@Url.Action("OPDIndex", "Patient")" class="btn btn-sm btn-outline-danger borderradius">Back</a>
+                                         <button type="submit" id="btnopdconsoltationsave" class="btn btn-sm btn-outline-primary borderradius">Save</button>
+                                         <button type="reset" class="btn btn-sm btn-outline-info borderradius">Clear</button>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="tab-pane" id="Services">
+                     <div class="card-body">
+                         <div class="body">
+                             <div class="col-sm-12">
+                                 <div class="card">
+                                     <div class="body">
+                                         <form>
+                                             <div class="input-group" style="width:900px">
+                                                 <input type="text" class="form-control" placeholder="Search here...">
+                                                 <div class="input-group-append">
+                                                     <span class="input-group-text" id="search-mail"><i class="icon-magnifier"></i></span>
+                                                 </div>
+                                                 @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 2 && x.IsCreate).Any())
+                                                 {
+                                                     <div id="z_button" tabindex="0">
+                                                         <div id="z_plus"><a data-toggle="modal" onclick="clrservice()" data-target="#exampleModalCenter"><span style="color:#ffffff">+</span></a></div>
+                                                     </div>
+                                                 }
+                                                 else if (roleid == 2)
+                                                 {
+                                                     <div id="z_button" tabindex="0">
+                                                         <div id="z_plus"><a data-toggle="modal" onclick="clrservice()" data-target="#exampleModalCenter"><span style="color:#ffffff">+</span></a></div>
+                                                     </div>
+                                                 }
+                                                 @*<div id="z_button1">
+                                            <div id="z_plusdownload"><a><span style="color:#ffffff"><i class="fa fa-download"></i></span></a></div>
+                                        </div>*@
+                                             </div>
+                                         </form>
+                                     </div>
+                                 </div>
+                                 <div class="table-responsive">
+                                     <table class="table table-hover table-custom spacing5" id="gird_tble">
+                                         <thead>
+                                             <tr>
+                                                 <th>#</th>
+                                                 <th>Service Name</th>
+                                                 @*<th>Count</th>*@
+                                                 <th>Service Charge</th>
+                                                 <th>Remarks</th>
+                                                 @if ((roleid == 4 || roleid == 3) && (rights.Where(x => x.MenuId == 2 && x.IsEdit).Any() ||
+                                                     rights.Where(x => x.MenuId == 2 && x.IsDelete).Any()))
+                                                 {
+                                                     <th>Action</th>
+                                                 }
+                                                 else if (roleid == 2)
+                                                 {
+                                                     <th>Action</th>
+                                                 }
+                                             </tr>
+                                         </thead>
+                                         <tbody>
+                                             @{
+                                                 if (Model.opdserviceslist != null)
+                                                 {
+                                                     var index = 1;
+                                                     foreach (var item in Model.opdserviceslist)
+                                                     {
+                                                         <tr>
+                                                             <td>@index</td>
+                                                             <td>@item.ServiceName</td>
+                                                             @*<td>@item.Count</td>*@
+                                                             <td>@item.ServiceCharge</td>
+                                                             <td>@item.Remarks</td>
+                                                             <td>
+                                                                 @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 2 && x.IsDelete).Any())
+                                                                 {
+                                                                     <button type="button" style="color: #3e062d; cursor:pointer" ; class="btn btn-default btn-sm" title="Delete" onclick="RemoveOpdService(@item.OPDServicesId)" data-toggle="modal" data-target="#exampleModalCenterSubPopup"><i class="fa fa-trash-o"></i></button>
+                                                                 }
+                                                                 else if (roleid == 2)
+
+                                                                 {
+                                                                     <button type="button" style="color: #3e062d; cursor:pointer" ; class="btn btn-default btn-sm" title="Delete" onclick="RemoveOpdService(@item.OPDServicesId)" data-toggle="modal" data-target="#exampleModalCenterSubPopup"><i class="fa fa-trash-o"></i></button>
+                                                                 }
+                                                                 @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 2 && x.IsEdit).Any())
+                                                                 {
+                                                                     <button type="button" data-toggle="modal" data-target="#exampleModalCenter" onclick="EditOpdService(@item.OPDServicesId)" style="color:#0094ff;  cursor:pointer" ; class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i></button>
+                                                                 }
+                                                                 else if (roleid == 2)
+                                                                 {
+                                                                     <button type="button" data-toggle="modal" data-target="#exampleModalCenter" onclick="EditOpdService(@item.OPDServicesId)" style="color:#0094ff;  cursor:pointer" ; class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i></button>
+                                                                 }
+                                                             </td>
+                                                         </tr>
+                                                         index++;
+                                                     }
+                                                 }
+                                             }
+                                         </tbody>
+                                     </table>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="tab-pane" id="Prescription">
+                     <div class="card-body">
+                         <div class="body">
+                             <div class="col-sm-12">
+                                 <div class="card">
+                                     <div class="body">
+                                         <form>
+                                             <div class="input-group" style="width:900px">
+                                                 <input type="text" class="form-control" placeholder="Search here...">
+                                                 <div class="input-group-append">
+                                                     <span class="input-group-text" id="search-mail"><i class="icon-magnifier"></i></span>
+                                                 </div>
+                                                 @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 2 && x.IsCreate).Any())
+                                                 {
+                                                     <div id="z_button" tabindex="0">
+                                                         <div id="z_plus"><a data-toggle="modal" onclick="clrprescrption()" data-target="#exampleModalCenterPrescription"><span style="color:#ffffff">+</span></a></div>
+                                                     </div>
+                                                 }
+                                                 else if (roleid == 2)
+                                                 {
+                                                     <div id="z_button" tabindex="0">
+                                                         <div id="z_plus"><a data-toggle="modal" onclick="clrprescrption()" data-target="#exampleModalCenterPrescription"><span style="color:#ffffff">+</span></a></div>
+                                                     </div>
+                                                 }
+                                                 @*<div id="z_button1">
+                                            <div id="z_plusdownload"><a><span style="color:#ffffff"><i class="fa fa-download"></i></span></a></div>
+                                        </div>*@
+                                             </div>
+                                         </form>
+                                     </div>
+                                 </div>
+                                 <div class="table-responsive">
+                                     <table class="table table-hover table-custom spacing5" id="table_girdpres">
+                                         <thead>
+                                             <tr>
+                                                 <th>#</th>
+                                                 <th>Medicine Name</th>
+                                                 <th>Medicine Quantity</th>
+                                                 <th>Medicine Amount</th>
+                                                 <th>Medicine Specification</th>
+                                                 @if ((roleid == 4 || roleid == 3) && (rights.Where(x => x.MenuId == 2 && x.IsEdit).Any() ||
+                                                      rights.Where(x => x.MenuId == 2 && x.IsDelete).Any()))
+                                                 {
+                                                     <th>Action</th>
+                                                 }
+                                                 else if (roleid == 2)
+                                                 {
+                                                     <th>Action</th>
+                                                 }
+                                             </tr>
+                                         </thead>
+                                         <tbody>
+
+                                             @{
+                                                 if (Model.opdprescriptionlist != null)
+                                                 {
+                                                     var index = 1;
+                                                     foreach (var item in Model.opdprescriptionlist)
+                                                     {
+                                                         <tr>
+                                                             <td>@index</td>
+                                                             <td>@item.MedicineName</td>
+                                                             <td>@item.MedicineQuantity</td>
+                                                             <td>@item.MedicineAmount</td>
+                                                             <td>@item.MedicineInstructions</td>
+                                                             <td>
+                                                                 @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 2 && x.IsDelete).Any())
+                                                                 {
+                                                                     <button type="button" style="color: #3e062d; cursor:pointer" ; class="btn btn-default btn-sm" title="Delete" onclick="RemoveOpdPrescription(@item.OPDPrescriptionId)" data-toggle="modal" data-target="#exampleModalCenterSubPopupPrescription"><i class="fa fa-trash-o"></i></button>
+                                                                 }
+                                                                 else if (roleid == 2)
+                                                                 {
+                                                                     <button type="button" style="color: #3e062d; cursor:pointer" ; class="btn btn-default btn-sm" title="Delete" onclick="RemoveOpdPrescription(@item.OPDPrescriptionId)" data-toggle="modal" data-target="#exampleModalCenterSubPopupPrescription"><i class="fa fa-trash-o"></i></button>
+                                                                 }
+                                                                 @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 2 && x.IsDelete).Any())
+                                                                 {
+                                                                     <button type="button" data-toggle="modal" data-target="#exampleModalCenterPrescription" onclick="EditOPDPrescription(@item.OPDPrescriptionId)" style="color:#0094ff;  cursor:pointer" ; class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i></button>
+                                                                 }
+                                                                 else if (roleid == 2)
+                                                                 {
+                                                                     <button type="button" data-toggle="modal" data-target="#exampleModalCenterPrescription" onclick="EditOPDPrescription(@item.OPDPrescriptionId)" style="color:#0094ff;  cursor:pointer" ; class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i></button>
+                                                                 }
+                                                             </td>
+                                                         </tr>
+                                                         index++;
+                                                     }
+                                                 }
+                                             }
+                                         </tbody>
+                                     </table>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="border-radius: 9px;">
+                <div class="card-body">
+                    <div class="modal-header">
+                        <div><h6 class="modal-title" id="exampleModalCenterTitle">Add Service</h6></div>
+                    </div>
+                    <div id="popuplabel">
+                        <label id="packagebalancecount" style="color:black; background: linear-gradient(45deg, #69cc31, transparent);"></label>
+                        <label id="packagebalanceamt" style="color:black; background: linear-gradient(45deg, #f1200b, transparent);"></label>
+                        <br />
+                        <label id="packagetotalprice" style="color:black; background: linear-gradient(45deg, #0fed87, transparent);"></label>
+                        <label id="packagetotalcount" style="color:black; background: linear-gradient(45deg, #0094ff, transparent);"></label>
+                    </div>
+                    <div>
+                        <h2></h2>
+                    </div>
+                    <div class="form-row">
+                        @Html.HiddenFor(x => x.OPDConsultationId, new { id = "hiddenopdconsultationtid" })
+                        @Html.HiddenFor(x => x.PatientId)
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group  col-md-6 col-sm-12" id="divpatientpackage" style="display:none">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            @Html.Label("ServiceName", "Package Code/ Service Name")<span style="padding-left:2px;color:red">*</span>
+                            @Html.DropDownListFor(model => model.opdservicesmodel.PackageId, patientpackagelist, "--Select Package--", new { @class = "form-control input-default borderclr", id = "txtpatientpackage" })
+                            @Html.ValidationMessageFor(model => model.opdservicesmodel.PackageId, "", new { @class = "text-danger" })
+                        </div>
+                        @*<div class="form-group col-md-6 col-sm-12" id="divadvanceamount" style="display:none">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        @Html.Label("Advance Payment", "Advance Payment")<span style="padding-left:2px;color:red">*</span>
+                        @Html.TextBoxFor(model => model.opdservicesmodel.ServiceCharge, new { @class = "form-control input-default borderclr", id = "txtadvanceamount", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.opdservicesmodel.ServiceCharge, "", new { @class = "text-danger" })
+                    </div>*@
+                        <div class="form-group  col-md-6 col-sm-12 divservicename" id="divservicename" style="display:none">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            @Html.Label("ServiceName", "Service Name")<span style="padding-left:2px;color:red">*</span>
+                            @Html.DropDownListFor(model => model.opdservicesmodel.ServiceName, treatmentlist, "Select Treatment", new { @class = "form-control input-default borderclr", id = "txtservicename" })
+                            @Html.ValidationMessageFor(model => model.opdservicesmodel.ServiceName, "", new { @class = "text-danger" })
+                        </div>
+                        @*<div class="form-group col-md-6 col-sm-12" id="newservice" style="display:none">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            @Html.Label("ServiceName", "New Service Name")<span style="padding-left:2px;color:red">*</span> <span class="fa fa-trash-o" style="color:red ; cursor:pointer" id="removenewservice"></span>
+                            @Html.TextBoxFor(model => model.opdservicesmodel.ServiceName, new { @class = "form-control input-default borderclr", id = "txtnewservicename" })
+                            @Html.ValidationMessageFor(model => model.opdservicesmodel.ServiceName, "", new { @class = "text-danger" })
+                        </div>*@
+                        @*<div class="form-group col-md-6 col-sm-12">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                @Html.Label("Count", "Count")<span style="padding-left:2px;color:red">*</span>
+                @Html.TextBoxFor(model => model.opdservicesmodel.Count, new { @class = "form-control input-default borderclr", id = "txtcount" })
+                @Html.ValidationMessageFor(model => model.opdservicesmodel.Count, "", new { @class = "text-danger" })
+            </div>*@
+                        <div class="form-group col-md-6 col-sm-12" id="divadvanceamount" style="display:none">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            @Html.Label("Advance Payment", "Advance Payment")<span style="padding-left:2px;color:red">*</span>
+                            @Html.TextBoxFor(model => model.opdservicesmodel.ServiceCharge, new { @class = "form-control input-default borderclr", id = "txtadvanceamount" })
+                            @Html.ValidationMessageFor(model => model.opdservicesmodel.ServiceCharge, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12" id="divservicecharge" style="display:none">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            @Html.Label("ServiceCharge", "Service Charge")<span style="padding-left:2px;color:red">*</span>
+                            @Html.TextBoxFor(model => model.opdservicesmodel.ServiceCharge, new { @class = "form-control input-default borderclr", id = "txtservicecharge", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(model => model.opdservicesmodel.ServiceCharge, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            @Html.Label("TherapistName", "Therapist Name")<span style="padding-left:2px;color:red">*</span>
+                            @Html.DropDownListFor(model => model.opdservicesmodel.TherapistId, therapistlist, "--Select Therapist--", new { @class = "form-control input-default borderclr", Maxlength = 30, id = "txttherapistname" })
+                            @Html.ValidationMessageFor(model => model.opdservicesmodel.TherapistId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            @Html.Label("Remarks", "Remarks")<span style="padding-left:2px;color:red">*</span>
+                            @Html.TextAreaFor(model => model.opdservicesmodel.Remarks, new { @class = "form-control input-default borderclr", id = "txtremarks" })
+                            @Html.ValidationMessageFor(model => model.opdservicesmodel.Remarks, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-outline-primary borderradius" id="saveopdservice">Save</a>
+                    <a href="#" id="btnsercls" class="btn btn-outline-secondary borderradius">Close</a>
+                    <input type="hidden" id="hiddenpatientid" />
+                    <input type="hidden" id="hiddenopdconsultationtid" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModalCenterPrescription" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="border-radius: 9px;">
+                <div class="card-body">
+                    <div class="modal-header">
+                        <div><h6 class="modal-title" id="exampleModalCenterTitlePrescription">Add Prescription</h6></div>
+                        <div>
+                            <label id="medicineavailablecount" style="color:black; background: linear-gradient(45deg, #69cc31, transparent);"></label>
+                            <label id="medicinenotavailable" style="color:black; background: linear-gradient(45deg, #f1200b, transparent);"></label>
+                            <br />
+                            <label id="medicineprice" style="color:black; background: linear-gradient(45deg, #0fed87, transparent);"></label>
+                            <input type="text" id="mediprice" hidden />
+                        </div>
+                        </div>
+                    <div>
+                        <h2></h2>
+                    </div>
+                    <div class="form-row">
+                        @Html.HiddenFor(x => x.opdprescriptionmodel.OPDPrescriptionId)
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group  col-md-6 col-sm-12" id="divmedname">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            @Html.Label("MedicineName", "Medicine Name")<span style="padding-left:2px;color:red">*</span>
+                            @Html.DropDownListFor(model => model.opdprescriptionmodel.MedicineName, druglist, "Select Durg", new { @class = "form-control input-default borderclr", id = "txtmedicinename" })
+                            @Html.ValidationMessageFor(model => model.opdprescriptionmodel.MedicineName, "", new { @class = "text-danger" })
+                        </div>
+                       
+                            @Html.TextAreaFor(model => model.opdprescriptionmodel.MedicineName, new { @class = "form-control input-default borderclr", id = "txtmedicinename1" })
+                            @Html.ValidationMessageFor(model => model.opdprescriptionmodel.MedicineName, "", new { @class = "text-danger" })
+                         
+                        <div class="form-group col-md-6 col-sm-12">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            @Html.Label("MedicineQuantity", "Medicine Quantity")<span style="padding-left:2px;color:red">*</span>
+                            @Html.TextBoxFor(model => model.opdprescriptionmodel.MedicineQuantity, new { @class = "form-control input-default borderclr", id = "txtmedicinequantity", Maxlength = 5 })
+                            @Html.ValidationMessageFor(model => model.opdprescriptionmodel.MedicineQuantity, "", new { @class = "text-danger", id = "validatemedicinequantity" })
+                        </div>
+                        @*<div class="form-group col-md-6 col-sm-12">
+            <i class="fa fa-user" aria-hidden="true"></i>
+            @Html.Label("MedicineDosage", "Medicine Dosage")<span style="padding-left:2px;color:red">*</span>
+            @Html.TextBoxFor(model => model.opdprescriptionmodel.MedicineDosage, new { @class = "form-control input-default borderclr", id = "txtmedicinedosage" })
+            @Html.ValidationMessageFor(model => model.opdprescriptionmodel.MedicineDosage, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group col-md-6 col-sm-12">
+            <i class="fa fa-user" aria-hidden="true"></i>
+            @Html.Label("MedicineDuration", "Medicine Duration")<span style="padding-left:2px;color:red">*</span>
+            @Html.TextBoxFor(model => model.opdprescriptionmodel.MedicineDuration, new { @class = "form-control input-default borderclr", id = "txtmedicineduration" })
+            @Html.ValidationMessageFor(model => model.opdprescriptionmodel.MedicineDuration, "", new { @class = "text-danger" })
+        </div>*@
+                        <div class="form-group col-md-6 col-sm-12">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            @Html.Label("MedicineAmount", "Medicine Amount")<span style="padding-left:2px;color:red">*</span>
+                            @Html.TextBoxFor(model => model.opdprescriptionmodel.MedicineAmount, new { @class = "form-control input-default borderclr", id = "txtmedicineamount", @readonly = "@@readonly" })
+                            @Html.ValidationMessageFor(model => model.opdprescriptionmodel.MedicineAmount, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            @Html.Label("MedicineInstructions", "Medicine Instructions")<span style="padding-left:2px;color:red">*</span>
+                            @Html.TextAreaFor(model => model.opdprescriptionmodel.MedicineInstructions, new { @class = "form-control input-default borderclr", id = "txtmedicineinstructions", Maxlength = 255 })
+                            @Html.ValidationMessageFor(model => model.opdprescriptionmodel.MedicineInstructions, "", new { @class = "text-danger" })
+                        </div>
+                        @*<div class="form-group col-md-6 col-sm-12">
+        <i class="fa fa-user" aria-hidden="true"></i>
+        @Html.Label("MedicineSpecification", "Medicine Specification")
+        @Html.TextAreaFor(model => model.opdprescriptionmodel.MedicineSpecification, new { @class = "form-control input-default borderclr", id = "txtmedicinespecification" })
+        @Html.ValidationMessageFor(model => model.opdprescriptionmodel.MedicineSpecification, "", new { @class = "text-danger" })
+        </div>*@
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-outline-primary borderradius" id="saveopdprescription">Save</a>
+                    <a href="#" id="btnprescls" class="btn btn-outline-secondary borderradius">Close</a>
+                    <input type="hidden" id="hiddenprescriptionid" />
+                    <input type="hidden" id="txtopdconsultationid" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModalCenterSubPopup" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitleOpdService" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="border-radius: 9px;">
+                <div class="modal-header">
+                    <div><h6 class="modal-title" id="exampleModalCenterTitleOpdService"></h6></div>
+                    
+                </div>
+                <div class="modal-body">
+                    <div id="confirmmsg"></div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-outline-primary borderradius" id="ActionDeleteOpdService" onclick="DeleteOpdService()">Save changes</a>
+                    <a href="@Url.Action("", "Patient")" class="btn btn-outline-secondary borderradius">Close</a>
+                    <input type="hidden" id="hiddenserviceid" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModalCenterSubPopupPrescription" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitleOpdPrescription" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="border-radius: 9px;">
+                <div class="modal-header">
+                    <div><h6 class="modal-title" id="exampleModalCenterTitleOpdPrescription"></h6></div>
+                </div>
+                <div class="modal-body">
+                    <div id="confirmmsgpre"></div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-outline-primary borderradius" id="" onclick="DeleteOpdPrescription()">Save changes</a>
+                    <a href="#" id="btnpreclose" class="btn btn-outline-secondary borderradius">Close</a>
+                    <input type="hidden" id="hiddenprescriptionid" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+@section scripts {
+    <script src="~/Scripts/OPD/OPDDetails.js"></script>
+    <script src="~/Theme/Html/assets/vendor/dropify/js/dropify.min.js"></script>
+    <script src="~/Theme/Html/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js">
+    </script>
+    <script type="text/javascript">
+        var txtdocid = @Html.Raw(Json.Encode(Model.DoctorId));
+        $("div.docname select").val(txtdocid).change();
+         var txtpatname = @Html.Raw(Json.Encode(Model.PatientIDNumber));
+        $("div.patname select").val(txtpatname).change();
+        var txtpackagetype = @Html.Raw(Json.Encode(Model.PackageCount));
+        @*var servicename = @Html.Raw(Json.Encode(Model.ServiceId));
+        alert(servicename);
+        $("div.divservicename select").val(servicename).change();*@ 
+        if (txtpackagetype == "0") {
+           // alert(txtpackagetype);
+            $("div.patpack select").val('2').change();
+        } else {
+            $("div.patpack select").val('1').change();
+        }
+        //alert(txtpatname);
+        $("#btnUpdateAmt").click(function () {
+            var netcharger = ($("#txttreatmenttotalservicescharges").val()) - ($("#txtspldiscount").val());
+            $("#txtnetcharges").val(netcharger);
+
+            var totalcharge = $("#txttreatmenttotalservicescharges").val();
+            var opdconsultationid = $("#OPDConsultationId").val();
+            var netcharge = $("#txtnetcharges").val();
+            var spldiscount = $("#txtspldiscount").val();
+            ////alert(netcharge);
+            updatepatientamount(opdconsultationid, totalcharge, netcharge, spldiscount);
+        });
+
+        $("#txtspldiscount").change(function () {
+            var netcharger = ($("#txttreatmenttotalservicescharges").val()) - ($("#txtspldiscount").val());
+            $("#txtnetcharges").val(netcharger);
+
+            var totalcharge= $("#txttreatmenttotalservicescharges").val();
+            var opdconsultationid = $("#OPDConsultationId").val();
+            var netcharge = $("#txtnetcharges").val();
+            var spldiscount = $("#txtspldiscount").val();
+            ////alert(netcharge);
+            updatepatientamount(opdconsultationid, totalcharge, netcharge, spldiscount);
+        });
+        $("#popuplabel").hide();
+        function clrservice() {
+            $("#OPDConsultationId").val("");
+            $("#txtservicename").val("");
+            $("#txtservicename").val("");
+            $("#txtcount").val("");
+            $("#txtservicecharge").val("");
+            $("#txtremarks").val("");
+        }
+        function clrprescrption() {
+            $("#OPDPrescriptionId").val("");
+            $("#txtmedicinename").val("");
+            $("#txtmedicinequantity").val("");
+            $("#txtmedicinedosage").val("");
+            $("#txtmedicineduration").val("");
+            $("#txtmedicineinstructions").val("");
+            $("#txtmedicinespecification").val("");
+        }
+        $(document).ready(function () {
+
+            $('#txtmedicinequantity').keypress(function (e) {
+                var verified = (e.which == 8 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[^0-9]/);
+                if (verified) { e.preventDefault(); }
+            });
+
+            $('#txtpatientage').keypress(function (e) {
+                var verified = (e.which == 8 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[^0-9]/);
+                if (verified) { e.preventDefault(); }
+            });
+            $('#txtpatientmobilenumber').keypress(function (e) {
+                var verified = (e.which == 8 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[^0-9]/);
+                if (verified) { e.preventDefault(); }
+            });
+            $('#txtpatientweight').keypress(function (e) {
+                var verified = (e.which == 8 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[^0-9]/);
+                if (verified) { e.preventDefault(); }
+            });
+            $('#txtpatientheight').keypress(function (e) {
+                var verified = (e.which == 8 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[^0-9]/);
+                if (verified) { e.preventDefault(); }
+            });
+            $('#txtspldiscount').keypress(function (e) {
+                var verified = (e.which == 8 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[^0-9]/);
+                if (verified) { e.preventDefault(); }
+            });
+            $('#txtnetcharges').keypress(function (e) {
+                var verified = (e.which == 8 || e.which == undefined || e.which == 0) ? null : String.fromCharCode(e.which).match(/[^0-9]/);
+                if (verified) { e.preventDefault(); }
+            });
+
+            $("#opd").trigger("click");
+            $("#addopd").addClass("active");
+            var OPDConsultationId = $("#OPDConsultationId").val();
+            if (OPDConsultationId != null && OPDConsultationId != "0") {
+                $("#t_22").trigger("click");
+            }
+            $("#existservice").toggle();
+            $("#page_name").text("OPD Details,");
+            //------tabvalidation-------------
+            $("#t_11").click(function () {
+                totalpatientamount();
+            });
+            $("#t_22").click(function () {
+                totalpatientamount();
+                var OPDConsultationId = $("#OPDConsultationId").val();
+                debugger;
+                if (OPDConsultationId == "0") {
+                    ShowErrorMessage("Pls fill and save the consoltation details.");
+                    return false;
+                }
+            });
+            $("#t_33").click(function () {
+                totalpatientamount();
+                var OPDConsultationId = $("#OPDConsultationId").val();
+                debugger;
+                if (OPDConsultationId == "0") {
+                    ShowErrorMessage("Pls fill and save the consoltation details.");
+                    return false;
+                }
+            });
+            //-------------------------
+            //totalpatientamount();
+            //--------------------
+
+
+
+            $("#txtservicename").change(function () {
+                var servicename = $("#txtservicename").val();
+                if (servicename =='') {
+                    $("#txtservicecharge").val('');
+                    return false;
+                }
+                //if (servicename == "1") {
+                //    $("#newservice").toggle();
+                //    $("#existservice").toggle();
+                //    $("#txtservicecharge").val('');
+                //    $("#hiddennewserviceid").val(true);
+                //} else {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Patient/GetTreatmentById",
+                        data: { servicename: servicename },
+                        dataType: "json",
+                        success: function (result) {
+                            if (result.Data != null) {
+                                $("#txtservicecharge").val(result.Data.TreatmentCharges);
+                                $("#hiddennewserviceid").val(false);
+                            }
+                            else {
+                                $("#txtservicecharge").val('');
+                                $("#hiddennewserviceid").val(false);
+                            }
+                        },
+                        error: function (result) {
+                            ShowErrorMessage("An error occured.");
+                        }
+                    });
+                //}
+            });
+            $("#removenewservice").click(function () {
+                $("#newservice").toggle();
+                $("#existservice").toggle();
+            });
+            $("#btnsercls").click(function () {
+                $('#exampleModalCenter').modal('hide');
+            });
+            $("#btnprescls").click(function () {
+                $('#exampleModalCenterPrescription').modal('hide');
+            });
+            $("#btnpreclose").click(function () {
+                $('#exampleModalCenterSubPopupPrescription').modal('hide');
+            });
+        });
+    </script>
+}
+
+

@@ -1,0 +1,142 @@
+
+.highlight{
+    background-color: transparent;
+}
+.highlight pre code {
+    font-size: inherit;
+    color: #212529;
+}
+.nt {
+    color: #2f6f9f;
+}
+.na {
+    color: #4f9fcf;
+}
+.s {
+    color: #d44950;
+}
+pre.prettyprint {
+    background-color: #eee;
+    border: 0px;
+    margin: 0;        
+    padding: 20px;
+    text-align: left;
+}
+
+.atv,
+.str {
+    color: #05AE0E;
+}
+
+.tag,
+.pln,
+.kwd {
+    color: #3472F7;
+}
+
+.atn {
+    color: #2C93FF;
+}
+
+.pln {
+    color: #a5a5a5;
+}
+
+.com {
+    color: #999;
+}
+.borderradius {
+    border-radius: 10px;
+}
+.btnsize{
+    height:30px;
+}
+.borderclr {
+    border-color: #d1cece;
+    border-radius: 7px;
+}
+/* Start Plus Button*/
+#z_button {
+    /*background-color: #82b440;*/
+    background: linear-gradient( 45deg, #72b440, #8927e2);
+    height: 30px;
+    position: absolute;
+    outline: 0;
+    display: block;
+    margin: 0px 0px 0px 935px;
+    color: #fff;
+    border-radius: 100%;
+    width: 30px;
+}
+#z_button11 {
+    /*background-color: #82b440;*/
+    background: linear-gradient( 45deg, #72b440, #27c8e2);
+    height: 30px;
+    position: absolute;
+    outline: 0;
+    display: block;
+    margin: 0px -34px 23px 887px;
+    color: #fff;
+    border-radius: 100%;
+    width: 30px;
+    cursor: pointer;
+}
+#z_button2 {
+    /*background-color: #82b440;*/
+    background: linear-gradient( 45deg, #72b440, #8927e2);
+    height: 30px;
+    position: absolute;
+    outline: 0;
+    display: block;
+    margin: 0px 0px 0px 935px;
+    color: #fff;
+    border-radius: 100%;
+    width: 30px;
+    margin-top: 20px;
+}
+#z_button1 {
+    /*background-color: #82b440;*/
+    background: linear-gradient( 45deg, #565858, #ff5722);
+    height: 30px;
+    position: absolute;
+    outline: 0;
+    display: block;
+    margin: 0px 0px 0px 980px;
+    color: #fff;
+    border-radius: 100%;
+    width: 30px;
+    margin-top: -35px;
+}
+#z_button:hover {
+    cursor: pointer;
+}
+#z_plus {
+    text-align: center;
+    line-height: 50px;
+    font-size: 30px;
+    margin-top: -12px;
+}
+#z_plus11 {
+    text-align: center;
+    line-height: 50px;
+    font-size: 30px;
+    margin-top: -12px;
+}
+#z_plusdownload {
+    text-align: center;
+    line-height: 28px;
+    font-size: 17px;
+    margin-top: 0px;
+}
+    /* End Plus Button*/
+    .bggrdiant {
+    background: linear-gradient( 45deg, #040404d6, transparent);
+}
+#z_button1:hover {
+    cursor: pointer;
+}
+.table.table-custom tr td {
+    border: 0;
+    white-space: normal;
+}
+ 

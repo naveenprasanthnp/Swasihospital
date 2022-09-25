@@ -1,0 +1,240 @@
+﻿@model SwasiHealthCare.Model.OPDConsoltationModel
+@{
+    ViewBag.Title = "New Patient";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<style>
+    .pb-25, .py-25 {
+        padding-bottom: .75rem !important;
+    }
+
+    .pt-25, .py-25 {
+        padding-top: .75rem !important;
+    }
+
+    .bgc-default-tp1 {
+        background-color: rgb(106 180 64) !important;
+    }
+
+    .btn-light {
+        color: #757984;
+        background-color: #f5f6f9;
+        border-color: #6ab440;
+    }
+    .text-blue-m2 {
+        color: #6ab440 !important;
+    }   
+</style>
+<div class="row clearfix">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="body">
+                <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+                <div class="page-content container">
+                    @*<div class="page-header text-blue-d2">
+                        <div class="page-tools">
+                            <div class="action-buttons">
+                                <a class="btn bg-white btn-sm borderradius btn-light mx-1px text-95" href="#" onclick='printDiv();' data-title="Print">
+                                    <i class="mr-1 fa fa-print text-primary-m1 text-120 w-2"></i>
+                                    Print
+                                </a>
+                                <a class="btn bg-white btn-sm borderradius btn-light mx-1px text-95" href="#" data-title="PDF">
+                                    <i class="mr-1 fa fa-file-pdf-o text-danger-m1 text-120 w-2"></i>
+                                    Export
+                                </a>
+                            </div>
+                        </div>
+                    </div>*@
+                    <div class="container px-0" id="DivIdToPrint">
+                        <div class="row mt-4">
+                            <div class="col-12 col-lg-10 offset-lg-1">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="text-center text-150">
+                                            @*<i class="fa fa-book fa-2x text-success-m2 mr-1"></i>
+                                            <div >
+                                                <img src="~/Content/Logo/Asset 2.svg" style="width:300px" />
+                                            </div>*@
+                                            <span class="text-default-d3">Swasi Naturo Cure Hospital</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- .row -->
+                                <hr class="row brc-default-l1 mx-n1 mb-4" />
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div>
+                                            <span class="text-sm text-grey-m2 align-middle"><strong>To:</strong></span>
+                                            <span class="text-600 text-110 text-blue align-middle">@Model.PatientName/ @Model.PatientIDNumber</span>
+                                        </div>
+                                        <div class="text-grey-m2">
+                                            <div class="my-1">
+                                                @Model.PatientAge/ @(Model.PatientGender == "M" ? "Male" : "Female")
+                                            </div>
+                                            <div class="my-1"><i class="fa fa-phone fa-flip-horizontal text-secondary"></i> <b class="text-600">@Model.PatientMobileNo</b></div>
+                                        </div>
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="text-95 col-sm-6 align-self-start d-sm-flex justify-content-end">
+                                        <hr class="d-sm-none" />
+                                        <div class="text-grey-m2">
+                                            <div class="mt-1 mb-2 text-secondary-m1 text-600 text-125">
+                                                Bill
+                                            </div>
+                                            <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">ID :</span><strong> @Model.PatientIDNumber</strong></div>
+                                            <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Issue Date :</span> @DateTime.Now.ToString("MM/dd/yyyy")  @*@DateTime.Now.ToString("ddd, dd MMM yyy")*@</div>
+                                            <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status :</span> <span class="badge badge-warning badge-pill px-25">Unpaid</span></div>
+                                        </div>
+                                    </div>
+                                    <!-- /.col -->
+                                </div>
+                                <div class="mt-4">
+                                    <div class="row text-600 text-white bgc-default-tp1 py-25">
+                                        <div class="d-none d-sm-block col-1">#</div>
+                                        <div class="col-9 col-sm-5">Description</div>
+                                        <div class="d-none d-sm-block col-4 col-sm-2">Qty</div>
+                                        <div class="d-none d-sm-block col-sm-2">Unit Price</div>
+                                        <div class="col-2">Amount</div>
+                                    </div>
+                                    <div class="text-95 text-secondary-d3">
+                                        @{
+                                            var index = 1;
+                                            var i = 1;
+                                            if (Model != null)
+                                            {
+                                                foreach (var item in Model.opdserviceslist)
+                                                {
+                                                    if (i % 2 == 0)
+                                                    {
+                                                        <div class="row mb-2 mb-sm-0 py-25">
+                                                            <div class="d-none d-sm-block col-1">@index</div>
+                                                            <div class="col-9 col-sm-5">@item.ServiceName</div>
+                                                            <div class="d-none d-sm-block col-2">1</div>
+                                                            <div class="d-none d-sm-block col-2 text-95"><i class="fa fa-rupee" aria-hidden="true"></i>@item.ServiceCharge</div>
+                                                            <div class="col-2 text-secondary-d2"><i class="fa fa-rupee" aria-hidden="true"></i>@item.ServiceCharge</div>
+                                                        </div>
+                                                        i++;
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="row mb-2 mb-sm-0 py-25">
+                                                            <div class="d-none d-sm-block col-1">@index</div>
+                                                            <div class="col-9 col-sm-5">@item.ServiceName</div>
+                                                            <div class="d-none d-sm-block col-2">1</div>
+                                                            <div class="d-none d-sm-block col-2 text-95"><i class="fa fa-rupee" aria-hidden="true"></i>@item.ServiceCharge</div>
+                                                            <div class="col-2 text-secondary-d2"><i class="fa fa-rupee" aria-hidden="true"></i>@item.ServiceCharge</div>
+                                                        </div>
+                                                        i++;
+                                                    }
+                                                    index++;
+                                                }
+                                                foreach (var item in Model.opdprescriptionlist)
+                                                {
+                                                    if (i % 2 == 0)
+                                                    {
+                                                        <div class="row mb-2 mb-sm-0 py-25 bgc-default-l4">
+                                                            <div class="d-none d-sm-block col-1">@index</div>
+                                                            <div class="col-9 col-sm-5">@item.MedicineName</div>
+                                                            <div class="d-none d-sm-block col-2">@item.MedicineQuantity</div>
+                                                            <div class="d-none d-sm-block col-2 text-95"><i class="fa fa-rupee" aria-hidden="true"></i>@item.MedicineRate</div>
+                                                            <div class="col-2 text-secondary-d2"><i class="fa fa-rupee" aria-hidden="true"></i>@item.MedicineAmount</div>
+                                                        </div>
+                                                        i++;
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="row mb-2 mb-sm-0 py-25 bgc-default-l4">
+                                                            <div class="d-none d-sm-block col-1">@index</div>
+                                                            <div class="col-9 col-sm-5">@item.MedicineName</div>
+                                                            <div class="d-none d-sm-block col-2">@item.MedicineQuantity</div>
+                                                            <div class="d-none d-sm-block col-2 text-95"><i class="fa fa-rupee" aria-hidden="true"></i> @item.MedicineRate</div>
+                                                            <div class="col-2 text-secondary-d2"><i class="fa fa-rupee" aria-hidden="true"></i> @item.MedicineAmount</div>
+                                                        </div>
+                                                        i++;
+                                                    }
+                                                    index++;
+                                                }
+                                            }
+                                        }
+                                    </div>
+                                    <div class="row border-b-2 brc-default-l2"></div>
+
+                                    <div class="row mt-3">
+                                        <div class="col-12 col-sm-7 text-grey-d2 text-95 mt-2 mt-lg-0">
+                                            Extra note such as hospital or payment information...
+                                        </div>
+
+                                        <div class="col-12 col-sm-5 text-grey text-90 order-first order-sm-last">
+                                            <div class="row my-2">
+                                                <div class="col-7 text-right">
+                                                    SubTotal
+                                                </div>
+                                                <div class="col-5">
+                                                    <span class="text-120 text-secondary-d1">
+                                                        <i class="fa fa-rupee" aria-hidden="true"></i>@Model.TreatmentTotalServicesCharges
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            @*<div class="row my-2">
+                                                    <div class="col-7 text-right">
+                                                        Tax (10%)
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <span class="text-110 text-secondary-d1">$225</span>
+                                                    </div>
+                                                </div>*@
+
+                                            <div class="row my-2 align-items-center bgc-primary-l3 p-2">
+                                                <div class="col-7 text-right">
+                                                    Total Amount
+                                                </div>
+                                                <div class="col-5">
+                                                    <span class="text-150 text-success-d3 opacity-2">
+                                                        <i class="fa fa-rupee" aria-hidden="true">
+                                                        </i>@Model.TreatmentTotalServicesCharges
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div>
+                                        <span class="text-secondary-d1 text-105">Thank you for your support</span>
+                                        <a class="btn bg-white btn-sm borderradius btn-light mx-1px text-95 float-right mt-3 mt-lg-0" href="#" onclick='printDiv();' data-title="Print">
+                                            <i class="mr-1 fa fa-print text-primary-m1 text-120 w-2"></i>
+                                            Print
+                                        </a>
+                                        @*<a href="#" class="btn btn-sm borderradius btn-success btn-bold px-4 float-right mt-3 mt-lg-0">Pay Now</a>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        function printDiv() {
+            var printContents = document.getElementById('DivIdToPrint').innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+            //var divToPrint = document.getElementById('DivIdToPrint');
+
+            //var newWin = window.open('', 'Print-Window');
+
+            //newWin.document.open();
+
+            //newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+
+            //newWin.document.close();
+
+            //setTimeout(function () { newWin.close(); }, 10);
+        }
+    </script>
+}

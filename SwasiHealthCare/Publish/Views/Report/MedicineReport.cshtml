@@ -1,0 +1,255 @@
+﻿@model SwasiHealthCare.Model.MedicineReportModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    var patientlist = new SelectList(ViewBag.patientlist, "PatientId", "PatientIDNumber");
+    var hospitallist = new SelectList(ViewBag.hospitallist, "HospitalId", "HospitalName");
+    var rolid = Convert.ToInt64(Session["RoleId"]);
+}
+
+<div class="row clearfix">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="body" style="height: 160px;">
+                <form>
+                    <div class="input-group" style="width:900px">
+                        <div class="input-group-append">
+                            @if (rolid == 1)
+                            {
+                                <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    @Html.Label("HospitalId", "Hospital")<span style="padding-left:2px;color:red">*</span>
+                                    @Html.DropDownListFor(model => model.filterModel.HospitalId, hospitallist, "Select Hospital", new { @class = "form-control input-default borderclr", id = "HospitalId" })
+                                    @Html.ValidationMessageFor(model => model.filterModel.HospitalId, "", new { @class = "text-danger" })
+                                </div>
+                            }
+                            <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                @Html.Label("Serach", "Serach")
+                                <input id="myInput" class="form-control input-default borderclr" type="text" placeholder="Search..">
+                            </div>
+                            @*<div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    @Html.Label("CR. No", "CR. No")<span style="padding-left:2px;color:red">*</span>
+                                    @Html.DropDownListFor(model => model.filterModel.PatientId, patientlist, "--Select CR. No--", new { @class = "form-control input-default borderclr", Maxlength = 30, id = "PatientId" })
+                                    @Html.ValidationMessageFor(model => model.filterModel.PatientId, "", new { @class = "text-danger" })
+                                </div>*@
+                            <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                @Html.Label("FromDate", "From Date")<span style="padding-left:2px;color:red">*</span>
+                                @Html.TextBoxFor(model => model.filterModel.FromDate, new { @class = "form-control input-default borderclr", data_provide = "datepicker", data_date_autoclose = "true", id = "FromDate" })
+                                @Html.ValidationMessageFor(model => model.filterModel.FromDate, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                @Html.Label("ToDate", "To Date")<span style="padding-left:2px;color:red">*</span>
+                                @Html.TextBoxFor(model => model.filterModel.ToDate, new { @class = "form-control input-default borderclr", data_provide = "datepicker", data_date_autoclose = "true", id = "ToDate" })
+                                @Html.ValidationMessageFor(model => model.filterModel.ToDate, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: -27px;margin-left: -12px;">
+                        <div class="form-row mt-1" style="padding-left: 1.25rem;">
+                            <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                <button type="submit" id="btnMedicineRpt" class="btn  btn-sm btn-outline-primary borderradius" style="margin-top: 28px;">Search</button>
+                                <button type="reset" onclick="clear()" class="btn btn-sm btn-outline-dark borderradius" style="margin-left: 70px; margin-top: -56px;">Reset</button>
+                                <button type="submit" onclick="exportexcel()" class="btn btn-sm btn-outline-secondary borderradius" style="margin-left: 130px; margin-top: -97px;">Excel</button>
+                                <button type="submit" onclick="generatepdf()" class="btn  btn-sm btn-outline-danger borderradius" style="margin-left: 190px;margin-top: -140px;">PDF</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Purchase Details</a>
+                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Sales Details</a>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-custom spacing5" id="purchase_list">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Date</th>
+                                        <th>Medicine Name</th>
+                                        <th>Purchase Rate</th>
+                                        <th>Current Stock</th>
+                                        <th>Purchase Stock</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="medicinelist">
+                                    @{
+                                        var index = 1;
+                                        foreach (var item in Model.medicinelist)
+                                        {
+                                            <tr>
+                                                <td>@index</td>
+                                                <td>@item.PurchaseDate.ToString("dd/MM/yyy")</td>
+                                                <td>@item.MedicineName</td>
+                                                <td>@item.MedicineRate</td>
+                                                <td>@item.MedicineCurrentStock</td>
+                                                <td>@item.MedicinePurchaseQuanity</td>
+                                            </tr>
+                                            index++;
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-custom spacing5" id="sales_list">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Date</th>
+                                        <th>OPD Number</th>
+                                        <th>Patient Name</th>
+                                        <th>Mobile No</th>
+                                        <th>Medicine Name</th>
+                                        <th>Quantity</th>
+                                        <th>Rate</th>
+                                        <th>Mode of Payment</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        var index1 = 1;
+                                        foreach (var item in Model.salesreports)
+                                        {
+                                            <tr>
+                                                <td>@index1</td>
+                                                <td>@item.Date.ToString("dd/MM/yyyy")</td>
+                                                <td>@item.OpdNumber</td>
+                                                <td>@item.PatientName</td>
+                                                <td>@item.MobileNo</td>
+                                                <td>@item.MedicineName</td>
+                                                <td>@item.Quantity</td>
+                                                <td>@item.Rate</td>
+                                                <td>@item.ModeofPayment</td>
+                                            </tr>
+                                            index1++;
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/Patient/Patient.js"></script>
+    <script src="~/Theme/Html/assets/vendor/dropify/js/dropify.min.js"></script>
+    <script src="~/Theme/Html/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/Scripts/ExportExcel/jquery.table2excel.js"></script>
+    <script src="~/Scripts/ExportExcel/jquery.table2excel.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script src="~/Scripts/moment.js"></script>
+    <script>
+        $("#myInput").on("keyup", function () {
+            debugger;
+            var value = $(this).val().toLowerCase();
+            $("#medicinelist tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+        $("#HospitalId").change(function () {
+            $("#btnMedicineRpt").click();
+        });
+        var date = new Date();
+        var todaydate = (((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + date.getFullYear());
+        $("#FromDate").val(todaydate);
+        $("#ToDate").val(todaydate);
+
+        function exportexcel() {
+            debugger;
+            var activetab = $('.nav-tabs .active').text();
+            if (activetab == "Purchase Details") {
+                $("#purchase_list").table2excel({
+                    name: "Table2Excel",
+                    filename: "Purchase_Report",
+                    fileext: ".xls"
+                });
+            } else {
+                $("#sales_list").table2excel({
+                    name: "Table2Excel",
+                    filename: "Sales_Report",
+                    fileext: ".xls"
+                });
+            }
+        }
+
+        function generatepdf() {
+            var activetab = $('.nav-tabs .active').text();
+            if (activetab == "Purchase Details")
+            {
+                html2canvas($('#purchase_list')[0], {
+                    onrendered: function (canvas) {
+                        var data = canvas.toDataURL();
+                        var docDefinition = {
+                            content: [{
+                                image: data,
+                                width: 500
+                            }]
+                        };
+                        pdfMake.createPdf(docDefinition).download("Table.pdf");
+                    }
+                });
+                
+            } else {
+                html2canvas($('#sales_list')[0], {
+                    onrendered: function (canvas) {
+                        var data = canvas.toDataURL();
+                        var docDefinition = {
+                            content: [{
+                                image: data,
+                                width: 500
+                            }]
+                        };
+                        pdfMake.createPdf(docDefinition).download("Table.pdf");
+                    }
+                });
+                return false;
+            }
+        }
+
+        function clear() {
+            $("#FromDate").val(new Date());
+            $("#ToDate").val("");
+        }
+
+        $(document).ready(function () {
+            $("#allreport").trigger("click");
+            $("#medicinereport").addClass("active");
+
+            $("#page_name").text("Medicine Report,");
+            $("#searchpatient").on("keyup", function () {
+                var value = $(this).val();
+                $("table tr").each(function (index) {
+                    debugger;
+                    if (index != 0) {
+                        $row = $(this);
+                        var id = $row.find("td:eq(1)").text();
+
+                        if (id.indexOf(value) != 0) {
+                            $(this).hide();
+                        }
+                        else {
+                            $(this).show();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+

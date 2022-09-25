@@ -1,0 +1,6 @@
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.IRepository\bin\Release\SwasiHealthCare.IRepository.dll
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.IRepository\bin\Release\SwasiHealthCare.IRepository.pdb
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.IRepository\obj\Release\SwasiHealthCare.IRepository.csprojAssemblyReference.cache
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.IRepository\obj\Release\SwasiHealthCare.IRepository.csproj.CoreCompileInputs.cache
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.IRepository\obj\Release\SwasiHealthCare.IRepository.dll
+E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.IRepository\obj\Release\SwasiHealthCare.IRepository.pdb

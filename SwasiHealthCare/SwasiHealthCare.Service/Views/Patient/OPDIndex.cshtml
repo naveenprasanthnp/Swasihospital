@@ -1,0 +1,135 @@
+﻿@model List<SwasiHealthCare.Model.OPDConsoltationModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    List<SwasiHealthCare.Data.Entities.AccessRights> rights =
+      (List<SwasiHealthCare.Data.Entities.AccessRights>)Session["AccessRights"];
+    var roleid = Convert.ToInt64(Session["RoleId"]);
+    var amnt = 0;
+}
+<div class="row clearfix">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="body">
+                <form>
+                    <div class="input-group" style="width:900px">
+                        <input type="text" class="form-control" id="searchopd" placeholder="Search here...">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="search-mail"><i class="icon-magnifier"></i></span>
+                        </div>
+                        @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 2 && x.IsCreate).Any())
+                        {
+                            <div id="z_button" tabindex="0">
+                                <div id="z_plus"><a href="@Url.Action("NewOPD", "Patient")"><span style="color:#ffffff">+</span></a></div>
+                            </div>
+                        }
+                        else if (roleid == 2)
+                        {
+                            <div id="z_button" tabindex="0">
+                                <div id="z_plus"><a href="@Url.Action("NewOPD", "Patient")"><span style="color:#ffffff">+</span></a></div>
+                            </div>
+                        }
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover table-custom spacing5">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th> Date </th>
+                        <th> OPD Id </th>
+                        <th> Patient Name </th>
+                        <th> Nature of Illness </th>
+                        <th> Total Amount </th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var index = 1;
+                        foreach (var item in Model)
+                        {
+                    <tr>
+                        <td>@index</td>
+                        @*<td class="w60">
+                            @if (item.PatientGender == "M")
+                            {
+                                <img src="~/Theme/Html/assets/images/xs/avatar4.jpg" data-toggle="tooltip" data-placement="top" title="" alt="Avatar" class="avatar rounded-circle" data-original-title="Male">
+                            }
+                            else
+                            {
+                                <img src="~/Theme/Html/assets/images/xs/avatar3.jpg" data-toggle="tooltip" data-placement="top" title="" alt="Avatar" class="avatar rounded-circle" data-original-title="Female">
+                            }
+                        </td
+                        <td>
+                                <a href="javascript:void(0);" title=""> @item.PatientName</a>
+                                <div>@item.PatientIDNumber</div>
+                                <div>@item.PatientMobileNo</div>
+                            </td>
+                            <td>@item.DoctorName</td>
+                            <td>@item.DoctorsNote</td>
+                            <td>@item.NatureOfIllness</td>*@
+                        <td>@item.ConsultationDate.ToString("dd/MM/yyyy")</td>
+                        <td>@item.ConsultationIDNumber</td>
+                        <td>@item.PatientName - @item.PatientIDNumber</td>
+                        <td>@item.NatureOfIllness</td>
+                        @*@amnt = @item.TreatmentSplDiscount == 0 ? @item.TreatmentTotalServicesCharges : @item.TreatmentSplDiscount*@
+                        <td>  @item.NetCharges</td>
+                        <td>
+                            <button onclick="location.href='@Url.Action("NewOPD", "Patient", new { opdconsutationid = item.OPDConsultationId , patientidnumber = item.PatientIDNumber})'" ; type="button" style="color:#0094ff; cursor:pointer" ; class="btn btn-default btn-sm" title="View"><i class="fa fa-eye"></i></button>
+                       @* <button onclick="window.location.href = '@Url.Action("NewOPD", "Patient",new { opdconsutationid =1} )'"></button>*@
+                        </td>
+                    </tr>
+                            index++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius: 9px;">
+            <div class="modal-header">
+                <div><h6 class="modal-title" id="exampleModalCenterTitle"></h6></div>
+            </div>
+            <div class="modal-body">
+                <div id="confirmmsg"></div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-outline-primary borderradius" id="ActionStatus" onclick="UserStatus()">Save changes</a>
+                <a href="#" class="btn btn-outline-primary borderradius" id="ActionDelete" onclick="DeleteUser()">Save changes</a>
+                <a href="@Url.Action("Index", "User")" class="btn btn-outline-secondary borderradius">Close</a>
+                <input type="hidden" id="hiddenuserid" />
+                <input type="hidden" id="hiddenstatus" />
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $("#page_name").text("OPD Details,");
+            $("#opd").trigger("click");
+            $("#allopd").addClass("active");
+            $("#searchopd").on("keyup", function () {
+                var value = $(this).val();
+                $("table tr").each(function (index) {
+                    if (index != 0) {
+                        $row = $(this);
+                        var id = $row.find("td:eq(2)").text();
+                        if (id.indexOf(value) != 0) {
+                            $(this).hide();
+                        }
+                        else {
+                            $(this).show();
+                        }
+                    }
+                });
+            });
+        });
+    </script>}
+

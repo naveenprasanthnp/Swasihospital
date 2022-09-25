@@ -1,0 +1,107 @@
+﻿@model SwasiHealthCare.Model.PlanModel
+@{
+    ViewBag.Title = "New Plan";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    var treatmentlist = new SelectList(ViewBag.treatmentlist, "TreatmentId", "TreatmentName");
+}
+<html>
+<head>
+    <link rel="stylesheet" href="~/Theme/Html/assets/vendor/dropify/css/dropify.min.css">
+    <link rel="stylesheet" href="~/Theme/Html/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+</head>
+<body>
+    <div class="card w-100 shadow-sm border-0">
+        <div class="card-body p-3">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="" id="nav-newsystem" role="tabpanel" aria-labelledby="nav-orginal-tab" style="overflow-y: auto;">
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12" id="divservicename" >
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        @Html.Label("ServiceName", "Service Name")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.DropDownListFor(model => model.TreatmentName, treatmentlist, "Select Treatment", new { @class = "form-control input-default borderclr", id = "txttreatmentname" })
+                                        @Html.ValidationMessageFor(model => model.TreatmentName, "", new { @class = "text-danger" })
+                                    </div>@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                    @*<div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                        @Html.Label("TreatmentName", "Treatment Name")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.TreatmentName, new { @class = "form-control input-default borderclr", Maxlength = 20, id = "txttreatmentname" })
+                                        @Html.ValidationMessageFor(model => model.TreatmentName, "", new { @class = "text-danger" })
+                                    </div>*@
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-address-book" aria-hidden="true"></i>
+                                        @Html.Label("NoofTreatment", "No of Treatment")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.NoofTreatment, new { @class = "form-control input-default borderclr", Maxlength = 13, id = "txtnooftreatment" })
+                                        @Html.ValidationMessageFor(model => model.NoofTreatment, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-laptop" aria-hidden="true"></i>
+                                        @Html.Label("PackageCode", "Package Code")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.PackageCode, new { @class = "form-control input-default borderclr", Maxlength = 30, id = "txtpackagecode" })
+                                        @Html.ValidationMessageFor(model => model.PackageCode, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-laptop" aria-hidden="true"></i>
+                                        @Html.Label("Offers", "Offers")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.Offers, new { @class = "form-control input-default borderclr", Maxlength = 30, id = "txtoffers" })
+                                        @Html.ValidationMessageFor(model => model.Offers, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-laptop" aria-hidden="true"></i>
+                                        @Html.Label("Amount", "Amount")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.Amount, new { @class = "form-control input-default borderclr", Maxlength = 30, id = "txtamount" })
+                                        @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        @Html.Label("PlanExpiryDate", "Plan Expiry Date")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.PlanExpiryDate, new { @class = "form-control input-default borderclr", data_provide = "datepicker", data_date_autoclose = "true", id = "txtplanexpirydate" })
+                                        @Html.ValidationMessageFor(model => model.PlanExpiryDate, "", new { @class = "text-danger" })
+                                    </div>
+                                    @*<div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        @Html.Label("Free", "Free")
+                                        <input type="checkbox" id="isfree" style="margin-top: 40px;"/>
+                                    </div>*@
+                                     <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        @Html.Label("Free", "Free")
+                                        @Html.TextBoxFor(model => model.isfree, new { @class = "form-control input-default borderclr", id = "isfree" })
+                                        @Html.ValidationMessageFor(model => model.isfree, "", new { @class = "text-danger" })
+                                    </div>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="form-row mt-1" style="padding-left: 1.25rem;">
+                        <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                            <a href="@Url.Action("IndexPlan","Settings")" class="btn btn-outline-danger borderradius">Back</a>
+                            <button type="submit" id="btnplansave" class="btn btn-outline-primary borderradius">Submit</button>
+                            <button type="reset" class="btn btn-outline-secondary borderradius">Clear</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>
+@section scripts {
+    <script src="~/Scripts/Plan/Plan.js"></script>
+    <script src="~/Theme/Html/assets/vendor/dropify/js/dropify.min.js"></script>
+    <script src="~/Theme/Html/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#txtplanexpirydate").val('');
+            $("#page_name").text("New Plan,");
+
+           
+        });
+    </script>
+}
+

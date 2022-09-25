@@ -1,0 +1,91 @@
+﻿@model SwasiHealthCare.Model.ExpenseModel
+@{
+    ViewBag.Title = "New Expense";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<html>
+<head>
+</head>
+<body>
+    <div class="card w-100 shadow-sm border-0">
+        <div class="card-body p-3">
+            @using (Html.BeginForm("NewExpense", "Medicine", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <div>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="" id="nav-newmedicine" role="tabpanel" aria-labelledby="nav-orginal-tab" style="overflow-y: auto;">
+                            <div class="card-body">
+                                <div class="form-row">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-address-book" aria-hidden="true"></i>
+                                        @Html.Label("StoreName", "Store Name")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.StoreName, new { @class = "form-control input-default borderclr", Maxlength = 30, id = "txtstorename" })
+                                        @Html.ValidationMessageFor(model => model.StoreName, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-rupee" aria-hidden="true"></i>
+                                        @Html.Label("BillAmount", "Bill Amount")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.BillAmount, new { @class = "form-control input-default borderclr", Maxlength = 8, id = "txtbillamount" })
+                                        @Html.ValidationMessageFor(model => model.BillAmount, "", new { @class = "text-danger" })
+                                    </div><div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        @Html.Label("ExpenseDate", "Expense Date")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.ExpenseDate, new { @class = "form-control input-default borderclr", data_provide = "datepicker", data_date_autoclose = "true", id = "txtexpensedate" })
+                                        @Html.ValidationMessageFor(model => model.ExpenseDate, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        @Html.Label("ApprovedFrom", "Approved From")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.ApprovedFrom, new { @class = "form-control input-default borderclr", id = "txtapprovedfrom" })
+                                        @Html.ValidationMessageFor(model => model.ApprovedFrom, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-medkit " aria-hidden="true"></i>
+                                        @Html.Label("Description", "Description")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control input-default borderclr", Maxlength = 255, id = "txtexpensedescription" })
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-file" aria-hidden="true"></i>
+                                        @Html.Label("BillCopy", "Bill Copy")
+                                        <input name="File" type="file" id="File" accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onChange="validate(this.value)" class="profile-img">
+                                        @Html.ValidationMessageFor(model => model.BillCopyFileName, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-medkit " aria-hidden="true"></i>
+                                        @Html.Label("IsCompanyExpense", "Is Company Expense")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.CheckBoxFor(model => model.IsCompanyExpense, new { @class = "form-control input-default borderclr", id = "IsCompanyExpense" })
+                                        @Html.ValidationMessageFor(model => model.IsCompanyExpense, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row mt-1" style="padding-left: 1.25rem;">
+                        <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                            <a href="@Url.Action("AllExpense","Medicine")" class="btn btn-outline-danger borderradius">Back</a>
+                            <button type="submit" id="btnexpensesave" class="btn btn-outline-primary borderradius">Submit</button>
+                            <button type="reset" class="btn btn-outline-secondary borderradius">Clear</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>
+@section scripts {
+    <script src="~/Scripts/Medicine/Expense.js"></script>
+    <script src="~/Theme/Html/assets/vendor/dropify/js/dropify.min.js"></script>
+    <script src="~/Theme/Html/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#txtmedicineexpirydate").val('');
+            $("#page_name").text("New Expense,");
+        });
+    </script>
+}
+

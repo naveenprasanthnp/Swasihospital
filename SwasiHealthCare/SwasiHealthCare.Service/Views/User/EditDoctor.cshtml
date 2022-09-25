@@ -1,0 +1,167 @@
+﻿@model SwasiHealthCare.Model.UserModel
+@{
+    ViewBag.Title = "New User";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    var roletype = new SelectList(ViewBag.roletypes, "RoleId", "RoleName");
+    var hospitallist = new SelectList(ViewBag.hospitallist, "HospitalId", "HospitalName");
+}
+<html>
+<head>
+    <link rel="stylesheet" href="~/Theme/Html/assets/vendor/dropify/css/dropify.min.css">
+    <link rel="stylesheet" href="~/Theme/Html/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+</head>
+<body>
+    <div class="card w-100 shadow-sm border-0">
+        <div class="card-body p-3">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="" id="nav-newuser" role="tabpanel" aria-labelledby="nav-orginal-tab" style="overflow-y: auto;">
+                            <div class="card-body">
+                                <div class="form-row">
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        @Html.Label("HospitalId", "Hospital")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.DropDownListFor(model => model.HospitalId, hospitallist, "Select Hospital", new { @class = "form-control input-default borderclr", id = "txthospitalid" })
+                                        @Html.ValidationMessageFor(model => model.HospitalId, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        @Html.Label("Register Number", "Register Number")
+                                        @Html.TextBoxFor(model => model.RegisterNumber, new { @class = "form-control input-default borderclr", Maxlength = 12, id = "txtregisternumber" })
+                                        @Html.ValidationMessageFor(model => model.RegisterNumber, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        @Html.Label("FirstName", "First Name")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control input-default borderclr", id = "txtfirstname" })
+                                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        @Html.Label("MiddleName", "Middle Name")
+                                        @Html.TextBoxFor(model => model.MiddleName, new { @class = "form-control input-default borderclr" })
+                                        @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        @Html.Label("LastName", "Last Name")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control input-default borderclr", id = "txtlastname" })
+                                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12 file-uploadImg ">
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                                        @Html.Label("UserEmail", "Email")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.UserEmail, new { @class = "form-control input-default borderclr", id = "txtemail", autocomplete = "off" })
+                                        @Html.ValidationMessageFor(model => model.UserEmail, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-transgender" aria-hidden="true"></i>
+                                        @Html.Label("Gender", "Gender")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.DropDownListFor(model => model.UserGender, new SelectListItem[]
+                                        {
+                                        new SelectListItem() {Text = "Select Gender"},
+                                        new SelectListItem() {Text = "Male",Value="M"},
+                                        new SelectListItem() {Text = "Female",Value="F"},
+                                        new SelectListItem() {Text = "Others",Value="O"}
+                                        }, new { @class = "form-control input-default dropdown-toggle borderclr", id= "txtgender" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-mobile" aria-hidden="true"></i>
+                                        @Html.Label("Mobile", "Mobile Number")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.UserMobile, new { @class = "form-control input-default borderclr", Maxlength = 10, id = "txtmobilenumber" })
+                                        @Html.ValidationMessageFor(model => model.UserMobile, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        @Html.Label("DateOfBirth", "Date of Birth")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.DateOfBirth, new { @class = "form-control input-default borderclr", data_provide = "datepicker", data_date_autoclose = "true", Maxlength = 10, id = "txtdateofbirth" })
+                                        @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        @Html.Label("DateofJoin", "Date of Join")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.DateofJoin, new { @class = "form-control input-default borderclr", data_provide = "datepicker", data_date_autoclose = "true", Maxlength = 10, id = "txtdateofjoin" })
+                                        @Html.ValidationMessageFor(model => model.DateofJoin, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-home" aria-hidden="true"></i>
+                                        @Html.Label("Address", "Address")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.UserAddress, new { @class = "form-control input-default borderclr", id = "txtuseraddress" })
+                                        @Html.ValidationMessageFor(model => model.UserAddress, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        @Html.Label("UserRoleId", "Designations")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.DropDownListFor(model => model.RoleId, roletype, "Select Roles", new { @class = "form-control input-default borderclr", id = "txtroletypes" })
+                                        @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12 file-uploadImg" id="userqualification">
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                                        @Html.Label("UserQualification", "Qualification")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.UserQualification, new { @class = "form-control input-default borderclr", id = "txtqualification", autocomplete = "off" })
+                                        @Html.ValidationMessageFor(model => model.UserQualification, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12 file-uploadImg" id="userspecialization">
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                                        @Html.Label("UserSpecialization", "Specialization")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.UserSpecialization, new { @class = "form-control input-default borderclr", id = "txtspecialization", autocomplete = "off" })
+                                        @Html.ValidationMessageFor(model => model.UserSpecialization, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-lock" aria-hidden="true"></i>
+                                        @Html.Label("UserPassword", "Password")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.PasswordFor(model => model.UserPassword, new { @class = "form-control input-default borderclr", id = "txtpassword", autocomplete = "off" })
+                                        @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-lock" aria-hidden="true"></i>
+                                        @Html.Label("Password", "Confirm Password")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.PasswordFor(model => model.UserPassword, new { @class = "form-control input-default borderclr", id = "txtconfrmpassword", autocomplete = "off" })
+                                        @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row mt-1" style="padding-left: 1.25rem;">
+                        <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                            <a href="@Url.Action("Index","User")" class="btn btn-outline-danger borderradius">Back</a>
+                            <button type="submit" id="btnUserSave" class="btn btn-outline-primary borderradius">Submit</button>
+                            <button type="reset" class="btn btn-outline-secondary borderradius">Clear</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>
+@section scripts {
+    <script src="~/Scripts/User/User.js"></script>
+    <script src="~/Theme/Html/assets/vendor/dropify/js/dropify.min.js"></script>
+    <script src="~/Theme/Html/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script><!-- bootstrap datepicker Plugin Js -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+                $("#page_name").text("Edit Doctor,");
+            if ($("#txtroletypes").val() != 2) {
+                $("#userqualification").hide();
+                $("#userspecialization").hide();
+            }
+            $("#txtroletypes").change(function () {
+                if ($("#txtroletypes").val() != 2) {
+                    $("#userqualification").hide();
+                    $("#userspecialization").hide();
+                }
+                else {
+                    $("#userqualification").show();
+                    $("#userspecialization").show();
+                }
+            });
+        });
+    </script>
+}
+

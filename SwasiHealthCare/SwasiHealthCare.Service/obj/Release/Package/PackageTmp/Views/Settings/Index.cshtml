@@ -1,0 +1,144 @@
+﻿@model List<SwasiHealthCare.Model.SystemViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    List<SwasiHealthCare.Data.Entities.AccessRights> rights =
+  (List<SwasiHealthCare.Data.Entities.AccessRights>)Session["AccessRights"];
+    var roleid = Convert.ToInt64(Session["RoleId"]);
+}
+<div class="row clearfix">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="body">
+                <form>
+                    <div class="input-group" style="width:800px">
+                        <input type="text" class="form-control" id="searchsystem" placeholder="Search here...">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="search-mail"><i class="icon-magnifier"></i></span>
+                        </div> 
+                        @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId ==11 && x.IsCreate).Any())
+                        {
+                            <div id="z_button" tabindex="0">
+                                <div id="z_plus"><a href="@Url.Action("NewSystem", "Settings")"><span style="color:#ffffff">+</span></a></div>
+                            </div>
+                        }
+                        else if (roleid == 2 || roleid == 1)
+                        {
+                            <div id="z_button" tabindex="0">
+                                <div id="z_plus"><a href="@Url.Action("NewSystem", "Settings")"><span style="color:#ffffff">+</span></a></div>
+                            </div>
+                        }
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="table-responsive" id="system_list">
+            <table class="table table-hover table-custom spacing5">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>System Name</th>
+                        <th>System Ip</th>
+                        <th>System Model</th>
+                        <th>Created Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @{
+                        var index = 1;
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@index</td>
+                                <td>@item.SystemName</td>
+                                <td>@item.SystemIp</td>
+                                <td>@item.SystemModel</td>
+                                <td>@item.SystemCreatedDate.ToString("MM/dd/yyyy")</td>
+                                <td>
+                                    @if (item.SystemStatus)
+                                    {
+                                        <button type="button" class="btn btn-default btn-sm" onclick="ChangeSystemStatus(@item.SystemId,false)" style="color:#82b440; cursor:pointer" ; data-toggle="modal" data-target="#exampleModalCenter" title="Change User Status"><i class="fa fa-check-circle"></i></button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-default btn-sm" onclick="ChangeSystemStatus(@item.SystemId,true)" style="color:#FF2A2A;cursor:pointer" ; data-toggle="modal" data-target="#exampleModalCenter" title="Change User Status"><i class="fa fa-times-circle"></i></button>
+                                    }
+                                    @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 11 && x.IsEdit).Any())
+                                    {
+                                        <button onclick="location.href='@Url.Action("EditSystem", "Settings",new {SystemId=item.SystemId })'" ; type="button" style="color:#0094ff; cursor:pointer" ; class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i></button>
+
+                                    }
+                                    else if (roleid == 2 || roleid == 1)
+                                    {
+                                        <button onclick="location.href='@Url.Action("EditSystem", "Settings",new {SystemId=item.SystemId })'" ; type="button" style="color:#0094ff; cursor:pointer" ; class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i></button>
+
+                                    }
+                                    @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 11 && x.IsDelete).Any())
+                                    {
+                                        <button type="button" style="color: #3e062d; cursor:pointer" ; class="btn btn-default btn-sm" title="Delete" onclick="RemoveSystem(@item.SystemId)" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-trash-o"></i></button>
+                                    }
+                                    else if (roleid == 2 || roleid == 1)
+                                    {
+                                        <button type="button" style="color: #3e062d; cursor:pointer" ; class="btn btn-default btn-sm" title="Delete" onclick="RemoveSystem(@item.SystemId)" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-trash-o"></i></button>
+                                    }
+                                </td>
+                            </tr>
+                            index++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius: 9px;">
+            <div class="modal-header">
+                <div><h6 class="modal-title" id="exampleModalCenterTitle"></h6></div>
+            </div>
+            <div class="modal-body">
+                <div id="confirmmsg"></div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-outline-primary borderradius" id="ActionStatus" onclick="SystemStatus()">Save changes</a>
+                <a href="#" class="btn btn-outline-primary borderradius" id="ActionDelete" onclick="DeleteSystem()">Save changes</a>
+                <a href="@Url.Action("Index", "Settings")" class="btn btn-outline-secondary borderradius">Close</a>
+                <input type="hidden" id="hiddensystemid" />
+                <input type="hidden" id="hiddenstatus" />
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/System/System.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#page_name").text("System Details,");
+
+            $("#searchsystem").on("keyup", function () {
+                var value = $(this).val();
+
+                $("table tr").each(function (index) {
+                    debugger;
+                    if (index != 0) {
+
+                        $row = $(this);
+                        var id = $row.find("td:eq(1)").text();
+
+                        if (id.indexOf(value) != 0) {
+                            $(this).hide();
+                        }
+                        else {
+                            $(this).show();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+

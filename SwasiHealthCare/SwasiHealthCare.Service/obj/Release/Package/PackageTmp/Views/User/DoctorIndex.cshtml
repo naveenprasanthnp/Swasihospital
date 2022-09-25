@@ -1,0 +1,131 @@
+﻿@model List<SwasiHealthCare.Model.UserModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<div class="row clearfix">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="body">
+                <form>
+                    <div class="input-group"  style="width:900px">
+                        <input type="text" class="form-control"  id="search-date" placeholder="Search here...">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="search-mail"><i class="icon-magnifier"></i></span>
+                        </div>
+                        <div id="z_button" tabindex="0">
+                            <div id="z_plus"><a href="@Url.Action("NewDoctor", "User")"><span style="color:#ffffff">+</span></a></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover table-custom spacing5">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Gender</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>DOJ</th>
+                        <th>Designation</th>
+                        <th>DOB</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @{
+                        var index = 1;
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@index</td>
+                                <td class="w60">
+                                    @if (item.UserGender == "M")
+                                    {
+                                        <img src="~/Theme/Html/assets/images/xs/avatar4.jpg" data-toggle="tooltip" data-placement="top" title="" alt="Avatar" class="avatar rounded-circle" data-original-title="Male">
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Theme/Html/assets/images/xs/avatar3.jpg" data-toggle="tooltip" data-placement="top" title="" alt="Avatar" class="avatar rounded-circle" data-original-title="Female">
+                                    }
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" title=""> @item.FullName</a>
+                                    <div>@item.UserMobile</div>
+                                </td>
+                                <td>@item.UserMobile</td>
+                                <td>@item.DateofJoin.ToString("MM/dd/yyyy")</td>
+                                <td>@item.RoleName</td>
+                                <td>@item.DateOfBirth.ToString("MM/dd/yyyy")</td>
+                                <td>
+                                    @if (item.UserStatus)
+                                    {
+                                        <button type="button" class="btn btn-default btn-sm" onclick="ChangeUserStatus(@item.UserId,true)" style="color:#82b440; cursor:pointer" ; data-toggle="modal" data-target="#exampleModalCenter" title="Change User Status"><i class="fa fa-check-circle"></i></button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-default btn-sm" onclick="ChangeUserStatus(@item.UserId,true)" style="color:#FF2A2A;cursor:pointer" ; data-toggle="modal" data-target="#exampleModalCenter" title="Change User Status"><i class="fa fa-times-circle"></i></button>
+                                    }
+                                    <button onclick="location.href='@Url.Action("EditUser", "User",new {UserId=item.UserId })'" ; type="button" style="color:#0094ff; cursor:pointer" ; class="btn btn-default btn-sm" title="Edit"><i class="fa fa-pencil"></i></button>
+                                    <button type="button" style="color: #3e062d; cursor:pointer" ; class="btn btn-default btn-sm" title="Delete" onclick="RemoveUser(@item.UserId)" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-trash-o"></i></button>
+                                </td>
+                            </tr>
+                            index++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius: 9px;">
+            <div class="modal-header">
+                <div><h6 class="modal-title" id="exampleModalCenterTitle"></h6></div>
+            </div>
+            <div class="modal-body">
+                <div id="confirmmsg"></div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-outline-primary borderradius" id="ActionStatus" onclick="UserStatus()">Save changes</a>
+                <a href="#" class="btn btn-outline-primary borderradius" id="ActionDelete" onclick="DeleteUser()">Save changes</a>
+                <a href="@Url.Action("Index", "User")" class="btn btn-outline-secondary borderradius">Close</a>
+                <input type="hidden" id="hiddenuserid" />
+                <input type="hidden" id="hiddenstatus" />
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/User/User.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#page_name").text("Doctor Details,");
+
+            $("#search-date").on("keyup", function () {
+                var value = $(this).val();
+
+                $("table tr").each(function (index) {
+                    debugger;
+                    if (index != 0) {
+
+                        $row = $(this);
+                        var id = $row.find("td:eq(1)").text();
+
+                        if (id.indexOf(value) != 0) {
+                            $(this).hide();
+                        }
+                        else {
+                            $(this).show();
+                        }
+                    }
+                });
+            });
+
+        });</script>
+}
+

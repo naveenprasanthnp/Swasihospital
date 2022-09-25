@@ -1,0 +1,341 @@
+﻿@model SwasiHealthCare.Model.TilesModel
+@{
+    ViewBag.Title = "New User";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    List<SwasiHealthCare.Data.Entities.AccessRights> rights =
+       (List<SwasiHealthCare.Data.Entities.AccessRights>)Session["AccessRights"];
+    var roleid = Convert.ToInt64(Session["RoleId"]);
+}
+<html>
+<head>
+    <link href="~/Theme/Html/timedemo.css" rel="stylesheet" /> 
+    <link href="~/Theme/Html/assets/css/demo.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="card w-100 shadow-sm border-0">
+        <div class="card-body p-3">
+            <!-- Icon Cards-->
+            <div class="row">
+                @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 7 && x.IsView).Any())
+                {
+                    <div class="col-xl-3 col-sm-6 mb-3">
+                        <div class="card text-white bg-danger o-hidden h-100 borderradius" style=" background: linear-gradient( 45deg, #c38bd6d6, transparent);">
+                            <div class="card-body">
+                                <div class="card-body-icon">
+                                    <i class="fa fa-fw fa-medkit"></i>
+                                </div>
+                                <div class="mr-5">@Model.medicinescount Medicines!</div>
+                            </div>
+                            <a class="card-footer text-white clearfix small z-1" href="@Url.Action("Index", "Medicine")">
+                                <span class="">View Details</span>
+                                <span class="float-none">
+                                    <i class="fa fa-angle-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                }
+                else if (roleid == 2)
+                {
+                    <div class="col-xl-3 col-sm-6 mb-3">
+                        <div class="card text-white bg-danger o-hidden h-100 borderradius" style=" background: linear-gradient( 45deg, #c38bd6d6, transparent);">
+                            <div class="card-body">
+                                <div class="card-body-icon">
+                                    <i class="fa fa-fw fa-medkit"></i>
+                                </div>
+                                <div class="mr-5">@Model.medicinescount Medicines!</div>
+                            </div>
+                            <a class="card-footer text-white clearfix small z-1" href="@Url.Action("Index", "Medicine")">
+                                <span class="">View Details</span>
+                                <span class="float-none">
+                                    <i class="fa fa-angle-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                }
+                @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 8 && x.IsView).Any())
+                {
+                    <div class="col-xl-3 col-sm-6 mb-3">
+                        <div class="card text-white bg-info o-hidden h-100 borderradius" style=" background: linear-gradient( 45deg, #8310bdd6, transparent);">
+                            <div class="card-body">
+                                <div class="card-body-icon">
+                                    <i class="fa fa-fw fa-bed"></i>
+                                </div>
+                                <div class="mr-5">@Model.treatmentcount Treatments!</div>
+                            </div>
+                            <a class="card-footer text-white clearfix small z-1" href="@Url.Action("Index", "Treatment")">
+                                <span class="">View Details</span>
+                                <span class="float-none">
+                                    <i class="fa fa-angle-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                }
+                else if (roleid == 2 || roleid != 1)
+                {
+                    <div class="col-xl-3 col-sm-6 mb-3">
+                        <div class="card text-white bg-info o-hidden h-100 borderradius" style=" background: linear-gradient( 45deg, #8310bdd6, transparent);">
+                            <div class="card-body">
+                                <div class="card-body-icon">
+                                    <i class="fa fa-fw fa-bed"></i>
+                                </div>
+                                <div class="mr-5">@Model.treatmentcount Treatments!</div>
+                            </div>
+                            <a class="card-footer text-white clearfix small z-1" href="@Url.Action("Index", "Treatment")">
+                                <span class="">View Details</span>
+                                <span class="float-none">
+                                    <i class="fa fa-angle-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                }
+                @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 6 && x.IsView).Any())
+                {
+                    <div class="col-xl-3 col-sm-6 mb-3">
+                        <div class="card text-white bg-secondary o-hidden h-100 borderradius" style=" background: linear-gradient( 45deg, #10100fd6, #d80af1d6);">
+                            <div class="card-body">
+                                <div class="card-body-icon">
+                                    <i class="fa fa-fw fa-user-circle-o"></i>
+                                </div>
+                                <div class="mr-5">@Model.staffcount Staffs!</div>
+                            </div>
+                            <a class="card-footer text-white clearfix small z-1" href="@Url.Action("Index", "User")">
+                                <span class="">View Details</span>
+                                <span class="float-none">
+                                    <i class="fa fa-angle-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                }
+                else if (roleid == 2 || roleid == 1)
+                {
+                    <div class="col-xl-3 col-sm-6 mb-3">
+                        <div class="card text-white bg-secondary o-hidden h-100 borderradius" style=" background: linear-gradient( 45deg, #10100fd6, #d80af1d6);">
+                            <div class="card-body">
+                                <div class="card-body-icon">
+                                    <i class="fa fa-fw fa-user-circle-o"></i>
+                                </div>
+                                <div class="mr-5">@Model.staffcount Staffs!</div>
+                            </div>
+                            <a class="card-footer text-white clearfix small z-1" href="@Url.Action("Index", "User")">
+                                <span class="">View Details</span>
+                                <span class="float-none">
+                                    <i class="fa fa-angle-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                }
+                @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 9 && x.IsView).Any())
+                {
+                    <div class="col-xl-3 col-sm-6 mb-3 ">
+                        <div class="card text-white bg-success o-hidden h-100 borderradius" style=" background: linear-gradient( 45deg, #b6c79a, transparent);">
+                            <div class="card-body">
+                                <div class="card-body-icon">
+                                    <i class="fa fa-fw fa-hospital-o"></i>
+                                </div>
+                                <div class="mr-5">@Model.hospitalcount Hospitals!</div>
+                            </div>
+                            <a class="card-footer text-white clearfix small z-1" href="@Url.Action("Index", "Hospital")">
+                                <span class="">View Details</span>
+                                <span class="float-none">
+                                    <i class="fa fa-angle-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                }
+                else if (roleid == 1)
+                {
+                    <div class="col-xl-3 col-sm-6 mb-3 ">
+                        <div class="card text-white bg-success o-hidden h-100 borderradius" style=" background: linear-gradient( 45deg, #b6c79a, transparent);">
+                            <div class="card-body">
+                                <div class="card-body-icon">
+                                    <i class="fa fa-fw fa-hospital-o"></i>
+                                </div>
+                                <div class="mr-5">@Model.hospitalcount Hospitals!</div>
+                            </div>
+                            <a class="card-footer text-white clearfix small z-1" href="@Url.Action("Index", "Hospital")">
+                                <span class="">View Details</span>
+                                <span class="float-none">
+                                    <i class="fa fa-angle-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                }
+                @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 10 && x.IsView).Any())
+                {
+                    <div class="col-xl-3 col-sm-6 mb-3 ">
+                        <div class="card text-white bg-primary o-hidden h-100 borderradius" style=" background: linear-gradient( 45deg, #040404d6, transparent);">
+                            <div class="card-body">
+                                <div class="card-body-icon">
+                                    <i class="fa fa-fw fa-hospital-o"></i>
+                                </div>
+                                <div class="mr-5">@Model.designationcount Designation!</div>
+                            </div>
+                            <a class="card-footer text-white clearfix small z-1" href="@Url.Action("Index", "Designation")">
+                                <span class="">View Details</span>
+                                <span class="float-none">
+                                    <i class="fa fa-angle-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                }
+                else if (roleid == 2)
+                {
+                    <div class="col-xl-3 col-sm-6 mb-3 ">
+                        <div class="card text-white bg-primary o-hidden h-100 borderradius" style=" background: linear-gradient( 45deg, #040404d6, transparent);">
+                            <div class="card-body">
+                                <div class="card-body-icon">
+                                    <i class="fa fa-fw fa-hospital-o"></i>
+                                </div>
+                                <div class="mr-5">@Model.designationcount Designation!</div>
+                            </div>
+                            <a class="card-footer text-white clearfix small z-1" href="@Url.Action("Index", "Designation")">
+                                <span class="">View Details</span>
+                                <span class="float-none">
+                                    <i class="fa fa-angle-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                }
+                @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 11 && x.IsView).Any())
+                {
+                    <div class="col-xl-3 col-sm-6 mb-3">
+                        <div class="card text-white bg-warning o-hidden h-100 borderradius" style=" background: linear-gradient( 45deg, #bf1c2b, transparent);">
+                            <div class="card-body">
+                                <div class="card-body-icon">
+                                    <i class="fa fa-fw fa-laptop"></i>
+                                </div>
+                                <div class="mr-5">@Model.systemcount Systems!</div>
+                            </div>
+                            <a class="card-footer text-white clearfix small z-1" href="@Url.Action("Index", "Settings")">
+                                <span class="">View Details</span>
+                                <span class="float-none">
+                                    <i class="fa fa-angle-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                }
+                else if (roleid == 2)
+                {
+                    <div class="col-xl-3 col-sm-6 mb-3">
+                        <div class="card text-white bg-warning o-hidden h-100 borderradius" style=" background: linear-gradient( 45deg, #bf1c2b, transparent);">
+                            <div class="card-body">
+                                <div class="card-body-icon">
+                                    <i class="fa fa-fw fa-laptop"></i>
+                                </div>
+                                <div class="mr-5">@Model.systemcount Systems!</div>
+                            </div>
+                            <a class="card-footer text-white clearfix small z-1" href="@Url.Action("Index", "Settings")">
+                                <span class="">View Details</span>
+                                <span class="float-none">
+                                    <i class="fa fa-angle-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                }
+                @if ((roleid == 4 || roleid == 3) && rights.Where(x => x.MenuId == 12 && x.IsView).Any())
+                {
+                    <div class="col-xl-3 col-sm-6 mb-3">
+                        <div class="card text-white bg-warning o-hidden h-100 borderradius" style=" background: linear-gradient(45deg, #686f6d, #040404);">
+                            <div class="card-body">
+                                <div class="card-body-icon">
+                                    <i class="fa fa-fw fa-laptop"></i>
+                                </div>
+                                <div class="mr-5">@Model.plancount Plans!</div>
+                            </div>
+                            <a class="card-footer text-white clearfix small z-1" href="@Url.Action("IndexPlan", "Settings")">
+                                <span class="">View Details</span>
+                                <span class="float-none">
+                                    <i class="fa fa-angle-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                }
+                else if (roleid == 2 || roleid != 1)
+                {
+                    <div class="col-xl-3 col-sm-6 mb-3">
+                        <div class="card text-white bg-warning o-hidden h-100 borderradius" style=" background: linear-gradient(45deg, #686f6d, #040404);">
+                            <div class="card-body">
+                                <div class="card-body-icon">
+                                    <i class="fa fa-fw fa-laptop"></i>
+                                </div>
+                                <div class="mr-5">@Model.plancount Plans!</div>
+                            </div>
+                            <a class="card-footer text-white clearfix small z-1" href="@Url.Action("IndexPlan", "Settings")">
+                                <span class="">View Details</span>
+                                <span class="float-none">
+                                    <i class="fa fa-angle-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                }
+                @if (roleid == 2)
+                {
+                    <div class="col-xl-3 col-sm-6 mb-3">
+                        <div class="card text-white bg-warning o-hidden h-100 borderradius" style=" background: linear-gradient(45deg, #27b9a5, #1b1617);">
+                            <div class="card-body">
+                                <div class="card-body-icon">
+                                    <i class="fa fa-fw fa-laptop"></i>
+                                </div>
+                                <div class="mr-5">Access Rights!</div>
+                            </div>
+                            <a class="card-footer text-white clearfix small z-1" href="@Url.Action("CreateRights", "AccessRight")">
+                                <span class="">View Details</span>
+                                <span class="float-none">
+                                    <i class="fa fa-angle-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                }
+                <div class="col-xl-3 col-sm-6 mb-3">
+                    <div class="card text-white bg-secondary o-hidden h-100 borderradius" style=" background: linear-gradient( 45deg, #10100fd6, #62af27);">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="fa fa-money"></i>
+                            </div>
+                            <div class="mr-5">Opening Balance!</div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" href="@Url.Action("IndexOpeningBalance", "Settings")">
+                            <span class="">View Details</span>
+                            <span class="float-none">
+                                <i class="fa fa-angle-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 mb-3">
+                    <div class="card text-white bg-secondary o-hidden h-100 borderradius" style=" background: linear-gradient( 45deg, #a3a39ad6, #ebdb25);">
+                        <div class="card-body">
+                            <div class="card-body-icon">
+                                <i class="fa fa-money"></i>
+                            </div>
+                            <div class="mr-5">Subscription!</div>
+                        </div>
+                        <a class="card-footer text-white clearfix small z-1" href="@Url.Action("IndexSubscription", "Settings")">
+                            <span class="">View Details</span>
+                            <span class="float-none">
+                                <i class="fa fa-angle-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Theme/Html/timedemo.js"></script>
+</body>
+</html>
