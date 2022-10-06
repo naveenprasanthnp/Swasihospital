@@ -10,3 +10,15 @@ E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.Data\obj\Debug\SwasiHe
 E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.Data\obj\Debug\SwasiHealthCare.Data.csproj.CopyComplete
 E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.Data\obj\Debug\SwasiHealthCare.Data.dll
 E:\Np\SwasiHealthCare (1)\SwasiHealthCare\SwasiHealthCare.Data\obj\Debug\SwasiHealthCare.Data.pdb
+E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.Data\bin\Debug\SwasiHealthCare.Data.dll.config
+E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.Data\bin\Debug\SwasiHealthCare.Data.dll
+E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.Data\bin\Debug\SwasiHealthCare.Data.pdb
+E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.Data\bin\Debug\Data.EF.Core.dll
+E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.Data\bin\Debug\EntityFramework.dll
+E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.Data\bin\Debug\EntityFramework.SqlServer.dll
+E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.Data\bin\Debug\EntityFramework.xml
+E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.Data\bin\Debug\EntityFramework.SqlServer.xml
+E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.Data\obj\Debug\SwasiHealthCare.Data.csproj.CoreCompileInputs.cache
+E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.Data\obj\Debug\SwasiHealthCare.Data.csproj.CopyComplete
+E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.Data\obj\Debug\SwasiHealthCare.Data.dll
+E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.Data\obj\Debug\SwasiHealthCare.Data.pdb

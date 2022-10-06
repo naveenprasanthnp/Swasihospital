@@ -56,8 +56,8 @@
                                         <div class="form-group col-lg-3 col-md-6 col-sm-12">
                                             <button type="submit" id="btnMedicineRpt" class="btn  btn-sm btn-outline-primary borderradius" style="margin-top: 28px;">Search</button>
                                             <button type="reset" onclick="clear()" class="btn btn-sm btn-outline-dark borderradius" style="margin-left: 70px; margin-top: -56px;">Reset</button>
-                                            <button type="submit" onclick="exportexcel()" class="btn btn-sm btn-outline-secondary borderradius" style="margin-left: 130px; margin-top: -97px;">Excel</button>
-                                            <button type="submit" onclick="generatepdf()" class="btn  btn-sm btn-outline-danger borderradius" style="margin-left: 190px;margin-top: -140px;">PDF</button>
+                                            <button type="submit" onclick="exportexcel()" class="btn btn-sm btn-outline-secondary borderradius" style="margin-left: 130px; margin-top: -100px;">Excel</button>
+                                            @*<button type="submit" onclick="generatepdf()" class="btn  btn-sm btn-outline-danger borderradius" style="margin-left: 190px;margin-top: -140px;">PDF</button>*@
                                         </div>
                                     </div>
                                 </div>
@@ -420,21 +420,21 @@
             $("#ToDate").val("");
         }
 
-        function generate() {
-            html2canvas($('#patient_list')[0], {
-                onrendered: function (canvas) {
-                    var data = canvas.toDataURL();
-                    var docDefinition = {
-                        content: [{
-                            image: data,
-                            width: 500
-                        }]
-                    };
-                    pdfMake.createPdf(docDefinition).download("Table.pdf");
-                }
-            });
-            return false;
-        }
+        //function generate() {
+        //    html2canvas($('#patient_list')[0], {
+        //        onrendered: function (canvas) {
+        //            var data = canvas.toDataURL();
+        //            var docDefinition = {
+        //                content: [{
+        //                    image: data,
+        //                    width: 500
+        //                }]
+        //            };
+        //            pdfMake.createPdf(docDefinition).download("Table.pdf");
+        //        }
+        //    });
+        //    return false;
+        //}
 
         $(document).ready(function () {
             $("#allreport").trigger("click");

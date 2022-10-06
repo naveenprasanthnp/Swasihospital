@@ -459,6 +459,10 @@ namespace SwasiHealthCare.Service.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
+            if(expenseModel.ExpenseId != null)
+            {
+                EditExpense(expenseModel);
+            }
             try
             {
                 if (Request.Files.Count > 0)
@@ -537,7 +541,7 @@ namespace SwasiHealthCare.Service.Controllers
                 expenseModel.ExpenseModifiedBy = Convert.ToInt64(Session["UserId"]);
                 expenseModel.Mode = "E";
                 await medicineManager.AddNewExpense(expenseModel);
-                return RedirectToAction("Index");
+                return RedirectToAction("AllExpense");
             }
             catch (Exception ex)
             {

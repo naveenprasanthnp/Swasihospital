@@ -54,23 +54,23 @@
                     <tr>
                         <td>@index</td>
                         @*<td class="w60">
-                            @if (item.PatientGender == "M")
-                            {
-                                <img src="~/Theme/Html/assets/images/xs/avatar4.jpg" data-toggle="tooltip" data-placement="top" title="" alt="Avatar" class="avatar rounded-circle" data-original-title="Male">
-                            }
-                            else
-                            {
-                                <img src="~/Theme/Html/assets/images/xs/avatar3.jpg" data-toggle="tooltip" data-placement="top" title="" alt="Avatar" class="avatar rounded-circle" data-original-title="Female">
-                            }
+                        @if (item.PatientGender == "M")
+                        {
+                        <img src="~/Theme/Html/assets/images/xs/avatar4.jpg" data-toggle="tooltip" data-placement="top" title="" alt="Avatar" class="avatar rounded-circle" data-original-title="Male">
+                        }
+                        else
+                        {
+                        <img src="~/Theme/Html/assets/images/xs/avatar3.jpg" data-toggle="tooltip" data-placement="top" title="" alt="Avatar" class="avatar rounded-circle" data-original-title="Female">
+                        }
                         </td
                         <td>
-                                <a href="javascript:void(0);" title=""> @item.PatientName</a>
-                                <div>@item.PatientIDNumber</div>
-                                <div>@item.PatientMobileNo</div>
-                            </td>
-                            <td>@item.DoctorName</td>
-                            <td>@item.DoctorsNote</td>
-                            <td>@item.NatureOfIllness</td>*@
+                        <a href="javascript:void(0);" title=""> @item.PatientName</a>
+                        <div>@item.PatientIDNumber</div>
+                        <div>@item.PatientMobileNo</div>
+                        </td>
+                        <td>@item.DoctorName</td>
+                        <td>@item.DoctorsNote</td>
+                        <td>@item.NatureOfIllness</td>*@
                         <td>@item.ConsultationDate.ToString("dd/MM/yyyy")</td>
                         <td>@item.ConsultationIDNumber</td>
                         <td>@item.PatientName - @item.PatientIDNumber</td>
@@ -78,13 +78,16 @@
                         @*@amnt = @item.TreatmentSplDiscount == 0 ? @item.TreatmentTotalServicesCharges : @item.TreatmentSplDiscount*@
                         <td>  @item.NetCharges</td>
                         <td>
-                            <button onclick="location.href='@Url.Action("NewOPD", "Patient", new { opdconsutationid = item.OPDConsultationId , patientidnumber = item.PatientIDNumber})'" ; type="button" style="color:#0094ff; cursor:pointer" ; class="btn btn-default btn-sm" title="View"><i class="fa fa-eye"></i></button>
-                       @* <button onclick="window.location.href = '@Url.Action("NewOPD", "Patient",new { opdconsutationid =1} )'"></button>*@
+                            <button onclick="location.href='@Url.Action("NewOPD", "Patient", new { opdconsutationid = item.OPDConsultationId, patientidnumber = item.PatientIDNumber })'" ; type="button" style="color:#0094ff; cursor:pointer" ; class="btn btn-default btn-sm" title="View"><i class="fa fa-eye"></i></button>
+                            @* <button onclick="window.location.href = '@Url.Action("NewOPD", "Patient",new { opdconsutationid =1} )'"></button>*@
                         </td>
-                    </tr>
-                            index++;
+                        @*<td>
+                            <button type="button" style="color:#0094ff; cursor:pointer" ; class="btn btn-default btn-sm" title="View"id="btnUpdateAmt"><i class="fa fa-eye"></i></button>
+                        </td>*@
+                          </tr>
+                                index++;
+                            }
                         }
-                    }
                 </tbody>
             </table>
         </div>

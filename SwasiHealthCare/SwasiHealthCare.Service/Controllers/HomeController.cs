@@ -7,10 +7,12 @@ using SwasiHealthCare.Service.App_Start;
 using SwasiHealthCare.Service.Helper;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Services;
 using static SwasiHealthCare.Service.FilterConfig;
 
 namespace SwasiHealthCare.Service.Controllers
@@ -176,6 +178,174 @@ namespace SwasiHealthCare.Service.Controllers
             {
                 throw ex;
               // return RedirectToAction("Error", "Home");
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Index(string FromDate)
+        {
+            string ToDate = "";
+            if (Session["UserId"] == null || Session["UserId"].ToString() == string.Empty)
+            {
+                return RedirectToAction("Login");
+            }
+
+            if (Session["RoleId"] == null || Session["RoleId"].ToString() == string.Empty)
+            {
+                return RedirectToAction("Login");
+            }
+
+            try
+            {
+                var result = new DashboardModel();
+                long roleid = Convert.ToInt64(Session["RoleId"]);
+                long hospitalid = Convert.ToInt64(Session["HospitalId"]);
+                long userid = Convert.ToInt64(Session["UserId"]);
+                IUserManager userManager = new UserManager();
+                //IPatientManager patientManager = new PatientManager();
+                IHospitalManager hospitalManager = new HospitalManager();
+                IPatientManager patientmanager = new PatientManager();
+                if (roleid != 1)
+                {
+                    string[] splitFromDate = FromDate.Split('/');
+                    string[] splitToDate = ToDate.Split('/');
+                    FromDate = splitFromDate[1] + "/" + splitFromDate[0] + "/" + splitFromDate[2];
+                    ToDate = splitToDate[1] + "/" + splitToDate[0] + "/" + splitToDate[2];
+                    DateTime now = DateTime.Now;
+                    var startDate = Convert.ToDateTime(FromDate).Date;//new DateTime(now.Year, now.Month, 1);
+                    var endDate = Convert.ToDateTime(ToDate).Date;//startDate.AddMonths(1).AddDays(-1);
+
+                    var userdetails = (await userManager.GetEditUser(userid));
+                    var userList = (await ViewHelper.GetAllUsers()).Where(x => x.RoleId != 1).ToList();
+
+                    List<PatientModel> paientlist = (await ViewHelper.GetAllPatients()).Where(x => x.PatientDate.Date >= startDate && x.
+                    PatientDate.Date <= endDate).Where(x => x.PatientHospitalId == hospitalid).ToList();
+
+                    var t = (await patientmanager.GetOPDServiceCount(hospitalid));
+                    var opdcount = patientmanager.GetOPDCount(hospitalid, false);
+                    result.totalpatients = paientlist.Count();
+                    result.totalopd = opdcount;
+
+                    var purchasemedicine = (await ViewHelper.GetAllPurchaseMedicine(null, null, hospitalid));
+
+                    var date = new FilterModel();
+                    date.FromDate = startDate;
+                    date.ToDate = endDate;
+                    date.IsDashboard = true;
+                    var revenu = (await RevenueReport(date));
+
+                    result.totalpurchasemedicine = purchasemedicine.Where(x => x.PurchaseDate.Date >= startDate && x.PurchaseDate.Date <= endDate).Sum(x => x.PurchaseCost);
+
+                    result.totaltreatment = t.DashboardTreatmentCount ?? 0;
+                    result.totalpatients = paientlist.Count();
+                    result.totalopd = opdcount;
+                    result.totaldrug = t.DashboardMedicineCount ?? 0;
+
+                    result.totaltrmtrevenu = revenu.treatmentrevenue.Sum(x => x.Income);
+                    result.totaldrugrevenue = revenu.medicinerevenue.Sum(x => x.Income);
+                    date.IsDashboard = true;
+                    revenu = await RevenueReportDay(date);
+                    //decimal? companyexpense = revenu.treatmentrevenue.Sum(x => x.CompanyExpense);
+                    result.totalexpense = revenu.treatmentrevenue.Sum(x => x.Expense) + revenu.medicinerevenue.Sum(x => x.Receipt);
+                    var medicinelist1 = (await ViewHelper.GetAllExpense()).Where(x => x.ExpenseDate.Date >= startDate
+                    && x.ExpenseDate.Date <= endDate && x.IsCompanyExpense).ToList();
+                    decimal? expenseamtmonth = medicinelist1.Sum(x => x.BillAmount);
+                    result.totalexpense = result.totalexpense + expenseamtmonth;
+
+                    //Expense Today
+                    var datetime1 = new FilterModel();
+                    datetime1.ToDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59, 999);
+                    datetime1.FromDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0, 0);
+                    datetime1.IsDashboard = true;
+                    var revenu1 = await RevenueReportDay(datetime1);
+
+                    result.totalexpenseday = revenu1.treatmentrevenue.Sum(x => x.Expense) + revenu1.medicinerevenue.Sum(x => x.Receipt);
+                    result.totalpurchasemedicineday = purchasemedicine.Where(x => x.PurchaseDate >= datetime1.FromDate && x.PurchaseDate <= datetime1.ToDate).Sum(x => x.PurchaseCost);
+                    decimal? opdserviceamt = (await patientmanager.GetAllOPDServicePrescription(datetime1.FromDate, datetime1.ToDate, hospitalid, true));
+                    decimal? opdprescamt = (await patientmanager.GetAllOPDServicePrescription(datetime1.FromDate, datetime1.ToDate, hospitalid, false));
+                    result.totaltrmtrevenuday = opdserviceamt;
+                    result.totaldrugrevenueday = opdprescamt;
+                    var medicinelist = (await ViewHelper.GetAllExpense()).Where(x => x.ExpenseDate >= datetime1.FromDate
+                    && x.ExpenseDate <= datetime1.ToDate && x.IsCompanyExpense).ToList();
+                    decimal? expenseamt = medicinelist.Sum(x => x.BillAmount);
+                    result.totalexpenseday = result.totalexpenseday + expenseamt;
+
+                }
+                else
+                {
+
+                    DateTime now = DateTime.Now;
+                    var startDate = Convert.ToDateTime(FromDate).Date;// new DateTime(now.Year, now.Month, 1);
+                    var endDate = Convert.ToDateTime(ToDate).Date; //startDate.AddMonths(1).AddDays(-1);
+
+
+                    var userdetails = (await userManager.GetEditUser(userid));
+                    var userList = (await ViewHelper.GetAllUsers()).Where(x => x.RoleId != 1).ToList();
+                    List<PatientModel> paientlist = (await ViewHelper.GetAllPatients()).Where(x => x.PatientCreatedDate.Date >= startDate && x.
+                    PatientCreatedDate.Date <= endDate).Where(x => x.PatientHospitalId == hospitalid).ToList();
+                    IMedicineManager medicinemanager = new MedicineManager();
+                    List<MedicineModel> medicinelist = (await ViewHelper.GetAllMedicine(null, null, null)).ToList();
+                    var treatmentlist = (await ViewHelper.GetAllTreatment()).Where(x => x.TreatmentCreatedDate >= startDate && x.
+                    TreatmentCreatedDate <= endDate).ToList(); ;
+                    var opdcount = patientmanager.GetOPDCount(hospitalid, false);
+                    var purchasemedicine = (await ViewHelper.GetAllPurchaseMedicine(null, null, hospitalid));
+                    var date = new FilterModel();
+                    date.FromDate = startDate;
+                    date.ToDate = endDate;
+                    date.IsDashboard = true;
+                    var revenu = await RevenueReport(date);
+                    var t = (await patientmanager.GetOPDServiceCount(hospitalid));
+                    //result.totaldoctors = userList.Where(x => x.RoleId == 3).Count();
+                    //result.totalstaffs = userList.Where(x => x.RoleId != 3).Count();
+                    result.totalpurchasemedicine = purchasemedicine.Where(x => x.PurchaseDate.Date >= startDate && x.PurchaseDate.Date <= endDate).Sum(x => x.PurchaseCost);
+                    //result.totaltreatment = treatmentlist.Count();
+                    result.totaltreatment = t.DashboardTreatmentCount ?? 0;
+                    result.totalpatients = paientlist.Count();
+                    result.totalopd = opdcount;
+                    //result.totaldrug = medicinelist.Where(x=> x.MedicineCreatedDate >= startDate && x.MedicineCreatedDate <= endDate).Count();
+                    result.totaldrug = t.DashboardMedicineCount ?? 0;
+                    result.totaltrmtrevenu = revenu.treatmentrevenue.Sum(x => x.Income);
+                    result.totaldrugrevenue = revenu.medicinerevenue.Sum(x => x.Income);
+
+                    date.IsDashboard = false;
+                    revenu = await RevenueReportDay(date);
+                    result.totalexpense = revenu.treatmentrevenue/*.Where(x => x.IsCompanyExpense != false)*/.Sum(x => x.Expense) +
+                      revenu.medicinerevenue.Sum(x => x.Receipt);
+
+                    result.totalexpense = revenu.treatmentrevenue.Sum(x => x.Expense) + revenu.medicinerevenue.Sum(x => x.Receipt);
+                    var medicinelist1 = (await ViewHelper.GetAllExpense()).Where(x => x.ExpenseDate.Date >= startDate
+                    && x.ExpenseDate.Date <= endDate && x.IsCompanyExpense).ToList();
+                    decimal? expenseamtmonth = medicinelist1.Sum(x => x.BillAmount);
+                    result.totalexpense = result.totalexpense + expenseamtmonth;
+
+                    var datetime1 = new FilterModel();
+                    datetime1.FromDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59, 999);
+                    datetime1.ToDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0, 0);
+                    datetime1.IsDashboard = true;
+                    var revenu1 = await RevenueReportDay(datetime1);
+                    //result.totaltrmtrevenuday = revenu1.treatmentrevenue.Sum(x => x.Income);
+                    //result.totaldrugrevenueday = revenu1.medicinerevenue.Sum(x => x.Income);
+                    result.totalexpenseday = revenu1.treatmentrevenue/*.Where(x => x.IsCompanyExpense != false)*/.Sum(x => x.Expense) + revenu.medicinerevenue.Sum(x => x.Receipt);
+                    result.totalpurchasemedicineday = purchasemedicine.Where(x => x.PurchaseDate >= datetime1.FromDate && x.PurchaseDate <= datetime1.ToDate).Sum(x => x.PurchaseCost);
+                    decimal? opdserviceamt = await patientmanager.GetAllOPDServicePrescription(datetime1.FromDate, datetime1.ToDate, hospitalid, true);
+                    decimal? opdprescamt = await patientmanager.GetAllOPDServicePrescription(datetime1.FromDate, datetime1.ToDate, hospitalid, false);
+
+                    result.totaltrmtrevenuday = opdserviceamt;
+                    result.totaldrugrevenueday = opdprescamt;
+
+                    //Company Expense
+                    var revenu2 = await RevenueReportDay(datetime1);
+                    var medicinelist11 = (await ViewHelper.GetAllExpense()).Where(x => x.ExpenseDate >= datetime1.FromDate
+                    && x.ExpenseDate <= datetime1.ToDate && x.IsCompanyExpense).ToList();
+                    decimal? expenseamt = medicinelist11.Sum(x => x.BillAmount);
+                    result.totalexpenseday = result.totalexpenseday + expenseamt;
+                }
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                // return RedirectToAction("Error", "Home");
             }
         }
 
@@ -670,6 +840,179 @@ namespace SwasiHealthCare.Service.Controllers
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+        [HttpPost]
+        [System.Web.Services.WebMethod]
+        [ScriptMethod(UseHttpGet = false)]
+        public async Task<ActionResult> DashboardFilter(string fromDate,string toDate)
+        {
+            string FromDate = fromDate;
+            string ToDate = toDate;
+            if (Session["UserId"] == null || Session["UserId"].ToString() == string.Empty)
+            {
+                return RedirectToAction("Login");
+            }
+
+            if (Session["RoleId"] == null || Session["RoleId"].ToString() == string.Empty)
+            {
+                return RedirectToAction("Login");
+            }
+
+            try
+            {
+                var result = new DashboardModel();
+                long roleid = Convert.ToInt64(Session["RoleId"]);
+                long hospitalid = Convert.ToInt64(Session["HospitalId"]);
+                long userid = Convert.ToInt64(Session["UserId"]);
+                IUserManager userManager = new UserManager();
+                //IPatientManager patientManager = new PatientManager();
+                IHospitalManager hospitalManager = new HospitalManager();
+                IPatientManager patientmanager = new PatientManager();
+                if (roleid != 1)
+                {
+                    string[] splitFromDate = FromDate.Split('/');
+                    string[] splitToDate = ToDate.Split('/');
+                    FromDate = splitFromDate[0] + "/" + splitFromDate[1] + "/" + splitFromDate[2];
+                    ToDate = splitToDate[0] + "/" + splitToDate[1] + "/" + splitToDate[2];
+                    //DateTime now = DateTime.Now;
+                    var startDate = Convert.ToDateTime(FromDate.ToString());//new DateTime(now.Year, now.Month, 1);
+                    var endDate = Convert.ToDateTime(ToDate.ToString());//startDate.AddMonths(1).AddDays(-1);
+
+                    startDate = startDate.Date;
+                    endDate = endDate.Date;
+
+                    var userdetails = (await userManager.GetEditUser(userid));
+                    var userList = (await ViewHelper.GetAllUsers()).Where(x => x.RoleId != 1).ToList();
+
+                    List<PatientModel> paientlist = (await ViewHelper.GetAllPatients()).Where(x => x.PatientDate.Date >= startDate && x.
+                    PatientDate.Date <= endDate).Where(x => x.PatientHospitalId == hospitalid).ToList();
+
+                    var t = (await patientmanager.GetOPDServiceCount(hospitalid));
+                    var opdcount = patientmanager.GetOPDCount(hospitalid, false);
+                    result.totalpatients = paientlist.Count();
+                    result.totalopd = opdcount;
+
+                    var purchasemedicine = (await ViewHelper.GetAllPurchaseMedicine(null, null, hospitalid));
+
+                    var date = new FilterModel();
+                    date.FromDate = startDate;
+                    date.ToDate = endDate;
+                    date.IsDashboard = true;
+                    var revenu = (await RevenueReport(date));
+
+                    result.totalpurchasemedicine = purchasemedicine.Where(x => x.PurchaseDate.Date >= startDate && x.PurchaseDate.Date <= endDate).Sum(x => x.PurchaseCost);
+
+                    result.totaltreatment = t.DashboardTreatmentCount ?? 0;
+                    result.totalpatients = paientlist.Count();
+                    result.totalopd = opdcount;
+                    result.totaldrug = t.DashboardMedicineCount ?? 0;
+
+                    result.totaltrmtrevenu = revenu.treatmentrevenue.Sum(x => x.Income);
+                    result.totaldrugrevenue = revenu.medicinerevenue.Sum(x => x.Income);
+                    date.IsDashboard = true;
+                    revenu = await RevenueReportDay(date);
+                    //decimal? companyexpense = revenu.treatmentrevenue.Sum(x => x.CompanyExpense);
+                    result.totalexpense = revenu.treatmentrevenue.Sum(x => x.Expense) + revenu.medicinerevenue.Sum(x => x.Receipt);
+                    var medicinelist1 = (await ViewHelper.GetAllExpense()).Where(x => x.ExpenseDate.Date >= startDate
+                    && x.ExpenseDate.Date <= endDate && x.IsCompanyExpense).ToList();
+                    decimal? expenseamtmonth = medicinelist1.Sum(x => x.BillAmount);
+                    result.totalexpense = result.totalexpense + expenseamtmonth;
+
+                    //Expense Today
+                    var datetime1 = new FilterModel();
+                    datetime1.ToDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59, 999);
+                    datetime1.FromDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0, 0);
+                    datetime1.IsDashboard = true;
+                    var revenu1 = await RevenueReportDay(datetime1);
+
+                    result.totalexpenseday = revenu1.treatmentrevenue.Sum(x => x.Expense) + revenu1.medicinerevenue.Sum(x => x.Receipt);
+                    result.totalpurchasemedicineday = purchasemedicine.Where(x => x.PurchaseDate >= datetime1.FromDate && x.PurchaseDate <= datetime1.ToDate).Sum(x => x.PurchaseCost);
+                    decimal? opdserviceamt = (await patientmanager.GetAllOPDServicePrescription(datetime1.FromDate, datetime1.ToDate, hospitalid, true));
+                    decimal? opdprescamt = (await patientmanager.GetAllOPDServicePrescription(datetime1.FromDate, datetime1.ToDate, hospitalid, false));
+                    result.totaltrmtrevenuday = opdserviceamt;
+                    result.totaldrugrevenueday = opdprescamt;
+                    var medicinelist = (await ViewHelper.GetAllExpense()).Where(x => x.ExpenseDate >= datetime1.FromDate
+                    && x.ExpenseDate <= datetime1.ToDate && x.IsCompanyExpense).ToList();
+                    decimal? expenseamt = medicinelist.Sum(x => x.BillAmount);
+                    result.totalexpenseday = result.totalexpenseday + expenseamt;
+
+                }
+                else
+                {
+
+                    DateTime now = DateTime.Now;
+                    var startDate = Convert.ToDateTime(FromDate).Date;// new DateTime(now.Year, now.Month, 1);
+                    var endDate = Convert.ToDateTime(ToDate).Date; //startDate.AddMonths(1).AddDays(-1);
+
+
+                    var userdetails = (await userManager.GetEditUser(userid));
+                    var userList = (await ViewHelper.GetAllUsers()).Where(x => x.RoleId != 1).ToList();
+                    List<PatientModel> paientlist = (await ViewHelper.GetAllPatients()).Where(x => x.PatientCreatedDate.Date >= startDate && x.
+                    PatientCreatedDate.Date <= endDate).Where(x => x.PatientHospitalId == hospitalid).ToList();
+                    IMedicineManager medicinemanager = new MedicineManager();
+                    List<MedicineModel> medicinelist = (await ViewHelper.GetAllMedicine(null, null, null)).ToList();
+                    var treatmentlist = (await ViewHelper.GetAllTreatment()).Where(x => x.TreatmentCreatedDate >= startDate && x.
+                    TreatmentCreatedDate <= endDate).ToList(); ;
+                    var opdcount = patientmanager.GetOPDCount(hospitalid, false);
+                    var purchasemedicine = (await ViewHelper.GetAllPurchaseMedicine(null, null, hospitalid));
+                    var date = new FilterModel();
+                    date.FromDate = startDate;
+                    date.ToDate = endDate;
+                    date.IsDashboard = true;
+                    var revenu = await RevenueReport(date);
+                    var t = (await patientmanager.GetOPDServiceCount(hospitalid));
+                    //result.totaldoctors = userList.Where(x => x.RoleId == 3).Count();
+                    //result.totalstaffs = userList.Where(x => x.RoleId != 3).Count();
+                    result.totalpurchasemedicine = purchasemedicine.Where(x => x.PurchaseDate.Date >= startDate && x.PurchaseDate.Date <= endDate).Sum(x => x.PurchaseCost);
+                    //result.totaltreatment = treatmentlist.Count();
+                    result.totaltreatment = t.DashboardTreatmentCount ?? 0;
+                    result.totalpatients = paientlist.Count();
+                    result.totalopd = opdcount;
+                    //result.totaldrug = medicinelist.Where(x=> x.MedicineCreatedDate >= startDate && x.MedicineCreatedDate <= endDate).Count();
+                    result.totaldrug = t.DashboardMedicineCount ?? 0;
+                    result.totaltrmtrevenu = revenu.treatmentrevenue.Sum(x => x.Income);
+                    result.totaldrugrevenue = revenu.medicinerevenue.Sum(x => x.Income);
+
+                    date.IsDashboard = false;
+                    revenu = await RevenueReportDay(date);
+                    result.totalexpense = revenu.treatmentrevenue/*.Where(x => x.IsCompanyExpense != false)*/.Sum(x => x.Expense) +
+                      revenu.medicinerevenue.Sum(x => x.Receipt);
+
+                    result.totalexpense = revenu.treatmentrevenue.Sum(x => x.Expense) + revenu.medicinerevenue.Sum(x => x.Receipt);
+                    var medicinelist1 = (await ViewHelper.GetAllExpense()).Where(x => x.ExpenseDate.Date >= startDate
+                    && x.ExpenseDate.Date <= endDate && x.IsCompanyExpense).ToList();
+                    decimal? expenseamtmonth = medicinelist1.Sum(x => x.BillAmount);
+                    result.totalexpense = result.totalexpense + expenseamtmonth;
+
+                    var datetime1 = new FilterModel();
+                    datetime1.FromDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 59, 59, 999);
+                    datetime1.ToDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0, 0);
+                    datetime1.IsDashboard = true;
+                    var revenu1 = await RevenueReportDay(datetime1);
+                    //result.totaltrmtrevenuday = revenu1.treatmentrevenue.Sum(x => x.Income);
+                    //result.totaldrugrevenueday = revenu1.medicinerevenue.Sum(x => x.Income);
+                    result.totalexpenseday = revenu1.treatmentrevenue/*.Where(x => x.IsCompanyExpense != false)*/.Sum(x => x.Expense) + revenu.medicinerevenue.Sum(x => x.Receipt);
+                    result.totalpurchasemedicineday = purchasemedicine.Where(x => x.PurchaseDate >= datetime1.FromDate && x.PurchaseDate <= datetime1.ToDate).Sum(x => x.PurchaseCost);
+                    decimal? opdserviceamt = await patientmanager.GetAllOPDServicePrescription(datetime1.FromDate, datetime1.ToDate, hospitalid, true);
+                    decimal? opdprescamt = await patientmanager.GetAllOPDServicePrescription(datetime1.FromDate, datetime1.ToDate, hospitalid, false);
+
+                    result.totaltrmtrevenuday = opdserviceamt;
+                    result.totaldrugrevenueday = opdprescamt;
+
+                    //Company Expense
+                    var revenu2 = await RevenueReportDay(datetime1);
+                    var medicinelist11 = (await ViewHelper.GetAllExpense()).Where(x => x.ExpenseDate >= datetime1.FromDate
+                    && x.ExpenseDate <= datetime1.ToDate && x.IsCompanyExpense).ToList();
+                    decimal? expenseamt = medicinelist11.Sum(x => x.BillAmount);
+                    result.totalexpenseday = result.totalexpenseday + expenseamt;
+                }
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                // return RedirectToAction("Error", "Home");
             }
         }
     }

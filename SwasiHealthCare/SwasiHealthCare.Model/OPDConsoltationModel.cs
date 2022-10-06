@@ -65,4 +65,9 @@ namespace SwasiHealthCare.Model
         public bool? IsDashboard { get; set; }
         public bool? IsSales { get; set; }
     }
+    public class stringFilterModel
+    {
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+    }
 }

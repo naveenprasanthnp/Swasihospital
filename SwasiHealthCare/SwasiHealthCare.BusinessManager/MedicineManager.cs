@@ -133,10 +133,8 @@ namespace SwasiHealthCare.BusinessManager
             try
             {
                 var medicine = await MedicineRepository.GetById(medicineid);
-                var purchasemedicine = (await new Repository<PurchaseMedicine>().GetAll()).
-                    Where(x => x.MedicineId == medicineid ).OrderByDescending(x=>x.PurchaseMedicineCreatedDate).FirstOrDefault();
-                var currentstack = (await new Repository<OPDPrescription>().GetAll()).Where(x =>
-                x.HospitalId == medicine?.HospitalId && x.MedicineId == medicineid).ToList();
+                var purchasemedicine = (await new Repository<PurchaseMedicine>().GetAll()).Where(x => x.MedicineId == medicineid).OrderByDescending(x => x.PurchaseMedicineCreatedDate).Select(x => x.MedicinePurchaseQuanity).ToList().Sum();
+                var currentstack = (await new Repository<OPDPrescription>().GetAll()).Where(x =>x.HospitalId == medicine?.HospitalId && x.MedicineId == medicineid).ToList();
                 var result = new MedicineModel();
                 result.MedicineName = medicine.MedicineName;
                 result.MedicineExpiryDate = medicine.MedicineExpiryDate;
@@ -150,9 +148,14 @@ namespace SwasiHealthCare.BusinessManager
                 result.MedicinePurchaseStack = medicine.MedicinePurchaseStack;
                 result.MedicineId = medicine.MedicineId;
                 //result.CurrentStack = currentstack == null ? 0 : currentstack?.Sum(x => x.MedicineQuantity);
-                result.CurrentStack = purchasemedicine?.MedicineCurrentStock ?? 0;
-                result.AvailableMedicineCount = purchasemedicine == null ? 0 :
-                    purchasemedicine?.AvailableMedicineCount;
+                var totalList = currentstack.Select(x => x.MedicineQuantity).ToList().Sum();
+
+                long? currentStack = purchasemedicine == null ? 0 : purchasemedicine - totalList;
+
+                //result.CurrentStack = purchasemedicine?.MedicineCurrentStock ?? 0;
+                //result.AvailableMedicineCount = purchasemedicine == null ? 0 : purchasemedicine?.AvailableMedicineCount;
+                result.CurrentStack = currentStack;
+                result.AvailableMedicineCount = currentStack;
                 return result;
             }
             catch (Exception ex)
@@ -992,15 +995,15 @@ namespace SwasiHealthCare.BusinessManager
                     if (FromDate != null && ToDate != null)
                     {
                         result = (from opdcon in (await new Repository<OPDConsoltation>().GetAll()).Where(x => x.HospitalId == hospitalid).ToList()
-                                      //join opdser in (await new Repository<OPDServices>().GetAll()) on opdcon.OPDConsultationId equals opdser.OPDConsoltationId into ser
-                                      //from opds in ser.DefaultIfEmpty()
+                                  join opdser in (await new Repository<Patient>().GetAll()) on opdcon.PatientId equals opdser.PatientId into ser
+                                  from opds in ser.DefaultIfEmpty()
                                   join opdpre in (await new Repository<OPDPrescription>().GetAll()) on opdcon.OPDConsultationId equals opdpre.OPDConsultationId into pre
                                   from opdpres in pre.DefaultIfEmpty()
                                   select new SalesReport
                                   {
                                       Date = opdcon == null ? DateTime.Now : opdcon.ConsultationDate,
                                       PatientName = opdcon?.PatientName,
-                                      MobileNo = opdcon?.MobileNo,
+                                      MobileNo = opds?.PatientMobileNumber,
                                       MedicineName = opdpres?.MedicineName,
                                       Quantity = opdpres?.MedicineQuantity ?? 0,
                                       Rate = opdpres?.MedicineAmount ?? 0,
@@ -1013,13 +1016,15 @@ namespace SwasiHealthCare.BusinessManager
                         result = (from opdcon in (await new Repository<OPDConsoltation>().GetAll()).Where(x => x.HospitalId == hospitalid).ToList()
                                       //join opdser in (await new Repository<OPDServices>().GetAll()) on opdcon.OPDConsultationId equals opdser.OPDConsoltationId into ser
                                       //from opds in ser.DefaultIfEmpty()
+                                  join opdser in (await new Repository<Patient>().GetAll()) on opdcon.PatientId equals opdser.PatientId into ser
+                                  from opds in ser.DefaultIfEmpty()
                                   join opdpre in (await new Repository<OPDPrescription>().GetAll()) on opdcon.OPDConsultationId equals opdpre.OPDConsultationId into pre
                                   from opdpres in pre.DefaultIfEmpty()
                                   select new SalesReport
                                   {
                                       Date = opdcon == null ? DateTime.Now : opdcon.ConsultationDate,
                                       PatientName = opdcon?.PatientName,
-                                      MobileNo = opdcon?.MobileNo,
+                                      MobileNo = opds?.PatientMobileNumber,
                                       MedicineName = opdpres?.MedicineName,
                                       Quantity = opdpres?.MedicineQuantity ?? 0,
                                       Rate = opdpres?.MedicineAmount ?? 0,

@@ -22,5 +22,8 @@ namespace SwasiHealthCare.Model
         public decimal? totaldrugrevenueday { get; set; }
         public decimal? totalpurchasemedicineday { get; set; }
         public decimal? totalexpenseday { get; set; }
+        //public FilterModel filterModel { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
     }
 }

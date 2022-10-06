@@ -6,11 +6,12 @@
 <style>
     #myDIV {
         width: 100%;
-       /*padding: 50px 0;*/
+        /*padding: 50px 0;*/
         text-align: center;
         background-color: white;
-       /*margin-top: 20px;*/
+        /*margin-top: 20px;*/
     }
+
     #myDIV1 {
         width: 100%;
         /*padding: 50px 0;*/
@@ -18,6 +19,7 @@
         background-color: white;
         /*margin-top: 20px;*/
     }
+
     #myDIV2 {
         width: 100%;
         /*padding: 50px 0;*/
@@ -26,78 +28,63 @@
         /*margin-top: 20px;*/
     }
 </style>
-<div class="row clearfix">
-    <div class="col-12">
-        <nav class="navbar navbar-expand-lg page_menu">
-            @*<a class="navbar-brand" href="#">M.</a>*@
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="fa fa-bars text-muted"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav mr-auto">
-                    @*<li class="nav-item active"><a class="nav-link" href="#">Analytics</a></li>*@
-                    <li class="nav-item"><a class="nav-link" href="#">Swasi Naturo Cure Dashboard</a></li>
-                </ul>
-                <div class="ml-auto">
-                    <a href="https://keep.google.com/u/0/" class="btn btn-default">ToDo</a>
-                    <a href="@Url.Action("Tile","Settings")" class="btn btn-default">Settings</a>
-                    @*<a href="https://themeforest.net/user/puffintheme/portfolio" target="_blank" class="btn btn-secondary">Buy this item</a>*@
+
+
+    <div class="row clearfix">
+        <div class="col-12">
+            <nav class="navbar navbar-expand-lg page_menu">
+                @*<a class="navbar-brand" href="#">M.</a>*@
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-bars text-muted"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav mr-auto">
+                        @*<li class="nav-item active"><a class="nav-link" href="#">Analytics</a></li>*@
+                        <li class="nav-item"><a class="nav-link" href="#">Swasi Naturo Cure Dashboard</a></li>
+                    </ul>
+                    <div class="ml-auto">
+                        <a href="https://keep.google.com/u/0/" class="btn btn-default">ToDo</a>
+                        <a href="@Url.Action("Tile", "Settings")" class="btn btn-default">Settings</a>
+                        @*<a href="https://themeforest.net/user/puffintheme/portfolio" target="_blank" class="btn btn-secondary">Buy this item</a>*@
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </div>
+            </nav>
+        </div>
+        <div>
+            <button onclick="myFunction()" class="btn btn-sm btn-outline-primary borderradius" style="margin-left: 7px; margin-top: 39px;">Hide/ Show</button>
+        </div>
+        <br />
 
-    <button onclick="myFunction()" class="btn btn-sm btn-outline-primary borderradius" style="margin-left: 7px; margin-top: 11px;">Hide/ Show</button>
-    <div id="myDIV" style="margin-top: 10px;">
-        <div class="col-12" style="margin-top: 15px;">
-            <div class="card theme-bg gradient">
-                <div class="body">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="card">
-                                <div class="body">
-                                    <div>New Patient's</div>
-                                    <div class="mt-3 h1">@Model.totalpatients</div>
-                                    <div class="d-flex">
-                                        @*<div class="mr-3">1.78% <i class="fa fa-caret-down"></i></div>*@
-                                        <span>This Month</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="card">
-                                <div class="body">
-                                    <div>Treatment's</div>
-                                    <div class="mt-3 h1">@Model.totaltreatment</div>
-                                    <div class="d-flex">
-                                        @*<div class="mr-3">6.78% <i class="fa fa-caret-down"></i></div>*@
-                                        <span>This Month</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6">
-                            <div class="card">
-                                <div class="body">
-                                    <div>Medicine's</div>
-                                    <div class="mt-3 h1">@Model.totaldrug</div>
-                                    <div class="d-flex">
-                                        @*<div class="mr-3">13.78% <i class="fa fa-caret-down"></i></div>*@
-                                        <span>This Month</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @*<div class="col-lg-3 col-md-6">
+        <div class="form-group col-lg-3 col-md-6 col-sm-12" style="margin-left: 413px; margin-top:8px">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            @Html.Label("FromDate", "From Date")<span style="padding-left:2px;color:red">*</span>
+            @Html.TextBoxFor(model => model.FromDate, new { @class = "form-control input-default borderclr", autocomplete = "off", data_provide = "datepicker", data_date_autoclose = "true", id = "FromDate" })
+            @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group col-lg-3 col-md-6 col-sm-12" style="margin-top:8px">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            @Html.Label("ToDate", "To Date")<span style="padding-left:2px;color:red">*</span>
+            @Html.TextBoxFor(model => model.ToDate, new { @class = "form-control input-default borderclr", autocomplete = "off", data_provide = "datepicker", data_date_autoclose = "true",id= "ToDate" })
+            @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
+        </div>
+        @*<div class="form-group col-lg-3 col-md-6 col-sm-12">
+            <button type="submit" id="" class="btn  btn-sm btn-outline-primary borderradius" style="margin-top: 40px;">Search</button>
+        </div>*@
+        
+        <div id="myDIV" style="margin-top: 10px;">
+            <div class="col-12" style="margin-top: 15px;">
+                <div class="card theme-bg gradient">
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6">
                                 <div class="card">
                                     <div class="body">
-                                        <div>Total Doctor's</div>
-                                        <div class="mt-3 h1">@Model.totaldoctors</div>
+                                        <div>New Patient's</div>
+                                        <div class="mt-3 h1" id="totalPatient1">@Model.totalpatients</div>
+                                        <div class="mt-3 h1" id="totalPatient2"><p id="totalPatient3"></p></div>
                                         <div class="d-flex">
-                                            <div class="mr-3">6.78% <i class="fa fa-caret-down"></i></div>
-                                            <span>Last year</span>
+                                            @*<div class="mr-3">1.78% <i class="fa fa-caret-down"></i></div>*@
+                                            <span>This Month</span>
                                         </div>
                                     </div>
                                 </div>
@@ -105,23 +92,64 @@
                             <div class="col-lg-3 col-md-6">
                                 <div class="card">
                                     <div class="body">
-                                        <div>Total Staff's</div>
-                                        <div class="mt-3 h1">@Model.totalstaffs</div>
+                                        <div>Treatment's</div>
+                                        <div class="mt-3 h1" id="totaltreatment1">@Model.totaltreatment</div>
+                                        <div class="mt-3 h1" id="totaltreatment2"><p id="totaltreatment3"></p></div>
+                                            <div class="d-flex">
+                                                @*<div class="mr-3">6.78% <i class="fa fa-caret-down"></i></div>*@
+                                                <span>This Month</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card">
+                                    <div class="body">
+                                        <div>Medicine's</div>
+                                        <div class="mt-3 h1" id="totaldrug1">@Model.totaldrug</div>
+                                        <div class="mt-3 h1" id="totaldrug2"><p id="totaldrug3"></p></div>
                                         <div class="d-flex">
-                                            <div class="mr-3">13.78% <i class="fa fa-caret-down"></i></div>
-                                            <span>Last year</span>
+                                            @*<div class="mr-3">13.78% <i class="fa fa-caret-down"></i></div>*@
+                                            <span>This Month</span>
                                         </div>
                                     </div>
                                 </div>
-                            </div>*@
-                        <div class="col-lg-3 col-md-6">
-                            <div class="card">
-                                <div class="body">
-                                    <div>OPD's</div>
-                                    <div class="mt-3 h1">@Model.totalopd</div>
-                                    <div class="d-flex">
-                                        @*<div class="mr-3">5.78% <i class="fa fa-caret-down"></i></div>*@
-                                        <span>This Month</span>
+                            </div>
+                            @*<div class="col-lg-3 col-md-6">
+                                    <div class="card">
+                                        <div class="body">
+                                            <div>Total Doctor's</div>
+                                            <div class="mt-3 h1">@Model.totaldoctors</div>
+                                            <div class="d-flex">
+                                                <div class="mr-3">6.78% <i class="fa fa-caret-down"></i></div>
+                                                <span>Last year</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="card">
+                                        <div class="body">
+                                            <div>Total Staff's</div>
+                                            <div class="mt-3 h1">@Model.totalstaffs</div>
+                                            <div class="d-flex">
+                                                <div class="mr-3">13.78% <i class="fa fa-caret-down"></i></div>
+                                                <span>Last year</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>*@
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card">
+                                    <div class="body">
+                                        <div>OPD's</div>
+                                        <div class="mt-3 h1" id="totalopd1">@Model.totalopd</div>
+                                        <div class="mt-3 h1" id="totalopd2"><p id="totalopd3"></p></div>
+                                        <div class="d-flex">
+                                            @*<div class="mr-3">5.78% <i class="fa fa-caret-down"></i></div>*@
+                                            <span>This Month</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -130,55 +158,57 @@
                 </div>
             </div>
         </div>
-    </div>
-    <button onclick="myFunction1()" style="margin-left: 7px; margin-top: 11px;" class="btn btn-sm btn-outline-primary borderradius">Hide/ Show</button>
-    <div id="myDIV1" style="display:none ; margin-top:10px">
-        <div class="col-12">
-            <div class="card theme-bg gradient" style="margin-top: 12px">
-                <div class="body">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="card">
-                                <div class="body">
-                                    <div>Treatment Revenue</div>
-                                    <div class="mt-3 h1">@Model.totaltrmtrevenuday</div>
-                                    <div class="d-flex">
-                                        <span>Today</span>
+        <button onclick="myFunction1()" style="margin-left: 7px; margin-top: 11px;" class="btn btn-sm btn-outline-primary borderradius">Hide/ Show</button>
+        <div id="myDIV1" style="display:none ; margin-top:10px">
+            <div class="col-12">
+                <div class="card theme-bg gradient" style="margin-top: 12px">
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card">
+                                    <div class="body">
+                                        <div>Treatment Revenue</div>
+                                        <div class="mt-3 h1" id="totaltrmtrevenuday1">@Model.totaltrmtrevenuday</div>
+                                        <div class="mt-3 h1" id="totaltrmtrevenuday2"><p id="totaltrmtrevenuday3"></p></div>
+                                        <div class="d-flex">
+                                            <span>Today</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="card">
-                                <div class="body">
-                                    <div>Medicine Revenue</div>
-                                    <div class="mt-3 h1">@Model.totaldrugrevenueday</div>
-                                    <div class="d-flex">
-                                        <span>Today</span>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card">
+                                    <div class="body">
+                                        <div>Medicine Revenue</div>
+                                        <div class="mt-3 h1" id="totaldrugrevenueday1">@Model.totaldrugrevenueday</div>
+                                        <div class="mt-3 h1" id="totaldrugrevenueday2"><p id="totaldrugrevenueday3"></p></div>
+                                        <div class="d-flex">
+                                            <span>Today</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="card">
-                                <div class="body">
-                                    <div>Purchase Medicine Amount</div>
-                                    <div class="mt-3 h1">@Model.totalpurchasemedicineday</div>
-                                    <div class="d-flex">
-                                        <span>Today</span>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card">
+                                    <div class="body">
+                                        <div>Purchase Medicine Amount</div>
+                                        <div class="mt-3 h1" id="totalpurchasemedicineday1">@Model.totalpurchasemedicineday</div>
+                                        <div class="mt-3 h1" id="totalpurchasemedicineday2"><p id="totalpurchasemedicineday3"></p></div>
+                                        <div class="d-flex">
+                                            <span>Today</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="card">
-                                <div class="body">
-                                    <div>Expense's</div>
-                                    <div class="mt-3 h1">
-                                        @Model.totalexpenseday
-                                    </div>
-                                    <div class="d-flex">
-                                        <span>Today</span>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card">
+                                    <div class="body">
+                                        <div>Expense's</div>
+                                        <div class="mt-3 h1" id="totalexpenseday1">@Model.totalexpenseday</div>
+                                        <div class="mt-3 h1" id="totalexpenseday2"><p id="totalexpenseday3"></p></div>
+                                        <div class="d-flex">
+                                            <span>Today</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -187,60 +217,62 @@
                 </div>
             </div>
         </div>
-    </div>
-    <button onclick="myFunction2()" style="margin-left: 7px; margin-top: 11px;" class="btn btn-sm btn-outline-primary borderradius">Hide/ Show</button>
-    <div id="myDIV2" style="display:none" ; margin-top:10px">
-        <div class="col-12">
-            <div class="card theme-bg gradient" style="margin-top: 12px">
-                
-                <div class="body">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="card">
-                                <div class="body">
-                                    <div>Treatment Revenue</div>
-                                    <div class="mt-3 h1">@Model.totaltrmtrevenu</div>
-                                    <div class="d-flex">
-                                        @*<div class="mr-3">1.78% <i class="fa fa-caret-down"></i></div>*@
-                                        <span>This Month</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="card">
-                                <div class="body">
-                                    <div>Medicine Revenue</div>
-                                    <div class="mt-3 h1">@Model.totaldrugrevenue</div>
-                                    <div class="d-flex">
+        <button onclick="myFunction2()" style="margin-left: 7px; margin-top: 11px;" class="btn btn-sm btn-outline-primary borderradius">Hide/ Show</button>
+        <div id="myDIV2" style="display:none" ; margin-top:10px">
+            <div class="col-12">
+                <div class="card theme-bg gradient" style="margin-top: 12px">
 
-
-                                        @*<div class="mr-3">6.78% <i class="fa fa-caret-down"></i></div>*@
-                                        <span>This Month</span>
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card">
+                                    <div class="body">
+                                        <div>Treatment Revenue</div>
+                                        <div class="mt-3 h1" id="totaltrmtrevenu1">@Model.totaltrmtrevenu</div>
+                                        <div class="mt-3 h1" id="totaltrmtrevenu2"><p id="totaltrmtrevenu3"></p></div>
+                                        <div class="d-flex">
+                                            @*<div class="mr-3">1.78% <i class="fa fa-caret-down"></i></div>*@
+                                            <span>This Month</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="card">
-                                <div class="body">
-                                    <div>Purchase Medicine Amount</div>
-                                    <div class="mt-3 h1">@Model.totalpurchasemedicine</div>
-                                    <div class="d-flex">
-                                        @*<div class="mr-3">13.78% <i class="fa fa-caret-down"></i></div>*@
-                                        <span>This Month</span>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card">
+                                    <div class="body">
+                                        <div>Medicine Revenue</div>
+                                        <div class="mt-3 h1" id="totaldrugrevenue1">@Model.totaldrugrevenue</div>
+                                        <div class="mt-3 h1" id="totaldrugrevenue2"><p id="totaldrugrevenue3"></p></div>
+                                        <div class="d-flex">
+                                            @*<div class="mr-3">6.78% <i class="fa fa-caret-down"></i></div>*@
+                                            <span>This Month</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="card">
-                                <div class="body">
-                                    <div>Expense's</div>
-                                    <div class="mt-3 h1">@Model.totalexpense</div>
-                                    <div class="d-flex">
-                                        @*<div class="mr-3">5.78% <i class="fa fa-caret-down"></i></div>*@
-                                        <span>This Month</span>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card">
+                                    <div class="body">
+                                        <div>Purchase Medicine Amount</div>
+                                        <div class="mt-3 h1" id="totalpurchasemedicine1">@Model.totalpurchasemedicine</div>
+                                        <div class="mt-3 h1" id="totalpurchasemedicine2"><p id="totalpurchasemedicine3"></p></div>
+                                        <div class="d-flex">
+                                            @*<div class="mr-3">13.78% <i class="fa fa-caret-down"></i></div>*@
+                                            <span>This Month</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="card">
+                                    <div class="body">
+                                        <div>Expense's</div>
+                                        <div class="mt-3 h1" id="totalexpense1">@Model.totalexpense</div>
+                                        <div class="mt-3 h1" id="totalexpense2"><p id="totalexpense3"></p></div>
+                                        <div class="d-flex">
+                                            @*<div class="mr-3">5.78% <i class="fa fa-caret-down"></i></div>*@
+                                            <span>This Month</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -250,7 +282,7 @@
             </div>
         </div>
     </div>
-</div>
+
     @*<div class="row clearfix">
             <div class="col-12">
                 <div class="section_title">
@@ -836,11 +868,17 @@
                 </div>
             </div>
         </div>*@
-    @section scripts {
+    @section scripts
+{
+        <script src="~/Theme/Html/assets/vendor/dropify/js/dropify.min.js"></script>
+        <script src="~/Theme/Html/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
         <script>
-
+            $("#totalPatient2").hide();
+            $("#totaltreatment2").hide();
+            $("#totaldrug2").hide();
+            $("#totalopd2").hide();
             function myFunction() {
-               
+
                 var x = document.getElementById("myDIV");
                 if (x.style.display === "none") {
                     x.style.display = "block";
@@ -849,7 +887,7 @@
                 }
             }
             function myFunction1() {
-               
+
                 var x = document.getElementById("myDIV1");
                 if (x.style.display === "none") {
                     x.style.display = "block";
@@ -866,5 +904,138 @@
                     x.style.display = "none";
                 }
             }
+            $('#FromDate').change(function () {
+                var fromDate = $('#FromDate').val();
+                var toDate = $('#ToDate').val();
+                if (fromDate != "" && toDate != "") {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Home/DashboardFilter",
+                        data: { fromDate: fromDate, toDate: toDate },
+                        success: function (result) {
+                            if (result.totalpatients != "") {
+                                // Card1
+                                $("#totalPatient1").hide();
+                                $("#totalPatient2").show();
+                                $("#totalPatient3").text(result.totalpatients);
+                                $("#totaltreatment1").hide();
+                                $("#totaltreatment2").show();
+                                $("#totaltreatment3").text(result.totaltreatment);
+                                $("#totaldrug1").hide();
+                                $("#totaldrug2").show();
+                                $("#totaldrug3").text(result.totaldrug);
+                                $("#totalopd1").hide();
+                                $("#totalopd2").show();
+                                $("#totalopd3").text(result.totalopd);
+                                //----------------------------------------------
+
+                                //Card2
+                                $("#totaltrmtrevenuday1").hide();
+                                $("#totaltrmtrevenuday2").show();
+                                $("#totaltrmtrevenuday3").text(result.totaltrmtrevenuday);
+                                $("#totaldrugrevenueday1").hide();
+                                $("#totaldrugrevenueday2").show();
+                                $("#totaldrugrevenueday3").text(result.totaldrugrevenueday);
+                                $("#totalpurchasemedicineday1").hide();
+                                $("#totalpurchasemedicineday2").show();
+                                $("#totalpurchasemedicineday3").text(result.totalpurchasemedicineday);
+                                $("#totalexpenseday1").hide();
+                                $("#totalexpenseday2").show();
+                                $("#totalexpenseday3").text(result.totalexpenseday);
+                                // ----------------------------------------------
+
+                                //card3
+                                $("#totaltrmtrevenu1").hide();
+                                $("#totaltrmtrevenu2").show();
+                                $("#totaltrmtrevenu3").text(result.totaltrmtrevenu);
+                                $("#totaldrugrevenue1").hide();
+                                $("#totaldrugrevenue2").show();
+                                $("#totaldrugrevenue3").text(result.totaldrugrevenue);
+                                $("#totalpurchasemedicine1").hide();
+                                $("#totalpurchasemedicine2").show();
+                                $("#totalpurchasemedicine3").text(result.totalpurchasemedicine);
+                                $("#totalexpense1").hide();
+                                $("#totalexpense2").show();
+                                $("#totalexpense3").text(result.totalexpense);
+                                //-------------------------------------------------
+                            } else {
+                                ShowErrorMessage("An error occured.");
+                                alert("1");
+                            }
+                        },
+                        error: function () {
+                            alert("2");
+                            ShowErrorMessage("An error occured.");
+                        }
+                    });
+                }
+            });
+
+            $('#ToDate').change(function () {
+                var fromDate = $('#FromDate').val();
+                var toDate = $('#ToDate').val();
+                if (fromDate != "" && toDate != "") {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Home/DashboardFilter",
+                        data: { fromDate: fromDate, toDate: toDate },
+                        success: function (result) {
+                            if (result.totalpatients != "") {
+                                // Card1
+                                $("#totalPatient1").hide();
+                                $("#totalPatient2").show();
+                                $("#totalPatient3").text(result.totalpatients);
+                                $("#totaltreatment1").hide();
+                                $("#totaltreatment2").show();
+                                $("#totaltreatment3").text(result.totaltreatment);
+                                $("#totaldrug1").hide();
+                                $("#totaldrug2").show();
+                                $("#totaldrug3").text(result.totaldrug);
+                                $("#totalopd1").hide();
+                                $("#totalopd2").show();
+                                $("#totalopd3").text(result.totalopd);
+                                //----------------------------------------------
+
+                                //Card2
+                                $("#totaltrmtrevenuday1").hide();
+                                $("#totaltrmtrevenuday2").show();
+                                $("#totaltrmtrevenuday3").text(result.totaltrmtrevenuday);
+                                $("#totaldrugrevenueday1").hide();
+                                $("#totaldrugrevenueday2").show();
+                                $("#totaldrugrevenueday3").text(result.totaldrugrevenueday);
+                                $("#totalpurchasemedicineday1").hide();
+                                $("#totalpurchasemedicineday2").show();
+                                $("#totalpurchasemedicineday3").text(result.totalpurchasemedicineday);
+                                $("#totalexpenseday1").hide();
+                                $("#totalexpenseday2").show();
+                                $("#totalexpenseday3").text(result.totalexpenseday);
+                                // ----------------------------------------------
+
+                                //card3
+                                $("#totaltrmtrevenu1").hide();
+                                $("#totaltrmtrevenu2").show();
+                                $("#totaltrmtrevenu3").text(result.totaltrmtrevenu);
+                                $("#totaldrugrevenue1").hide();
+                                $("#totaldrugrevenue2").show();
+                                $("#totaldrugrevenue3").text(result.totaldrugrevenue);
+                                $("#totalpurchasemedicine1").hide();
+                                $("#totalpurchasemedicine2").show();
+                                $("#totalpurchasemedicine3").text(result.totalpurchasemedicine);
+                                $("#totalexpense1").hide();
+                                $("#totalexpense2").show();
+                                $("#totalexpense3").text(result.totalexpense);
+                                //-------------------------------------------------
+                            } else {
+                                ShowErrorMessage("An error occured.");
+                                alert("1");
+                            }
+                        },
+                        error: function () {
+                            alert("2");
+                            ShowErrorMessage("An error occured.");
+                        }
+                    });
+                }
+            });
         </script>
     }
