@@ -24,3 +24,17 @@ E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.Model\ob
 E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.Model\obj\Debug\SwasiHealthCare.Model.csproj.CopyComplete
 E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.Model\obj\Debug\SwasiHealthCare.Model.dll
 E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.Model\obj\Debug\SwasiHealthCare.Model.pdb
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.Model\bin\Debug\SwasiHealthCare.Model.dll
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.Model\bin\Debug\SwasiHealthCare.Model.pdb
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.Model\bin\Debug\SwasiHealthCare.Data.dll
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.Model\bin\Debug\Data.EF.Core.dll
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.Model\bin\Debug\EntityFramework.dll
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.Model\bin\Debug\SwasiHealthCare.Data.pdb
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.Model\bin\Debug\SwasiHealthCare.Data.dll.config
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.Model\bin\Debug\EntityFramework.xml
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.Model\obj\Debug\SwasiHealthCare.Model.csprojAssemblyReference.cache
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.Model\obj\Debug\SwasiHealthCare.Model.csproj.CoreCompileInputs.cache
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.Model\obj\Debug\SwasiHealthCare.Model.csproj.CopyComplete
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.Model\obj\Debug\SwasiHealthCare.Model.dll
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.Model\obj\Debug\SwasiHealthCare.Model.pdb
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.Model\bin\Debug\System.Web.Mvc.dll

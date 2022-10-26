@@ -213,7 +213,8 @@ namespace SwasiHealthCare.Service.Controllers
                         Total = totalincome,
                         Profit = totalincome - totalexpense - totalreceipt,
                         CompanyExpense = treatmentrevenuelist.Sum(x => x.CompanyExpense),
-                        CompanyId = treatmentrevenuelist.First().CompanyId
+                        CompanyId = treatmentrevenuelist.First().CompanyId,
+                        Date = DateTime.Now
                     };
                     treatmentrevenuelist.Add(fialresult);
 
@@ -226,7 +227,8 @@ namespace SwasiHealthCare.Service.Controllers
                         Income = medicincerevenuelist.Sum(x => x.Income),
                         Receipt = medicincerevenuelist.Sum(x => x.Receipt),
                         Total = totalincome,
-                        Profit = totalincome
+                        Profit = totalincome,
+                        Date = DateTime.Now
                     };
                     medicincerevenuelist.Add(fialresult1);
                 }
@@ -264,7 +266,8 @@ namespace SwasiHealthCare.Service.Controllers
                         Income = medicincerevenuelist.Sum(x => x.Income),
                         Receipt = medicincerevenuelist.Sum(x => x.Receipt),
                         Total = totalincome1,
-                        Profit = totalincome1
+                        Profit = totalincome1,
+                        Date = DateTime.Now
                     };
                     medicincerevenuelist.Add(fialresult1);
                 }
@@ -283,6 +286,7 @@ namespace SwasiHealthCare.Service.Controllers
                 //    ViewBag.fdate = fdate;
                 //    ViewBag.tdate = tdate;
                 //}
+                ViewBag.issales = FilterModel.IsSales;
                 ViewBag.hospitallist = hospital;
                 return View(result);
             }
@@ -358,7 +362,8 @@ namespace SwasiHealthCare.Service.Controllers
                         Expense = res.Sum(x => x.Expense),
                         Total = totalincome,
                         Profit = totalincome - totalexpense - totalreceipt,
-                        CompanyExpense = res.Sum(x => x.CompanyExpense)
+                        CompanyExpense = res.Sum(x => x.CompanyExpense),
+                        Date = DateTime.Now
                     };
                     res.Add(fialresult);
 
@@ -388,7 +393,8 @@ namespace SwasiHealthCare.Service.Controllers
                         Receipt = res1.Sum(x => x.Receipt),
                         PurchaseMedicine = res1.Sum(x => x.PurchaseMedicine),
                         Total = totalincome1,
-                        Profit = totalincome1 - totalpurchasemedicine1 - totalreceipt1
+                        Profit = totalincome1 - totalpurchasemedicine1 - totalreceipt1,
+                        Date = DateTime.Now
                     };
                     res1.Add(fialresult1);                   
                 }
@@ -396,6 +402,8 @@ namespace SwasiHealthCare.Service.Controllers
                 {
                     var StartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
                     var EndDate = StartDate.AddMonths(1).AddDays(-1);
+                    FilterModel.FromDate = StartDate.Date;
+                    FilterModel.ToDate = EndDate.Date;
                     res = treatmentrevenuelist.GroupBy(l => l.Date)
                         .Select(cl => new TreatmentRevenueReportModel
                         {
@@ -406,9 +414,8 @@ namespace SwasiHealthCare.Service.Controllers
                             Expense = cl.Sum(c => c.Expense),
                             Profit = cl.Sum(c => c.Profit),
                             CompanyId = cl.FirstOrDefault().CompanyId 
-                        }).Where(x => x.Date >= StartDate && x.Date <= EndDate && x.CompanyId == hospitalid).OrderBy(x => x.Date).ToList();
-                    FilterModel.FromDate = StartDate;
-                    FilterModel.ToDate = EndDate;
+                        }).Where(x => x.Date.Date >= StartDate.Date && x.Date.Date <= EndDate.Date && x.CompanyId == hospitalid).OrderBy(x => x.Date).ToList();
+                   
 
                     var totalincome = res.Where(x=>x.CompanyId == hospitalid).Sum(x => x.Income) + res.Sum(x => x.OpeningBalance);
                     var totalexpense = res.Where(x=>x.CompanyId == hospitalid).Sum(x => x.Expense);
@@ -421,22 +428,22 @@ namespace SwasiHealthCare.Service.Controllers
                         Expense = res.Sum(x => x.Expense),
                         Total = totalincome,
                         Profit = totalincome - totalexpense - totalreceipt,
-                        CompanyExpense = res.Sum(x => x.CompanyExpense)
+                        CompanyExpense = res.Sum(x => x.CompanyExpense),
+                        Date = DateTime.Now
                     };
                     res.Add(fialresult);
 
                     //----------------------------------------------
                     res1 = medicincerevenuelist.GroupBy(l => l.Date)
                         .Select(cl => new MedicineRevenueReportModel
-                        {
-                            Date = cl.First().Date,
+                        {     Date = cl.First().Date,
                             OpeningBalance = cl.Sum(c => c.OpeningBalance),
                             Income = cl.Sum(c => c.Income),
                             Receipt = cl.Sum(c => c.Receipt),
                             PurchaseMedicine = cl.Sum(c => c.PurchaseMedicine),
                             Profit = cl.Sum(c => c.Profit),
-                            HospitalId = cl.FirstOrDefault().HospitalId
-                        }).Where(x => x.Date >= FilterModel.FromDate && x.Date <= FilterModel.ToDate && x.HospitalId == hospitalid).OrderBy(x => x.Date).ToList();
+                            HospitalId = cl.FirstOrDefault().HospitalId,
+                        }).Where(x => x.Date.Date >= StartDate.Date && x.Date.Date <= EndDate.Date && x.HospitalId == hospitalid).OrderBy(x => x.Date).ToList();
 
                     var totalincome1 = res1.Where(x=>x.HospitalId == hospitalid).Sum(x => x.Income) + res1.Sum(x => x.OpeningBalance);
                     var totalpurchasemedicine1 = res1.Where(x => x.HospitalId == hospitalid).Sum(x => x.PurchaseMedicine);
@@ -448,7 +455,8 @@ namespace SwasiHealthCare.Service.Controllers
                         Receipt = res1.Sum(x => x.Receipt),
                         PurchaseMedicine = res1.Sum(x => x.PurchaseMedicine),
                         Total = totalincome1,
-                        Profit = totalincome1 - totalpurchasemedicine1 - totalreceipt1
+                        Profit = totalincome1 - totalpurchasemedicine1 - totalreceipt1,
+                        Date = DateTime.Now
                     };
                     res1.Add(fialresult1);
                 }
@@ -467,6 +475,7 @@ namespace SwasiHealthCare.Service.Controllers
                 //    ViewBag.fdate = fdate;
                 //    ViewBag.tdate = tdate;
                 //}
+                ViewBag.issales = FilterModel.IsSales;
                 ViewBag.hospitallist = hospital;
                 return View(result);
             }

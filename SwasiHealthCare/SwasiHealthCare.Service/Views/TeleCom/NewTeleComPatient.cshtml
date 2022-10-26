@@ -1,0 +1,204 @@
+﻿@model SwasiHealthCare.Model.TeleComPatientModel
+@{
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    //var treatmentlist = new SelectList(ViewBag.treatmentlist, "TeleComMedicineId", "TeleComMedicineName");
+    //var medicinelist = new SelectList(ViewBag.treatmentlist, "TeleComTreatmentId", "TeleComTreatmentName");
+    var patientlist = new SelectList(ViewBag.patientlist, "PatientIdNumber", "PatientIdNumber");
+}
+<html>
+<head> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css" type="text/css" />
+    <style>
+            .multiselect-container > li > a > label.radio, .multiselect-container > li > a > label.checkbox {
+                width: 100%;
+            }
+        
+    </style>
+</head>
+<body>
+    <div class="card w-100 shadow-sm border-0">
+        <div class="card-body p-3">
+            @using (Html.BeginForm("NewExpense", "Medicine", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <div>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="" id="nav-newmedicine" role="tabpanel" aria-labelledby="nav-orginal-tab" style="overflow-y: auto;">
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12 patname">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        @Html.Label("PatientIDNumber", "MR No")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.DropDownListFor(model => model.PatientIDNumber, patientlist, "--Select ID--", new { @class = "form-control input-default borderclr", Maxlength = 30, id = "PatientIDNumber" })
+                                        @Html.ValidationMessageFor(model => model.PatientIDNumber, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        @Html.Label("ConsultationDate", "Consultation Date")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.ConsultationDate, new { @class = "form-control input-default borderclr", data_provide = "datepicker", data_date_autoclose = "true", id = "ConsultationDate", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(model => model.ConsultationDate, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        @Html.Label("PatientName", "Patient Name")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.PatientName, new { @class = "form-control input-default borderclr", id = "PatientName", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(model => model.PatientName, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        @Html.Label("Mobile No", "Mobile No")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.MobileNo, new { @class = "form-control input-default borderclr", id = "MobileNo", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12 docname">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        @Html.Label("DoctorName", "Doctor Name")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.DoctorName, new { @class = "form-control input-default borderclr", Maxlength = 30, id = "DoctorName", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(model => model.DoctorName, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                        @Html.Label("Primary Complaints", "Primary Complaints")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.PatientPrimaryComplaints, new { @class = "form-control input-default borderclr", Maxlength = 255, id = "PatientPrimaryComplaints", autocomplete = "off", @readonly = "readonly" })
+                                        @Html.ValidationMessageFor(model => model.PatientPrimaryComplaints, "", new { @class = "text-danger" })
+                                    </div>
+                                    @*<div class="form-group col-lg-3 col-md-6 col-sm-12 docname">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                @Html.Label("Treatment", "Treatment")<span style="padding-left:2px;color:red">*</span>
+                @Html.DropDownListFor(model => model.Treatment, treatmentlist, "---Select Treatment---", new { @class = "form-control input-default borderclr", Maxlength = 30, id = "Treatment" })
+                @Html.ValidationMessageFor(model => model.Treatment, "", new { @class = "text-danger" })
+            </div>*@
+                                    @*<div class="form-group col-lg-3 col-md-6 col-sm-12 docname">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                @Html.Label("Medicine", "Medicine")<span style="padding-left:2px;color:red">*</span>
+                @Html.DropDownListFor(model => model.Medicine, medicinelist, "---Select Medicine---", new { @class = "form-control input-default borderclr", Maxlength = 30, id = "Medicine" })
+                @Html.ValidationMessageFor(model => model.Medicine, "", new { @class = "text-danger" })
+            </div>*@
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-transgender" aria-hidden="true"></i>
+                                        @Html.Label("Is Client Coming Properly", "Is Client Coming Properly")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.DropDownListFor(model => model.IsClientComingProperly, new SelectListItem[]
+                                        {
+                                        new SelectListItem() {Text = "---Select One---"},
+                                        new SelectListItem() {Text = "Yes",Value="Yes"},
+                                        new SelectListItem() {Text = "No",Value="No"},
+                                        new SelectListItem() {Text = "Frequently",Value="Frequently"}
+                                         }, new { @class = "form-control input-default dropdown-toggle borderclr", id = "IsClientComingProperly" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                        <i class="fa fa-transgender" aria-hidden="true"></i>
+                                        @Html.Label("Reason for Not Coming", "Reason for Not Coming")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.DropDownListFor(model => model.ReasonforNotComing, new SelectListItem[]
+                                        {
+                                        new SelectListItem() {Text = "---Select One---"},
+                                        new SelectListItem() {Text = "Consulting Problem",Value="Consulting Problem"},
+                                        new SelectListItem() {Text = "Receptionist Problem",Value="Receptionist Problem"},
+                                        new SelectListItem() {Text = "Tele Caller Problem",Value="Tele Caller Problem"},
+                                        new SelectListItem() {Text = "Therapist Problem",Value="Therapist Problem"},
+                                        new SelectListItem() {Text = "Treatment Problem",Value="Treatment Problem"},
+                                        new SelectListItem() {Text = "Medicine Problem",Value="Medicine Problem"},
+                                        new SelectListItem() {Text = "Cost Problem",Value="Cost Problem"},
+                                        new SelectListItem() {Text = "Distance Problem",Value="Distance Problem"},
+                                        new SelectListItem() {Text = "Not Satisfied",Value="Not Satisfied"},
+                                        new SelectListItem() {Text = "Others",Value="Others"}
+                                         }, new { @class = "form-control input-default dropdown-toggle borderclr", id = "ReasonforNotComing" })
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-12" id="DivOtherReasons">
+                                        <i class="fa fa-sticky-note" aria-hidden="true"></i>
+                                        @Html.Label("Other Reasons", "Other Reasons")<span style="padding-left:2px;color:red">*</span>
+                                        @Html.TextBoxFor(model => model.OtherReasons, new { @class = "form-control input-default borderclr", Maxlength = 255, id = "OtherReasons", autocomplete = "off" })
+                                        @Html.ValidationMessageFor(model => model.OtherReasons, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                                    <i class="fa fa-transgender" aria-hidden="true"></i>
+                                    @Html.Label("Reason for Not Coming", "Reason for Not Coming")<span style="padding-left:2px;color:red">*</span>
+                                    @Html.ListBoxFor(model => model.ReasonforNotComing, new SelectListItem[]
+                                    {
+                                    //new SelectListItem() {Text = "---Select One---"},
+                                    new SelectListItem() {Text = "Consulting Problem",Value="Consulting Problem"},
+                                    new SelectListItem() {Text = "Receptionist Problem",Value="Receptionist Problem"},
+                                    new SelectListItem() {Text = "Tele Caller Problem",Value="Tele Caller Problem"},
+                                    new SelectListItem() {Text = "Therapist Problem",Value="Therapist Problem"},
+                                    new SelectListItem() {Text = "Treatment Problem",Value="Treatment Problem"},
+                                    new SelectListItem() {Text = "Medicine Problem",Value="Medicine Problem"},
+                                    new SelectListItem() {Text = "Cost Problem",Value="Cost Problem"},
+                                    new SelectListItem() {Text = "Distance Problem",Value="Distance Problem"},
+                                    new SelectListItem() {Text = "Not Satisfied",Value="Not Satisfied"},
+                                    new SelectListItem() {Text = "Others",Value="Others"}
+                                     }, new { @class = "form-control input-default dropdown-toggle borderclr", id = "multiselect", @multiple = "multiple" })
+                                </div>
+                            </div>
+                       
+                    </div>
+                    <div class="form-row mt-1" style="padding-left: 1.25rem;">
+                        <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                            <a href="@Url.Action("IndexExpense","Medicine")" class="btn btn-sm btn-outline-danger borderradius">Back</a>
+                            <button type="submit" id="btnexpensesave" class="btn btn-sm btn-outline-primary borderradius">Submit</button>
+                            <button id="nav" type="reset" class="btn btn-sm btn-outline-secondary borderradius">Clear</button>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+</body>
+</html>
+@section scripts { 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.min.js"></script>
+        <script type="text/javascript">
+            $("#telecompatientul").trigger("click");
+            $("#newtelecompatient").addClass("active");
+            $("#page_name").text("New Patient,");
+
+            //Multi select dropdon-------------------
+            $('#multiselect').multiselect({
+                buttonWidth: '400px'
+            });
+            $(".checkbox").click(function () {
+                
+            });
+            //---------------------------------------
+
+            //OtherReasons
+            $("#DivOtherReasons").hide();
+            $("#ReasonforNotComing").change(function () {
+                var ReasonforNotComing = $("#ReasonforNotComing").val();
+                if (ReasonforNotComing == 'Others') {
+                    $("#DivOtherReasons").show();
+                }
+            });
+            //----------------------------
+            $("#PatientIDNumber").change(function () {
+                var patientidnumber = $("#PatientIDNumber").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/Patient/GetPatientDetailById",
+                    data: { patientidnumber: patientidnumber },
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.Data != null) {
+                            $("#ConsultationDate").val(result.Data.ConsoltationDate);
+                            $("#PatientName").val(result.Data.PatientName);
+                            $("#DoctorName").val(result.Data.PatientDoctorName);
+                            $("#MobileNo").val(result.Data.PatientMobileNumber);
+                            $("#PatientPrimaryComplaints").val(result.Data.PatientPrimaryComplaints);
+                        }
+                        else {
+                            $("#ConsultationDate").val('');
+                            $("#PatientName").val('');
+                            $("#DoctorName").val('');
+                            $("#MobileNo").val('');
+                            $("#PatientPrimaryComplaints").val('');
+                        }
+                    },
+                    error: function (result) {
+                        ShowErrorMessage("An error occured.");
+                    }
+                });
+            });
+        </script>
+}
+

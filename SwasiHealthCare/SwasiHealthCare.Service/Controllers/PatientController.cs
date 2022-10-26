@@ -646,11 +646,13 @@ namespace SwasiHealthCare.Service.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-
+            long? hospitalid = Convert.ToInt64(Session["HospitalId"]);
             try
             {
                 IPatientManager patientManager = new PatientManager();
-                PatientModel patientdetails = (await ViewHelper.GetAllPatients()).Where(x => x.PatientIdNumber == patientidnumber).FirstOrDefault();
+                PatientModel patientdetails = (await ViewHelper.GetAllPatients()).Where(x => x.PatientIdNumber == patientidnumber && x.PatientHospitalId == hospitalid).FirstOrDefault();
+                var allopd = (await ViewHelper.GetAllOPDConsoltationService(null, null)).Where(x => x.HospitalId == hospitalid && x.PatientId == patientdetails.PatientId).FirstOrDefault();
+                patientdetails.ConsoltationDate = allopd == null ? "No Record Found" : allopd.ConsultationDate.ToString();
                 var result = new ResponseModel { Data = patientdetails ,Status = true};
                 return Json(result);
             }

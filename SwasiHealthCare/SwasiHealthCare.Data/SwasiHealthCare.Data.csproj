@@ -67,6 +67,9 @@
     <Compile Include="Entities\OPDServices.cs" />
     <Compile Include="Entities\OPDPrescription.cs" />
     <Compile Include="Entities\PatientPlanSubscription.cs" />
+    <Compile Include="Entities\TeleComMedicine.cs" />
+    <Compile Include="Entities\TeleComPatient.cs" />
+    <Compile Include="Entities\TeleComTreatment.cs" />
     <Compile Include="Entities\TreatmentOpeningBalance.cs" />
     <Compile Include="Entities\Patient.cs" />
     <Compile Include="Entities\PatientDocument.cs" />

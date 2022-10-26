@@ -123,8 +123,8 @@
                 $("table tr").each(function (index) {
                     if (index != 0) {
                         $row = $(this);
-                        var id = $row.find("td:eq(2)").text();
-                        if (id.indexOf(value) != 0) {
+                        var id = $row.find("td:eq(3)").text();
+                        if (id.toLowerCase().indexOf(value.toLowerCase()) != 0) {
                             $(this).hide();
                         }
                         else {

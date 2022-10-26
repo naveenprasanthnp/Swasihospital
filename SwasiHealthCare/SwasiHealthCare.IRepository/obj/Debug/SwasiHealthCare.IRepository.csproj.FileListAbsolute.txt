@@ -9,3 +9,9 @@ E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.IReposit
 E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.IRepository\obj\Debug\SwasiHealthCare.IRepository.dll
 E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.IRepository\obj\Debug\SwasiHealthCare.IRepository.pdb
 E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.IRepository\obj\Debug\SwasiHealthCare.IRepository.csprojAssemblyReference.cache
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.IRepository\bin\Debug\SwasiHealthCare.IRepository.dll
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.IRepository\bin\Debug\SwasiHealthCare.IRepository.pdb
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.IRepository\obj\Debug\SwasiHealthCare.IRepository.csproj.CoreCompileInputs.cache
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.IRepository\obj\Debug\SwasiHealthCare.IRepository.dll
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.IRepository\obj\Debug\SwasiHealthCare.IRepository.pdb
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.IRepository\obj\Debug\SwasiHealthCare.IRepository.csprojAssemblyReference.cache

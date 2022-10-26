@@ -65,6 +65,7 @@ namespace SwasiHealthCare.Model
         public string PatientPrescription { get; set; }
         public long? PatientCreatedBy { get; set; }
         public DateTime PatientCreatedDate { get; set; }
+        public string ConsoltationDate { get; set; }
         public long? PatientModiifedBy { get; set; }
         public DateTime? PatientModifiedDate { get; set; }
         public string Mode { get; set; }

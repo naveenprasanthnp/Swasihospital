@@ -114,12 +114,12 @@
                                                         <i class="fa fa-transgender" aria-hidden="true"></i>
                                                         @Html.Label("Marital Status", "Marital Status")<span style="padding-left:2px;color:red">*</span>
                                                         @Html.DropDownListFor(model => model.PatientMaritalStatus, new SelectListItem[]
-                         {
+                                                        {
                                                         new SelectListItem() {Text = "--Select Marital Status--"},
                                                         new SelectListItem() {Text = "Single",Value="S"},
                                                         new SelectListItem() {Text = "Married",Value="M"},
                                                         new SelectListItem() {Text = "Others",Value="O"}
-                         }, new { @class = "form-control input-default dropdown-toggle borderclr", id = "txtpatientmaritalstatus" })
+                                                         }, new { @class = "form-control input-default dropdown-toggle borderclr", id = "txtpatientmaritalstatus" })
                                                     </div>
                                                     @*<div class="form-group col-lg-3 col-md-6 col-sm-12">
                                                 <i class="fa fa-user" aria-hidden="true"></i>

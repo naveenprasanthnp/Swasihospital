@@ -65,7 +65,7 @@
                             }
                         </td>
                         <td>
-                            <a href="javascript:void(0);" title=""> @item.FullName</a>
+                             @item.FullName
                             <div>@item.UserMobile</div>
                             <div>@item.UserEmail</div>
                         </td>
@@ -143,7 +143,7 @@
                         $row = $(this);
                         var id = $row.find("td:eq(1)").text();
 
-                        if (id.indexOf(value) != 0) {
+                        if (id.toLowerCase().indexOf(value.toLowerCase()) != 0) {
                             $(this).hide();
                         }
                         else {

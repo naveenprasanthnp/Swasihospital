@@ -135,7 +135,7 @@
                         $row = $(this);
                         var id = $row.find("td:eq(1)").text();
 
-                        if (id.indexOf(value) != 0) {
+                        if (id.toLowerCase().indexOf(value.toLowerCase()) != 0) {
                             $(this).hide();
                         }
                         else {

@@ -52,6 +52,12 @@
                                     @Html.TextBoxFor(model => model.filterModel.ToDate, new { @class = "form-control input-default borderclr", autocomplete = "off", data_provide = "datepicker", data_date_autoclose = "true", id = "ToDate" })
                                     @Html.ValidationMessageFor(model => model.filterModel.ToDate, "", new { @class = "text-danger" })
                                 </div>
+                                <div class="form-group col-lg-3 col-md-6 col-sm-12" hidden>
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                @Html.Label("IsSales", "IsSales")<span style="padding-left:2px;color:red">*</span>
+                                @Html.TextBoxFor(model => model.filterModel.IsSales, new { @class = "form-control input-default borderclr", id = "IsSales", })
+                                @Html.ValidationMessageFor(model => model.filterModel.IsSales, "", new { @class = "text-danger" })
+                            </div>
                                 <div class="row" style="margin-left: -12px;">
                                     <div class="form-row mt-1" style="padding-left: 1.25rem;">
                                         <div class="form-group col-lg-3 col-md-6 col-sm-12">
@@ -325,7 +331,7 @@
                                                     {
                                                         <td>@item.OpeningBalance</td>
                                                     }
-                                                    @if (item.OpeningBalance == 0)
+                                                    @if (item.Income == 0)
                                                     {
                                                         <td>--</td>
                                                     }
@@ -382,8 +388,15 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
     <script src="~/Scripts/moment.js"></script>
     <script>
-        //$("#FromDate").val("");
-        //$("#ToDate").val("");
+         $("#nav-med-tab").on("click", function () {
+            $("#IsSales").val("True");
+        });
+        var ismedi = '@ViewBag.issales';
+        if (ismedi == 'True') {
+            $("#nav-med-tab").trigger("click");
+            $("#nav-tmt-tab").removeClass("active");
+            $("#nav-med-tab").addClass("active");
+        }
         $(document).ready(function () {
             $("#divMedicineId").hide();
         });
@@ -417,22 +430,6 @@
             $("#FromDate").val("");
             $("#ToDate").val("");
         }
-        //function generate() {
-        //    html2canvas($('#patient_list')[0], {
-        //        onrendered: function (canvas) {
-        //            var data = canvas.toDataURL();
-        //            var docDefinition = {
-        //                content: [{
-        //                    image: data,
-        //                    width: 500
-        //                }]
-        //            };
-        //            pdfMake.createPdf(docDefinition).download("Table.pdf");
-        //        }
-        //    });
-        //    return false;
-        //}
-
         $(document).ready(function () {
             $("#allreport").trigger("click");
             $("#revenuetreport").addClass("active");
@@ -459,15 +456,15 @@
             //$("#FromDate").val(todaydate);
             //$("#ToDate").val(todaydate);
 
-             var fdate = '@ViewBag.fdate';
+            var fdate = '@ViewBag.fdate';
             var tdate = '@ViewBag.tdate';
-        var faydate = (((fdate.getMonth() > 8) ? (fdate.getMonth() + 1) : ('0' + (fdate.getMonth() + 1))) + '/' + ((fdate.getDate() > 9) ? fdate.getDate() : ('0' + fdate.getDate())) + '/' + fdate.getFullYear());
-        var tdaydate = (((tdate.getMonth() > 8) ? (tdate.getMonth() + 1) : ('0' + (tdate.getMonth() + 1))) + '/' + ((tdate.getDate() > 9) ? tdate.getDate() : ('0' + tdate.getDate())) + '/' + tdate.getFullYear());
-        if (fdate != null && tdate != null) {
-            $("#FromDate").val(faydate);
-            $("#ToDate").val(tdaydate);
-        }
-        });
+            var faydate = (((fdate.getMonth() > 8) ? (fdate.getMonth() + 1) : ('0' + (fdate.getMonth() + 1))) + '/' + ((fdate.getDate() > 9) ? fdate.getDate() : ('0' + fdate.getDate())) + '/' + fdate.getFullYear());
+            var tdaydate = (((tdate.getMonth() > 8) ? (tdate.getMonth() + 1) : ('0' + (tdate.getMonth() + 1))) + '/' + ((tdate.getDate() > 9) ? tdate.getDate() : ('0' + tdate.getDate())) + '/' + tdate.getFullYear());
+            if (fdate != null && tdate != null) {
+                $("#FromDate").val(faydate);
+                $("#ToDate").val(tdaydate);
+            }
+            });
     </script>
 }
 

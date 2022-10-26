@@ -22,9 +22,3 @@ select,
 textarea {
     max-width: 280px;
 }
-.addbtn {
-    background: #343957;
-}
-#exampleModalCenter {
-    display: block;
-}

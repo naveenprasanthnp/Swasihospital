@@ -54,12 +54,12 @@
                 <a href="@Url.Action("Index","Home")"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
             </li>
             @*<li>
-            <a href="#Doctors"  class="has-arrow"><i class="fa fa-user-md"></i><span>Doctors</span></a>
-            <ul>
-                <li ><a href="@Url.Action("DoctorIndex","User")">All Doctors</a></li>
-                <li ><a href="@Url.Action("NewDoctor","User")">Add Doctors</a></li>
-            </ul>
-            </li>*@
+        <a href="#Doctors"  class="has-arrow"><i class="fa fa-user-md"></i><span>Doctors</span></a>
+        <ul>
+            <li ><a href="@Url.Action("DoctorIndex","User")">All Doctors</a></li>
+            <li ><a href="@Url.Action("NewDoctor","User")">Add Doctors</a></li>
+        </ul>
+        </li>*@
             @if (Model.RoleId != 1)
             {
 
@@ -210,8 +210,46 @@
                         <li id="newpurchasemedicine"><a href="@Url.Action("PurchaseNewMedicine", "Medicine")">Add Purchase Medicine</a></li>
                     </ul>
                 </li>
-            
+
             }
+
+
+            @if (Model.RoleId != 2 && Model.RoleId != 1)
+            {
+                if (rights.Where(x => x.MenuId == 5 && x.IsView).Any())
+                {
+                    <li>
+                        <a href="#" id="telecompatientul" class="has-arrow"><i class="fa fa-solid fa-phone"></i> <span>TeleCom</span></a>
+                        <ul>
+                            @if (rights.Where(x => x.MenuId == 5 && x.IsView).Any())
+                            {
+                                <li id="telecomdashboard"><a href="@Url.Action("TeleComDashboard", "TeleCom")">Dashboard</a></li>
+                            }
+                            @if (rights.Where(x => x.MenuId == 5 && x.IsCreate).Any())
+                            {
+                                <li id="newtelecompatient"><a href="@Url.Action("NewTeleComPatient", "TeleCom")">Add Pateint</a></li>
+                            }
+                            @if (rights.Where(x => x.MenuId == 5 && x.IsCreate).Any())
+                            {
+                                <li id="telecomallpatient"><a href="@Url.Action("AllTeleCom", "TeleCom")">All Patient</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+            }
+            else if (Model.RoleId == 2 && Model.RoleId != 1)
+            {
+                <li>
+                    <a href="#" id="telecompatientul" class="has-arrow"><i class="fa fa-solid fa-phone"></i> <span>TeleCom</span></a>
+                    <ul>
+                        <li id="telecomdashboard"><a href="@Url.Action("TeleComDashboard", "TeleCom")">Dashboard</a></li>
+                        <li id="newtelecompatient"><a href="@Url.Action("NewTeleComPatient", "TeleCom" )">Add Pateint</a></li>
+                        <li id="telecomallpatient"><a href="@Url.Action("AllTeleCom", "TeleCom")">All Patient</a></li>
+                    </ul>
+                </li>
+
+            }
+
             @if (Model.RoleId == 1 || Model.RoleId == 2)
             {
                 <li>
@@ -231,7 +269,6 @@
                     <a href="@Url.Action("Tile", "Settings")"><i class="fa fa-gears"></i> <span>Settings</span></a>
                 </li>
             }
-
         </ul>
     </nav>
 </div>

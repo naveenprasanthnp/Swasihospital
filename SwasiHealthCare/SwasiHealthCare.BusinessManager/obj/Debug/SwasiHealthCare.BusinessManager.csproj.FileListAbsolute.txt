@@ -46,3 +46,28 @@ E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.Business
 E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\obj\Debug\SwasiHealthCare.BusinessManager.csproj.CopyComplete
 E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\obj\Debug\SwasiHealthCare.BusinessManager.dll
 E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\obj\Debug\SwasiHealthCare.BusinessManager.pdb
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\bin\Debug\SwasiHealthCare.BusinessManager.dll
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\bin\Debug\SwasiHealthCare.BusinessManager.pdb
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\bin\Debug\SwasiHealthCare.Data.dll
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\bin\Debug\SwasiHealthCare.Helper.dll
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\bin\Debug\SwasiHealthCare.IBusinessManager.dll
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\bin\Debug\SwasiHealthCare.IRepository.dll
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\bin\Debug\SwasiHealthCare.Model.dll
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\bin\Debug\SwasiHealthCare.Repository.dll
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\bin\Debug\Data.EF.Core.dll
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\bin\Debug\EntityFramework.dll
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\bin\Debug\SwasiHealthCare.Data.pdb
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\bin\Debug\SwasiHealthCare.Data.dll.config
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\bin\Debug\SwasiHealthCare.Helper.pdb
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\bin\Debug\SwasiHealthCare.IBusinessManager.pdb
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\bin\Debug\SwasiHealthCare.IRepository.pdb
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\bin\Debug\SwasiHealthCare.Model.pdb
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\bin\Debug\SwasiHealthCare.Repository.pdb
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\bin\Debug\SwasiHealthCare.Repository.dll.config
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\bin\Debug\EntityFramework.xml
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\obj\Debug\SwasiHealthCare.BusinessManager.csprojAssemblyReference.cache
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\obj\Debug\SwasiHealthCare.BusinessManager.csproj.CoreCompileInputs.cache
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\obj\Debug\SwasiHealthCare.BusinessManager.csproj.CopyComplete
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\obj\Debug\SwasiHealthCare.BusinessManager.dll
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\obj\Debug\SwasiHealthCare.BusinessManager.pdb
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.BusinessManager\bin\Debug\System.Web.Mvc.dll

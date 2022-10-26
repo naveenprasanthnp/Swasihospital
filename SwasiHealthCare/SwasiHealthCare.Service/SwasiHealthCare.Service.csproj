@@ -161,6 +161,7 @@
     <Compile Include="Controllers\PatientController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
+    <Compile Include="Controllers\TeleComController.cs" />
     <Compile Include="Controllers\TreatmentController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -180,6 +181,11 @@
     <Content Include="Content\Logo\Asset 2 %281%29.svg" />
     <Content Include="Content\Logo\Asset 2.svg" />
     <Content Include="Content\Logo\Swasi Logo-01-01.svg" />
+    <Content Include="Content\Select\bootstrap-theme.css" />
+    <Content Include="Content\Select\bootstrap-theme.min.css" />
+    <Content Include="Content\Select\bootstrap.css" />
+    <Content Include="Content\Select\bootstrap.min.css" />
+    <Content Include="Content\Select\Site.css" />
     <Content Include="Content\Template\Register.html" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -203,6 +209,10 @@
     <Content Include="Content\Files\PatientReports\MDU-4\Jcube filter Screen %281%29.doc" />
     <Content Include="Content\Files\PatientReports\MDU-4\Jcube filter Screen.doc" />
     <Content Include="Content\Files\PatientReports\MDU-4\New DOC Document.doc" />
+    <Content Include="Content\Select\bootstrap-theme.css.map" />
+    <Content Include="Content\Select\bootstrap-theme.min.css.map" />
+    <Content Include="Content\Select\bootstrap.css.map" />
+    <Content Include="Content\Select\bootstrap.min.css.map" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\Custom.js" />
@@ -219,6 +229,7 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.maskedinput.js" />
     <Content Include="Scripts\jquery.maskedinput.min.js" />
+    <Content Include="Scripts\jquery.sumoselect.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -229,10 +240,14 @@
     <Content Include="Scripts\Medicine\PurchaseMedicine.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\multidropdown.js" />
     <Content Include="Scripts\Notes\Notes.js" />
     <Content Include="Scripts\OPD\OPDDetails.js" />
     <Content Include="Scripts\Patient\Patient.js" />
     <Content Include="Scripts\Plan\Plan.js" />
+    <Content Include="Scripts\Select\bootstrap-select.js" />
+    <Content Include="Scripts\Select\bootstrap.js" />
+    <Content Include="Scripts\Select\script-bootstrap-select.js" />
     <Content Include="Scripts\System\System.js" />
     <Content Include="Scripts\Treatment\Treatment.js" />
     <Content Include="Scripts\User\User.js" />
@@ -1054,6 +1069,7 @@
     <Content Include="Views\Settings\NewSubscription.cshtml" />
     <Content Include="Views\Settings\EditSubscription.cshtml" />
     <Content Include="Views\Medicine\AllExpense.cshtml" />
+    <Content Include="Views\TeleCom\NewTeleComPatient.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -9,3 +9,9 @@ E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.Helper\o
 E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.Helper\obj\Debug\SwasiHealthCare.Helper.dll
 E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.Helper\obj\Debug\SwasiHealthCare.Helper.pdb
 E:\Np\SwasiHealthCare (1)\Swasihospital\SwasiHealthCare\SwasiHealthCare.Helper\obj\Debug\SwasiHealthCare.Helper.csprojAssemblyReference.cache
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.Helper\bin\Debug\SwasiHealthCare.Helper.dll
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.Helper\bin\Debug\SwasiHealthCare.Helper.pdb
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.Helper\obj\Debug\SwasiHealthCare.Helper.csprojAssemblyReference.cache
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.Helper\obj\Debug\SwasiHealthCare.Helper.csproj.CoreCompileInputs.cache
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.Helper\obj\Debug\SwasiHealthCare.Helper.dll
+G:\Naveen_SwasiCureHospital\Swasihospital\SwasiHealthCare\SwasiHealthCare.Helper\obj\Debug\SwasiHealthCare.Helper.pdb
